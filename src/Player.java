@@ -75,11 +75,6 @@ public void gainXP(int XPboost) {
 	}
 }
 void update() {
-	if(health<=0) {
-		x=250;
-		y=600;
-		health=maxHealth;
-	}
 	collisionBox.setBounds(x, y, 50,50);
 }
 @Override

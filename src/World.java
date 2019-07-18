@@ -12,10 +12,12 @@ ArrayList<Teleporter> teleporters;
 Color backgroundColor;
 Timer enemyAttack;
 Player player;
-public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player) {
+boolean isActive;
+public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boolean isActive) {
 	this.enemies=enemies;
 	this.backgroundColor=backgroundColor;
 	this.player=player;
+	this.isActive=isActive;
 	enemyAttack=new Timer(1000,this);
 	enemyAttack.start();
 	teleporters=new ArrayList<Teleporter>();
@@ -61,7 +63,7 @@ public void addTeleporter(Teleporter t) {
 }
 @Override
 public void actionPerformed(ActionEvent e) {
-	if(checkIntersection(player)!=null) {
+	if(checkIntersection(player)!=null && isActive) {
 		checkIntersection(player).attack(player);
 	}
 	

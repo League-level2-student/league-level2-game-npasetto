@@ -34,9 +34,9 @@ public GamePanel() {
 	frameDraw.start();
 	titleFont=new Font("Arial",Font.PLAIN,48);
 	textFont=new Font("Arial",Font.PLAIN,12);
-	world1=new World(generateEnemies(10,20,20,10),new Color(255,255,0),player);
-	bossWorld1=new World(generateEnemies(1,20,100,30), new Color(255,0,255),player);
-	world1.addTeleporter(new Teleporter(bossWorld1,250,250));
+	world1=new World(generateEnemies(10,20,20,10),new Color(255,255,0),player,true);
+	bossWorld1=new World(generateEnemies(1,40,100,30), new Color(255,0,255),player,false);
+	world1.addTeleporter(new Teleporter(250,250,bossWorld1));
 	currentWorld=world1;
 }
 @Override
@@ -61,9 +61,20 @@ void drawMenu(Graphics g) {
 @Override
 public void actionPerformed(ActionEvent arg0) {
 	player.update();
+	if(player.health<=0) {
+		player.x=250;
+		player.y=600;
+		player.health=player.maxHealth;
+		currentWorld.isActive=false;
+		world1.isActive=true;
+		currentWorld=world1;
+	}
 	currentWorld.update();
 	if(currentWorld.checkTeleport(player)!=null) {
-		currentWorld=currentWorld.checkTeleport(player).teleportTo;
+		World newWorld=currentWorld.checkTeleport(player).teleportTo;
+		currentWorld.isActive=false;
+		newWorld.isActive=true;
+		currentWorld=newWorld;
 	}
 	repaint();
 	
@@ -90,7 +101,7 @@ public void keyPressed(KeyEvent arg0) {
 public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
-		newEnemies.add(new Enemy(rand.nextInt(RPGgame.WIDTH-30),rand.nextInt(RPGgame.HEIGHT-100),health,damage,XPboost));
+		newEnemies.add(new Enemy(rand.nextInt(RPGgame.WIDTH-50),100+rand.nextInt(RPGgame.HEIGHT-250),health,damage,XPboost));
 	}
 	return newEnemies;
 }
