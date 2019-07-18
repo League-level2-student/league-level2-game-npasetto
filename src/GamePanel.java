@@ -27,12 +27,17 @@ final int GAME=1;
 int currentState=0;
 Random rand=new Random();
 World world1;
+World bossWorld1;
+World currentWorld;
 public GamePanel() {
 	frameDraw=new Timer(1000/100, this);
 	frameDraw.start();
 	titleFont=new Font("Arial",Font.PLAIN,48);
 	textFont=new Font("Arial",Font.PLAIN,12);
-	world1=new World(generateEnemies(10),new Color(255,255,0),player);
+	world1=new World(generateEnemies(10,20,20,10),new Color(255,255,0),player);
+	bossWorld1=new World(generateEnemies(1,20,100,30), new Color(255,0,255),player);
+	world1.addTeleporter(new Teleporter(bossWorld1,250,250));
+	currentWorld=world1;
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -43,7 +48,7 @@ public void paintComponent(Graphics g) {
 	}
 }
 void drawGame(Graphics g) {
-	world1.draw(g);
+	currentWorld.draw(g);
 	player.draw(g);
 }
 void drawMenu(Graphics g) {
@@ -56,7 +61,10 @@ void drawMenu(Graphics g) {
 @Override
 public void actionPerformed(ActionEvent arg0) {
 	player.update();
-	world1.update();
+	currentWorld.update();
+	if(currentWorld.checkTeleport(player)!=null) {
+		currentWorld=currentWorld.checkTeleport(player).teleportTo;
+	}
 	repaint();
 	
 }
@@ -79,10 +87,10 @@ public void keyPressed(KeyEvent arg0) {
 	}
 	
 }
-public ArrayList<Enemy> generateEnemies(int number){
+public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
-		newEnemies.add(new Enemy(rand.nextInt(RPGgame.WIDTH),rand.nextInt(RPGgame.HEIGHT),10,3));
+		newEnemies.add(new Enemy(rand.nextInt(RPGgame.WIDTH-30),rand.nextInt(RPGgame.HEIGHT-100),health,damage,XPboost));
 	}
 	return newEnemies;
 }
@@ -98,8 +106,10 @@ public void keyTyped(KeyEvent arg0) {
 }
 @Override
 public void mouseClicked(MouseEvent arg0) {
-	if(player.canAttack && world1.checkIntersection(player)!=null) {
-		player.attack(world1.checkIntersection(player));
+	System.out.println("Clicked");
+	if(player.canAttack && currentWorld.checkIntersection(player)!=null) {
+		player.attack(currentWorld.checkIntersection(player));
+		System.out.println("Attacked");
 	}
 	
 }

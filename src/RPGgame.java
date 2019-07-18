@@ -17,6 +17,7 @@ public RPGgame() {
 public void setup() {
 	window.add(panel);
 	window.addKeyListener(panel);
+	window.addMouseListener(panel);
 	window.setPreferredSize(new Dimension(WIDTH,HEIGHT));
 	window.setVisible(true);
 	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

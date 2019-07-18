@@ -10,12 +10,15 @@ import javax.swing.Timer;
 public class Player implements ActionListener {
 int x;
 int y;
-int maxHealth;
+double maxHealth;
 int damage;
-int health;
+double health;
 Rectangle collisionBox;
 boolean canAttack=true;
 Timer attackTimer;
+Timer regenerateTimer;
+int level=1;
+int XP=0;
 Player(int x, int y, int maxHealth, int damage){
 	this.x=x;
 	this.y=y;
@@ -25,10 +28,16 @@ Player(int x, int y, int maxHealth, int damage){
 	collisionBox=new Rectangle();
 	attackTimer=new Timer(1000,this);
 	attackTimer.start();
+	regenerateTimer=new Timer(759,this);
+	regenerateTimer.start();
 }
 void draw(Graphics g) {
 	g.setColor(new Color(0,0,255));
 	g.fillRect(x, y, 50, 50);
+	g.setColor(new Color(127,0,0));
+	g.fillRect(x-30, y+70, 110, 10);
+	g.setColor(new Color(0,127,0));
+	g.fillRect(x-30, y+70, (int) (110*(health/maxHealth)),10);
 }
 void up() {
 	if(y>0) {
@@ -52,7 +61,18 @@ void right() {
 }
 public void attack(Enemy enemy) {
 	enemy.health=enemy.health-damage;
+	if(enemy.health<=0) {
+		gainXP(enemy.XPboost);
+	}
 	attackTimer.start();
+}
+public void gainXP(int XPboost) {
+	XP+=XPboost;
+	while(XP>=level*20) {
+		XP-=level*20;
+		level++;
+		maxHealth=maxHealth+25;
+	}
 }
 void update() {
 	if(health<=0) {
@@ -64,7 +84,17 @@ void update() {
 }
 @Override
 public void actionPerformed(ActionEvent arg0) {
-	canAttack=true;
-	attackTimer.stop();
+	Timer timer=(Timer) arg0.getSource();
+	if(timer==regenerateTimer) {
+		double regeneration=maxHealth/30;
+		if(health+regeneration<=maxHealth) {
+			health+=regeneration;
+		}else {
+			health=maxHealth;
+		}
+	}else {
+		canAttack=true;
+		attackTimer.stop();
+	}
 }
 }
