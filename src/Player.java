@@ -45,7 +45,7 @@ void up() {
 	}
 }
 void down() {
-	if(y<RPGgame.HEIGHT) {
+	if(y<RPGgame.HEIGHT-50) {
 		y=y+5;
 	}
 }
@@ -55,7 +55,7 @@ void left() {
 	}
 }
 void right() {
-	if(x<RPGgame.WIDTH) {
+	if(x<RPGgame.WIDTH-50) {
 		x=x+5;
 	}
 }

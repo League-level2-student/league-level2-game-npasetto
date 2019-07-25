@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -28,7 +29,9 @@ int currentState=0;
 Random rand=new Random();
 World world1;
 World bossWorld1;
+World world2;
 World currentWorld;
+JButton toSpawn=new JButton();
 public GamePanel() {
 	frameDraw=new Timer(1000/100, this);
 	frameDraw.start();
@@ -36,7 +39,7 @@ public GamePanel() {
 	textFont=new Font("Arial",Font.PLAIN,12);
 	world1=new World(generateEnemies(10,20,20,10),new Color(255,255,0),player,true);
 	bossWorld1=new World(generateEnemies(1,40,100,30), new Color(255,0,255),player,false);
-	world1.addTeleporter(new Teleporter(250,250,bossWorld1));
+	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0));
 	currentWorld=world1;
 }
 @Override
@@ -60,29 +63,41 @@ void drawMenu(Graphics g) {
 }
 @Override
 public void actionPerformed(ActionEvent arg0) {
-	player.update();
-	if(player.health<=0) {
-		player.x=250;
-		player.y=600;
-		player.health=player.maxHealth;
-		currentWorld.isActive=false;
-		world1.isActive=true;
-		currentWorld=world1;
+	if(arg0.getSource().equals(toSpawn)) {
+		teleportBack();
+	}else {
+		player.update();
+		if(player.health<=0) {
+			teleportBack();
+			player.health=player.maxHealth;
+		}
+		currentWorld.update();
+		if(currentWorld.checkTeleport(player)!=null) {
+			World newWorld=currentWorld.checkTeleport(player).teleportTo;
+			currentWorld.isActive=false;
+			newWorld.isActive=true;
+			currentWorld=newWorld;
+		}
+		repaint();
 	}
-	currentWorld.update();
-	if(currentWorld.checkTeleport(player)!=null) {
-		World newWorld=currentWorld.checkTeleport(player).teleportTo;
-		currentWorld.isActive=false;
-		newWorld.isActive=true;
-		currentWorld=newWorld;
-	}
-	repaint();
-	
+}
+public void teleportBack() {
+	player.x=250;
+	player.y=600;
+	currentWorld.isActive=false;
+	world1.isActive=true;
+	currentWorld=world1;
 }
 @Override
 public void keyPressed(KeyEvent arg0) {
 	if(arg0.getKeyCode()==KeyEvent.VK_ENTER && currentState==MENU) {
 		currentState=GAME;
+		toSpawn.setBounds(350, 0, 150, 50);
+		toSpawn.setText("Go to spawn");
+		toSpawn.addActionListener(this);
+		toSpawn.addKeyListener(this);
+		toSpawn.addMouseListener(this);
+		this.add(toSpawn);
 	}
 	if(arg0.getKeyCode()==KeyEvent.VK_UP) {
 		player.up();
