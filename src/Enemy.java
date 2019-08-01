@@ -12,16 +12,20 @@ double maxHealth;
 int damage;
 int x;
 int y;
+boolean boss;
 Rectangle collisionBox;
 Timer spawnTimer;
 boolean isActive=true;
 int XPboost;
-public Enemy(int x, int y, int maxHealth, int damage, int XPboost) {
+Sword reward;
+public Enemy(int x, int y, int maxHealth, int damage, int XPboost, boolean boss, Sword reward) {
 	this.x=x;
 	this.y=y;
 	this.maxHealth=maxHealth;
 	this.damage=damage;
 	this.XPboost=XPboost;
+	this.boss=boss;
+	this.reward=reward;
 	health=maxHealth;
 	collisionBox=new Rectangle();
 	spawnTimer=new Timer(5000,this);

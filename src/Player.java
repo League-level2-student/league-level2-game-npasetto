@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -11,7 +13,8 @@ public class Player implements ActionListener {
 int x;
 int y;
 double maxHealth;
-int damage;
+int minDamage;
+int maxDamage;
 double health;
 Rectangle collisionBox;
 boolean canAttack=true;
@@ -19,12 +22,17 @@ Timer attackTimer;
 Timer regenerateTimer;
 int level=1;
 int XP=0;
-Player(int x, int y, int maxHealth, int damage){
+ArrayList<Item> items;
+Random rand=new Random();
+Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
 	this.x=x;
 	this.y=y;
 	this.maxHealth=maxHealth;
 	health=maxHealth;
-	this.damage=damage;
+	this.minDamage=minDamage;
+	this.maxDamage=maxDamage;
+	items=new ArrayList<Item>();
+	items.add(new Sword("sword1",1,2));
 	collisionBox=new Rectangle();
 	attackTimer=new Timer(1000,this);
 	attackTimer.start();
@@ -60,7 +68,7 @@ void right() {
 	}
 }
 public void attack(Enemy enemy) {
-	enemy.health=enemy.health-damage;
+	enemy.health=enemy.health-(rand.nextInt(maxDamage-minDamage+1)+minDamage);
 	if(enemy.health<=0) {
 		gainXP(enemy.XPboost);
 	}

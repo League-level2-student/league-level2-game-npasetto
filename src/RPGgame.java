@@ -5,7 +5,7 @@ import javax.swing.*;
 public class RPGgame {
 JFrame window;
 public static final int WIDTH=500;
-public static final int HEIGHT=700;
+public static final int HEIGHT=720;
 GamePanel panel=new GamePanel();
 public static void main(String[] args) {
 	RPGgame r = new RPGgame();
