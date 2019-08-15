@@ -43,8 +43,9 @@ public GamePanel() {
 	titleFont=new Font("Arial",Font.PLAIN,48);
 	textFont=new Font("Arial",Font.PLAIN,12);
 	world1=new World(generateEnemies(10,20,20,15,false,null),new Color(255,255,0),player,true);
-	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3)), new Color(255,0,255),player,false);
+	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false)), new Color(255,0,255),player,false);
 	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0));
+	world1.addHealingTile(new HealingTile(100,600));
 	currentWorld=world1;
 }
 @Override
@@ -72,13 +73,16 @@ void setupGui() {
 	JPanel inventoryPanel=new JPanel();
 	for (Item item : player.items) {
 		JButton itemButton=new JButton();
-		itemButton.setBackground(new Color(255,255,255));
+		itemButton.setBackground(new Color(0,0,0));
 		itemButton.setPreferredSize(new Dimension(100,50));
-		itemButton.setForeground(new Color(0,0,0));
+		itemButton.setForeground(new Color(255,255,255));
 		itemButton.addActionListener(this);
 		if(item instanceof Sword) {
 			Sword swordItem=(Sword) item;
 			itemButton.setText(swordItem.minDamage+"-"+swordItem.maxDamage);
+			if (swordItem.isActive) {
+				itemButton.setBackground(new Color(0,255,0));
+			}
 		}
 		inventoryPanel.add(itemButton);
 	}
@@ -104,12 +108,26 @@ public void actionPerformed(ActionEvent arg0) {
 			newWorld.isActive=true;
 			currentWorld=newWorld;
 		}
-		
+		if(currentWorld.checkHealingTile(player)!=null) {
+			player.health=player.maxHealth;
+		}
 	}else {
 		JButton source=(JButton) arg0.getSource();
 		String[] damages=source.getText().split("-");
-		player.minDamage=Integer.parseInt(damages[0]);
-		player.maxDamage=Integer.parseInt(damages[1]);
+		int minDamage=Integer.parseInt(damages[0]);
+		int maxDamage=Integer.parseInt(damages[1]);
+		for (Item item : player.items) {
+			if(item instanceof Sword) {
+				Sword swordItem=(Sword) item;
+				if(swordItem.minDamage==minDamage && swordItem.maxDamage==maxDamage) {
+					swordItem.isActive=true;
+					player.minDamage=swordItem.minDamage;
+					player.maxDamage=swordItem.maxDamage;
+				}else {
+					swordItem.isActive=false;
+				}
+			}
+		}
 		inventoryWindow.removeAll();
 		inventoryWindow.dispose();
 	}

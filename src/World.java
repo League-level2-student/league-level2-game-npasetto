@@ -9,6 +9,7 @@ import javax.swing.Timer;
 public class World implements ActionListener {
 ArrayList<Enemy> enemies;
 ArrayList<Teleporter> teleporters;
+ArrayList<HealingTile> tiles;
 Color backgroundColor;
 Timer enemyAttack;
 Player player;
@@ -21,6 +22,7 @@ public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boo
 	enemyAttack=new Timer(1000,this);
 	enemyAttack.start();
 	teleporters=new ArrayList<Teleporter>();
+	tiles=new ArrayList<HealingTile>();
 }
 public void draw(Graphics g) {
 	g.setColor(backgroundColor);
@@ -33,12 +35,22 @@ public void draw(Graphics g) {
 	for (Teleporter t : teleporters) {
 		t.draw(g);
 	}
+	for (HealingTile h : tiles) {
+		h.draw(g);
+	}
 	g.setColor(new Color(0,0,0));
 	g.drawString("Level: "+player.level, 10, 20);
 	g.drawString("XP: "+player.XP+"/"+player.level*20, 10, 40);
 }
 public void update() {
 	for (Enemy enemy : enemies) {
+		if(enemy.isAngry) {
+		double xdiff=player.x-enemy.x;
+		double ydiff=player.y-enemy.y;
+		double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+		enemy.x=enemy.x+xdiff/distance;
+		enemy.y=enemy.y+ydiff/distance;
+		}
 		enemy.update();
 	}
 }
@@ -58,8 +70,19 @@ public Teleporter checkTeleport(Player player) {
 	}
 	return null;
 }
+public HealingTile checkHealingTile(Player player) {
+	for (int i = 0; i < tiles.size(); i++) {
+		if (tiles.get(i).collisionBox.intersects(player.collisionBox)){
+			return tiles.get(i);
+		}
+	}
+	return null;
+}
 public void addTeleporter(Teleporter t) {
 	teleporters.add(t);
+}
+public void addHealingTile(HealingTile h) {
+	tiles.add(h);
 }
 @Override
 public void actionPerformed(ActionEvent e) {

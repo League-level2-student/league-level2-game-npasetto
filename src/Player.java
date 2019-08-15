@@ -32,7 +32,7 @@ Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
 	this.minDamage=minDamage;
 	this.maxDamage=maxDamage;
 	items=new ArrayList<Item>();
-	items.add(new Sword("sword1",1,2));
+	items.add(new Sword("sword1",1,2,true));
 	collisionBox=new Rectangle();
 	attackTimer=new Timer(1000,this);
 	attackTimer.start();
@@ -69,7 +69,9 @@ void right() {
 }
 public void attack(Enemy enemy) {
 	enemy.health=enemy.health-(rand.nextInt(maxDamage-minDamage+1)+minDamage);
+	enemy.isAngry=true;
 	if(enemy.health<=0) {
+		enemy.isAngry=false;
 		gainXP(enemy.XPboost);
 	}
 	attackTimer.start();

@@ -10,17 +10,20 @@ public class Enemy implements ActionListener {
 double health;
 double maxHealth;
 int damage;
-int x;
-int y;
+double x;
+double y;
+double spawnX;
+double spawnY;
 boolean boss;
 Rectangle collisionBox;
 Timer spawnTimer;
 boolean isActive=true;
 int XPboost;
 Sword reward;
+boolean isAngry=false;
 public Enemy(int x, int y, int maxHealth, int damage, int XPboost, boolean boss, Sword reward) {
-	this.x=x;
-	this.y=y;
+	this.spawnX=x;
+	this.spawnY=y;
 	this.maxHealth=maxHealth;
 	this.damage=damage;
 	this.XPboost=XPboost;
@@ -32,18 +35,18 @@ public Enemy(int x, int y, int maxHealth, int damage, int XPboost, boolean boss,
 }
 public void draw(Graphics g) {
 	g.setColor(new Color(255,0,0));
-	g.fillRect(x, y, 30, 30);
+	g.fillRect((int) x, (int) y, 30, 30);
 	g.setColor(new Color(127,0,0));
-	g.fillRect(x-20, y+50, 70, 10);
+	g.fillRect((int) x-20, (int) y+50, 70, 10);
 	g.setColor(new Color(0,127,0));
-	g.fillRect(x-20, y+50, (int) (70*(health/maxHealth)), 10);
+	g.fillRect((int) x-20, (int) y+50, (int) (70*(health/maxHealth)), 10);
 }
 public void update() {
 	if(health<=0) {
 		isActive=false;
 		spawnTimer.start();
 	}
-	collisionBox.setBounds(x, y, 30, 30);
+	collisionBox.setBounds((int) x, (int) y, 30, 30);
 }
 public void attack(Player player) {
 	player.health=player.health-damage;
@@ -53,5 +56,7 @@ public void actionPerformed(ActionEvent arg0) {
 	spawnTimer.stop();
 	isActive=true;
 	health=maxHealth;
+	x=spawnX;
+	y=spawnY;
 }
 }
