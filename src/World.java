@@ -10,6 +10,7 @@ public class World implements ActionListener {
 ArrayList<Enemy> enemies;
 ArrayList<Teleporter> teleporters;
 ArrayList<HealingTile> tiles;
+ArrayList<ArmorPlatform> platforms;
 Color backgroundColor;
 Timer enemyAttack;
 Player player;
@@ -23,6 +24,7 @@ public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boo
 	enemyAttack.start();
 	teleporters=new ArrayList<Teleporter>();
 	tiles=new ArrayList<HealingTile>();
+	platforms=new ArrayList<ArmorPlatform>();
 }
 public void draw(Graphics g) {
 	g.setColor(backgroundColor);
@@ -78,11 +80,22 @@ public HealingTile checkHealingTile(Player player) {
 	}
 	return null;
 }
+public ArmorPlatform checkArmorPlatform(Player player) {
+	for (int i = 0; i < platforms.size(); i++) {
+		if (platforms.get(i).collisionBox.intersects(player.collisionBox)){
+			return platforms.get(i);
+		}
+	}
+	return null;
+}
 public void addTeleporter(Teleporter t) {
 	teleporters.add(t);
 }
 public void addHealingTile(HealingTile h) {
 	tiles.add(h);
+}
+public void addArmorPLatform(ArmorPlatform a) {
+	platforms.add(a);
 }
 @Override
 public void actionPerformed(ActionEvent e) {

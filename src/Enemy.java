@@ -21,15 +21,17 @@ boolean isActive=true;
 int XPboost;
 Sword reward;
 boolean isAngry=false;
-public Enemy(int x, int y, int maxHealth, int damage, int XPboost, boolean boss, Sword reward) {
-	this.spawnX=x;
-	this.spawnY=y;
+public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, boolean boss, Sword reward) {
+	this.spawnX=spawnX;
+	this.spawnY=spawnY;
 	this.maxHealth=maxHealth;
 	this.damage=damage;
 	this.XPboost=XPboost;
 	this.boss=boss;
 	this.reward=reward;
 	health=maxHealth;
+	x=spawnX;
+	y=spawnY;
 	collisionBox=new Rectangle();
 	spawnTimer=new Timer(5000,this);
 }

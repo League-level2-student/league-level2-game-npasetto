@@ -42,6 +42,7 @@ public GamePanel() {
 	frameDraw.start();
 	titleFont=new Font("Arial",Font.PLAIN,48);
 	textFont=new Font("Arial",Font.PLAIN,12);
+	
 	world1=new World(generateEnemies(10,20,20,15,false,null),new Color(255,255,0),player,true);
 	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false)), new Color(255,0,255),player,false);
 	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0));
@@ -74,13 +75,25 @@ void setupGui() {
 	for (Item item : player.items) {
 		JButton itemButton=new JButton();
 		itemButton.setBackground(new Color(0,0,0));
-		itemButton.setPreferredSize(new Dimension(100,50));
+		itemButton.setPreferredSize(new Dimension(150,50));
 		itemButton.setForeground(new Color(255,255,255));
 		itemButton.addActionListener(this);
 		if(item instanceof Sword) {
 			Sword swordItem=(Sword) item;
-			itemButton.setText(swordItem.minDamage+"-"+swordItem.maxDamage);
+			itemButton.setText(swordItem.name+" "+swordItem.minDamage+"-"+swordItem.maxDamage);
 			if (swordItem.isActive) {
+				itemButton.setBackground(new Color(0,255,0));
+			}
+		}else if(item instanceof Armor) {
+			Armor armorItem=(Armor) item;
+			itemButton.setText(armorItem.name+" "+armorItem.bonusHealth);
+			if(armorItem.isActive) {
+				itemButton.setBackground(new Color(0,255,0));
+			}
+		}else if(item instanceof Key) {
+			Key keyItem=(Key) item;
+			itemButton.setText(keyItem.name);
+			if(keyItem.isActive) {
 				itemButton.setBackground(new Color(0,255,0));
 			}
 		}
@@ -113,20 +126,45 @@ public void actionPerformed(ActionEvent arg0) {
 		}
 	}else {
 		JButton source=(JButton) arg0.getSource();
-		String[] damages=source.getText().split("-");
-		int minDamage=Integer.parseInt(damages[0]);
-		int maxDamage=Integer.parseInt(damages[1]);
+		String[] damages=source.getText().split(" ");
+		String name=damages[0];
 		for (Item item : player.items) {
-			if(item instanceof Sword) {
-				Sword swordItem=(Sword) item;
-				if(swordItem.minDamage==minDamage && swordItem.maxDamage==maxDamage) {
-					swordItem.isActive=true;
+			if(item.name.equals(name)) {
+				String type="";
+				if(item instanceof Sword) {
+					type="sword";
+				}else if(item instanceof Armor) {
+					type="armor";
+				}else if(item instanceof Key) {
+					type="key";
+				}
+				for (int i = 0; i < player.items.size(); i++) {
+					if(player.items.get(i) instanceof Sword && type.equals("sword")) {
+						player.items.get(i).isActive=false;
+					}else if(player.items.get(i) instanceof Armor && type.equals("armor")) {
+						Armor armorItem=(Armor) player.items.get(i);
+						if (armorItem.isActive) {
+							player.maxHealth-=armorItem.bonusHealth;
+							player.health=player.maxHealth;
+						}
+						player.items.get(i).isActive=false;
+					}else if(player.items.get(i) instanceof Key && type.equals("key")) {
+						player.items.get(i).isActive=false;
+					}
+					if(item.equals(player.items.get(i))) {
+						player.items.get(i).isActive=true;
+					}
+				}
+				if(type.equals("sword")) {
+					Sword swordItem=(Sword) item;
 					player.minDamage=swordItem.minDamage;
 					player.maxDamage=swordItem.maxDamage;
-				}else {
-					swordItem.isActive=false;
+				}else if(type.equals("armor")) {
+					Armor armorItem=(Armor) item;
+					player.maxHealth+=armorItem.bonusHealth;
 				}
 			}
+			
 		}
 		inventoryWindow.removeAll();
 		inventoryWindow.dispose();
@@ -174,18 +212,18 @@ public void keyPressed(KeyEvent arg0) {
 public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health, boolean boss, Sword reward){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
-		newEnemies.add(new Enemy(rand.nextInt(RPGgame.WIDTH-50),100+rand.nextInt(RPGgame.HEIGHT-250),health,damage,XPboost,boss,reward));
+		newEnemies.add(new Enemy((RPGgame.WIDTH-50)*rand.nextDouble(),100+(RPGgame.HEIGHT-250)*rand.nextDouble(),health,damage,XPboost,boss,reward));
 	}
 	return newEnemies;
 }
 @Override
 public void keyReleased(KeyEvent arg0) {
-	// TODO Auto-generated method stub
+	// TODO Auto-generated method stub TODO
 	
 }
 @Override
 public void keyTyped(KeyEvent arg0) {
-	// TODO Auto-generated method stub
+	// TODO Auto-generated method stub TODO
 	
 }
 @Override
