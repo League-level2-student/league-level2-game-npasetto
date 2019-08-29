@@ -40,6 +40,9 @@ public void draw(Graphics g) {
 	for (HealingTile h : tiles) {
 		h.draw(g);
 	}
+	for (ArmorPlatform a:platforms) {
+		a.draw(g);
+	}
 	g.setColor(new Color(0,0,0));
 	g.drawString("Level: "+player.level, 10, 20);
 	g.drawString("XP: "+player.XP+"/"+player.level*20, 10, 40);
@@ -52,6 +55,14 @@ public void update() {
 		double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
 		enemy.x=enemy.x+xdiff/distance;
 		enemy.y=enemy.y+ydiff/distance;
+		}
+		if(enemy.isActive) {
+			double xdiff=player.x-enemy.x;
+			double ydiff=player.y-enemy.y;
+			double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+			if(distance<50) {
+				enemy.isAngry=true;
+			}
 		}
 		enemy.update();
 	}
@@ -94,7 +105,7 @@ public void addTeleporter(Teleporter t) {
 public void addHealingTile(HealingTile h) {
 	tiles.add(h);
 }
-public void addArmorPLatform(ArmorPlatform a) {
+public void addArmorPlatform(ArmorPlatform a) {
 	platforms.add(a);
 }
 @Override

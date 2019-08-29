@@ -34,6 +34,7 @@ World world1;
 World bossWorld1;
 World world2;
 World currentWorld;
+Key key1;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JFrame inventoryWindow;
@@ -42,11 +43,15 @@ public GamePanel() {
 	frameDraw.start();
 	titleFont=new Font("Arial",Font.PLAIN,48);
 	textFont=new Font("Arial",Font.PLAIN,12);
-	
-	world1=new World(generateEnemies(10,20,20,15,false,null),new Color(255,255,0),player,true);
-	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false)), new Color(255,0,255),player,false);
-	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0));
+	key1=new Key("key1",false);
+	world1=new World(generateEnemies(10,20,20,15,false,null,null),new Color(255,255,0),player,true);
+	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false),key1), new Color(255,0,255),player,false);
+	world2=new World(generateEnemies(10,40,50,30,false,null,null),new Color(255,255,0),player,false);
+	world2.addArmorPlatform(new ArmorPlatform(new Armor("armor2",75,false),12,350,600));
+	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0,null));
+	world1.addTeleporter(new Teleporter(100,0,world2,"top",8,key1));
 	world1.addHealingTile(new HealingTile(100,600));
+	world1.addArmorPlatform(new ArmorPlatform(new Armor("armor1",50,false),5,350,600));
 	currentWorld=world1;
 }
 @Override
@@ -116,13 +121,18 @@ public void actionPerformed(ActionEvent arg0) {
 		}
 		currentWorld.update();
 		if(currentWorld.checkTeleport(player)!=null) {
+			if(player.level>=currentWorld.checkTeleport(player).requirement && (player.items.contains(currentWorld.checkTeleport(player).requiredKey) || currentWorld.checkTeleport(player).requiredKey==null)) {
 			World newWorld=currentWorld.checkTeleport(player).teleportTo;
 			currentWorld.isActive=false;
 			newWorld.isActive=true;
 			currentWorld=newWorld;
+			}
 		}
 		if(currentWorld.checkHealingTile(player)!=null) {
 			player.health=player.maxHealth;
+		}
+		if(currentWorld.checkArmorPlatform(player)!=null) {
+			currentWorld.checkArmorPlatform(player).giveArmor(player);
 		}
 	}else {
 		JButton source=(JButton) arg0.getSource();
@@ -209,10 +219,10 @@ public void keyPressed(KeyEvent arg0) {
 	}
 	
 }
-public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health, boolean boss, Sword reward){
+public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health, boolean boss, Sword reward, Key keyReward){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
-		newEnemies.add(new Enemy((RPGgame.WIDTH-50)*rand.nextDouble(),100+(RPGgame.HEIGHT-250)*rand.nextDouble(),health,damage,XPboost,boss,reward));
+		newEnemies.add(new Enemy((RPGgame.WIDTH-50)*rand.nextDouble(),100+(RPGgame.HEIGHT-250)*rand.nextDouble(),health,damage,XPboost,boss,reward,keyReward));
 	}
 	return newEnemies;
 }
@@ -232,8 +242,13 @@ public void mouseClicked(MouseEvent arg0) {
 	Enemy intersection=currentWorld.checkIntersection(player);
 	if(player.canAttack && intersection!=null) {
 		player.attack(intersection);
-		if(intersection.health<=0 && intersection.boss && player.items.contains(intersection.reward)==false) {
+		if(intersection.health<=0 && intersection.boss) {
+			if(player.items.contains(intersection.reward)==false) {
 			player.items.add(intersection.reward);
+			}
+			if(player.items.contains(intersection.keyReward)==false) {
+				player.items.add(intersection.keyReward);
+			}
 		}
 		System.out.println("Attacked");
 	}

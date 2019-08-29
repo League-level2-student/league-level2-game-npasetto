@@ -8,15 +8,17 @@ int y;
 World teleportTo;
 Rectangle collisionBox;
 String wallSide;
+Key requiredKey;
 int requirement;
 int width;
 int height;
-public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement) {
+public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Key requiredKey) {
 	this.x=x;
 	this.y=y;
 	this.teleportTo=teleportTo;
 	this.wallSide=wallSide;
 	this.requirement=requirement;
+	this.requiredKey=requiredKey;
 	if(wallSide.equals("top") || wallSide.equals("bottom")) {
 		width=25;
 		height=5;

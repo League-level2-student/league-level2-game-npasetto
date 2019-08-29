@@ -20,8 +20,9 @@ Timer spawnTimer;
 boolean isActive=true;
 int XPboost;
 Sword reward;
+Key keyReward;
 boolean isAngry=false;
-public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, boolean boss, Sword reward) {
+public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, boolean boss, Sword reward,Key keyReward) {
 	this.spawnX=spawnX;
 	this.spawnY=spawnY;
 	this.maxHealth=maxHealth;
@@ -29,6 +30,7 @@ public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboos
 	this.XPboost=XPboost;
 	this.boss=boss;
 	this.reward=reward;
+	this.keyReward=keyReward;
 	health=maxHealth;
 	x=spawnX;
 	y=spawnY;
@@ -60,5 +62,6 @@ public void actionPerformed(ActionEvent arg0) {
 	health=maxHealth;
 	x=spawnX;
 	y=spawnY;
+	isAngry=false;
 }
 }

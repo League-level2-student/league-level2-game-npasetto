@@ -69,7 +69,6 @@ void right() {
 }
 public void attack(Enemy enemy) {
 	enemy.health=enemy.health-(rand.nextInt(maxDamage-minDamage+1)+minDamage);
-	enemy.isAngry=true;
 	if(enemy.health<=0) {
 		enemy.isAngry=false;
 		gainXP(enemy.XPboost);
