@@ -1,4 +1,5 @@
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -19,10 +20,12 @@ Rectangle collisionBox;
 Timer spawnTimer;
 boolean isActive=true;
 int XPboost;
+int goldReward;
 Sword reward;
 Key keyReward;
+Sword rareReward;
 boolean isAngry=false;
-public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, boolean boss, Sword reward,Key keyReward) {
+public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, int goldReward, boolean boss, Sword reward, Sword rareReward, Key keyReward) {
 	this.spawnX=spawnX;
 	this.spawnY=spawnY;
 	this.maxHealth=maxHealth;
@@ -31,6 +34,8 @@ public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboos
 	this.boss=boss;
 	this.reward=reward;
 	this.keyReward=keyReward;
+	this.goldReward=goldReward;
+	this.rareReward=rareReward;
 	health=maxHealth;
 	x=spawnX;
 	y=spawnY;

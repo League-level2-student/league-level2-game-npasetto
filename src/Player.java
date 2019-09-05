@@ -22,6 +22,7 @@ Timer attackTimer;
 Timer regenerateTimer;
 int level=1;
 int XP=0;
+int gold=0;
 ArrayList<Item> items;
 Random rand=new Random();
 Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
@@ -32,7 +33,7 @@ Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
 	this.minDamage=minDamage;
 	this.maxDamage=maxDamage;
 	items=new ArrayList<Item>();
-	items.add(new Sword("sword1",1,2,true));
+	items.add(new Sword("sword1",1,2,true,false,0));
 	collisionBox=new Rectangle();
 	attackTimer=new Timer(1000,this);
 	attackTimer.start();
@@ -72,6 +73,7 @@ public void attack(Enemy enemy) {
 	if(enemy.health<=0) {
 		enemy.isAngry=false;
 		gainXP(enemy.XPboost);
+		gold+=enemy.goldReward;
 	}
 	attackTimer.start();
 }
