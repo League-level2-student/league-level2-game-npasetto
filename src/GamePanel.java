@@ -52,9 +52,9 @@ public GamePanel() {
 	key1=new Key("key1",false);
 	key2=new Key("key2",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25),new Color(255,255,0),player,true);
-	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false,false,0),new Sword("sword3",2,6,false,false,0),key1,120), new Color(255,0,255),player,false);
+	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false,false,0,false),new Sword("sword3",2,6,false,false,0,false),key1,120), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70),new Color(255,255,0),player,false);
-	bossWorld2=new World(generateEnemies(1,75,200,100,true,new Sword("sword4",4,5,false,false,0),new Sword("sword5",5,8,false,false,0),key2,250),new Color(255,0,255),player,false);
+	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("sword4",5,6,false,false,0,false),new Sword("sword5",7,10,false,false,0,false),key2,250),new Color(255,0,255),player,false);
 	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null));
 	world2.addArmorPlatform(new ArmorPlatform(new Armor("armor2",75,false),12,350,600));
 	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0,null));
@@ -62,7 +62,8 @@ public GamePanel() {
 	world1.addHealingTile(new HealingTile(100,600));
 	world1.addArmorPlatform(new ArmorPlatform(new Armor("armor1",50,false),5,350,600));
 	currentWorld=world1;
-	weapons.add(new Sword("shop1",2,5,false,true,1000));
+	weapons.add(new Sword("shop1",2,5,false,true,1000,false));
+	weapons.add(new Sword("shopgun1",4,5,false,true,5000,true));
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -291,7 +292,17 @@ public void keyTyped(KeyEvent arg0) {
 }
 @Override
 public void mouseClicked(MouseEvent arg0) {
-	System.out.println("Clicked");
+	boolean isGun=true;
+	int minDamage=0;
+	int maxDamage=0;
+	for(Item item:player.items) {
+		if(item instanceof Sword && item.isActive==true) {
+			isGun=((Sword) item).isGun;
+			minDamage=((Sword) item).minDamage;
+			maxDamage=((Sword) item).maxDamage;
+		}
+	}
+	if(isGun==false) {
 	Enemy intersection=currentWorld.checkIntersection(player);
 	if(player.canAttack && intersection!=null) {
 		player.attack(intersection);
@@ -310,7 +321,14 @@ public void mouseClicked(MouseEvent arg0) {
 				player.items.add(intersection.keyReward);
 			}
 		}
-		System.out.println("Attacked");
+	}
+	}else {
+	int x=arg0.getX();
+	int y=arg0.getY();
+	int xdiff=x-player.x;
+	int ydiff=y-player.y;
+	double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+	currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage));
 	}
 	
 }

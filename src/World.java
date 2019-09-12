@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -11,10 +12,12 @@ ArrayList<Enemy> enemies;
 ArrayList<Teleporter> teleporters;
 ArrayList<HealingTile> tiles;
 ArrayList<ArmorPlatform> platforms;
+ArrayList<Projectile> projectiles;
 Color backgroundColor;
 Timer enemyAttack;
 Player player;
 boolean isActive;
+Random rand=new Random();
 public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boolean isActive) {
 	this.enemies=enemies;
 	this.backgroundColor=backgroundColor;
@@ -25,6 +28,7 @@ public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boo
 	teleporters=new ArrayList<Teleporter>();
 	tiles=new ArrayList<HealingTile>();
 	platforms=new ArrayList<ArmorPlatform>();
+	projectiles=new ArrayList<Projectile>();
 }
 public void draw(Graphics g) {
 	g.setColor(backgroundColor);
@@ -42,6 +46,9 @@ public void draw(Graphics g) {
 	}
 	for (ArmorPlatform a:platforms) {
 		a.draw(g);
+	}
+	for(Projectile p:projectiles) {
+		p.draw(g);
 	}
 	g.setColor(new Color(0,0,0));
 	g.drawString("Level: "+player.level, 10, 20);
@@ -67,10 +74,48 @@ public void update() {
 		}
 		enemy.update();
 	}
+	for (int i = projectiles.size()-1; i >= 0; i--) {
+		projectiles.get(i).move();
+		if(projectiles.get(i).checkWalls()) {
+			projectiles.remove(i);
+		}else if(checkProjectile(projectiles.get(i))!=null) {
+			Enemy intersection=checkProjectile(projectiles.get(i));
+			intersection.health-=rand.nextInt(projectiles.get(i).maxDamage-projectiles.get(i).minDamage+1)+projectiles.get(i).minDamage;
+			intersection.isAngry=true;
+			if(intersection.health<=0) {
+				if(intersection.boss) {
+				Sword reward;
+				int random=rand.nextInt(10);
+				if(random<9) {
+					reward=intersection.reward;
+				}else {
+					reward=intersection.rareReward;
+				}
+				if(player.items.contains(reward)==false) {
+					player.items.add(reward);
+				}
+				if(player.items.contains(intersection.keyReward)==false) {
+					player.items.add(intersection.keyReward);
+				}
+				}
+				player.gainXP(intersection.XPboost);
+				player.gold+=intersection.goldReward;
+			}
+			projectiles.remove(i);
+		}
+	}
 }
 public Enemy checkIntersection(Player player) {
 	for (int i = 0; i < enemies.size(); i++) {
 		if (enemies.get(i).isActive && enemies.get(i).collisionBox.intersects(player.collisionBox)){
+			return enemies.get(i);
+		}
+	}
+	return null;
+}
+public Enemy checkProjectile(Projectile p) {
+	for (int i = 0; i < enemies.size(); i++) {
+		if (enemies.get(i).isActive && enemies.get(i).collisionBox.intersects(p.collisionBox)){
 			return enemies.get(i);
 		}
 	}
