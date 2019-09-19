@@ -35,6 +35,9 @@ World bossWorld1;
 World world2;
 World bossWorld2;
 World currentWorld;
+World ultraboss1;
+World bossWorld3;
+World world3;
 Key key1;
 Key key2;
 JButton toSpawn=new JButton();
@@ -51,14 +54,21 @@ public GamePanel() {
 	textFont=new Font("Arial",Font.PLAIN,12);
 	key1=new Key("key1",false);
 	key2=new Key("key2",false);
-	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25),new Color(255,255,0),player,true);
-	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false,false,0,false),new Sword("sword3",2,6,false,false,0,false),key1,120), new Color(255,0,255),player,false);
-	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70),new Color(255,255,0),player,false);
-	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("sword4",5,6,false,false,0,false),new Sword("sword5",7,10,false,false,0,false),key2,250),new Color(255,0,255),player,false);
+	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false),new Color(255,255,0),player,true);
+	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false,false,0,false),new Sword("sword3",2,6,false,false,0,false),key1,120,true), new Color(255,0,255),player,false);
+	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false),new Color(255,255,0),player,false);
+	world3=new World(generateEnemies(10,60,100,50,false,null,null,null,150,false),new Color(255,255,0),player,false);
+	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("sword4",5,6,false,false,0,false),new Sword("sword5",7,10,false,false,0,false),null,250,false),new Color(255,0,255),player,false);
+	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("sword6",7,9,false,false,0,false),new Sword("gun1",7,12,false,false,0,false),key2,250,false),new Color(255,0,255),player,false);
+	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity2",-2147483647,-2147483647,false,false,0,false),null,2147483647,false),new Color(0,0,0),player,false);
 	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null));
+	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,null));
+	world2.addTeleporter(new Teleporter(50,0,world3,"top",18,key2));
 	world2.addArmorPlatform(new ArmorPlatform(new Armor("armor2",75,false),12,350,600));
+	world3.addArmorPlatform(new ArmorPlatform(new Armor("armor3",250,false),24,350,600));
 	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0,null));
 	world1.addTeleporter(new Teleporter(100,0,world2,"top",8,key1));
+	world1.addTeleporter(new Teleporter(0,300,ultraboss1,"left",0,null));
 	world1.addHealingTile(new HealingTile(100,600));
 	world1.addArmorPlatform(new ArmorPlatform(new Armor("armor1",50,false),5,350,600));
 	currentWorld=world1;
@@ -273,10 +283,10 @@ public void keyPressed(KeyEvent arg0) {
 	}
 	
 }
-public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health, boolean boss, Sword reward, Sword rareReward, Key keyReward, int goldReward){
+public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health, boolean boss, Sword reward, Sword rareReward, Key keyReward, int goldReward, boolean hasGun){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
-		newEnemies.add(new Enemy((RPGgame.WIDTH-50)*rand.nextDouble(),100+(RPGgame.HEIGHT-250)*rand.nextDouble(),health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward));
+		newEnemies.add(new Enemy((RPGgame.WIDTH-50)*rand.nextDouble(),100+(RPGgame.HEIGHT-250)*rand.nextDouble(),health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun));
 	}
 	return newEnemies;
 }

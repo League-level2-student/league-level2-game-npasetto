@@ -13,6 +13,7 @@ ArrayList<Teleporter> teleporters;
 ArrayList<HealingTile> tiles;
 ArrayList<ArmorPlatform> platforms;
 ArrayList<Projectile> projectiles;
+ArrayList<EnemyProjectile> enemyShots;
 Color backgroundColor;
 Timer enemyAttack;
 Player player;
@@ -29,6 +30,7 @@ public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boo
 	tiles=new ArrayList<HealingTile>();
 	platforms=new ArrayList<ArmorPlatform>();
 	projectiles=new ArrayList<Projectile>();
+	enemyShots=new ArrayList<EnemyProjectile>();
 }
 public void draw(Graphics g) {
 	g.setColor(backgroundColor);
@@ -50,6 +52,9 @@ public void draw(Graphics g) {
 	for(Projectile p:projectiles) {
 		p.draw(g);
 	}
+	for(EnemyProjectile e:enemyShots) {
+		e.draw(g);
+	}
 	g.setColor(new Color(0,0,0));
 	g.drawString("Level: "+player.level, 10, 20);
 	g.drawString("XP: "+player.XP+"/"+player.level*20, 10, 40);
@@ -63,6 +68,13 @@ public void update() {
 		double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
 		enemy.x=enemy.x+xdiff/distance;
 		enemy.y=enemy.y+ydiff/distance;
+		if(enemy.isActive && enemy.hasGun && enemy.canShoot) {
+		double speedx=xdiff/distance;
+		double speedy=ydiff/distance;
+		enemy.timer=0;
+		enemy.canShoot=false;
+		enemyShots.add(new EnemyProjectile(enemy.x,enemy.y,speedx,speedy,enemy.damage,1));
+		}
 		}
 		if(enemy.isActive) {
 			double xdiff=player.x-enemy.x;
@@ -73,6 +85,19 @@ public void update() {
 			}
 		}
 		enemy.update();
+	}
+	for (int i = enemyShots.size()-1; i >= 0; i--) {
+		enemyShots.get(i).move();
+		if(enemyShots.get(i).checkWalls()) {
+			enemyShots.remove(i);
+		}else if(checkEnemyProjectile(enemyShots.get(i))) {
+			player.health-=enemyShots.get(i).damage;
+			enemyShots.remove(i);
+		}else if(enemyShots.get(i).type==1 && enemyShots.get(i).timer>=30) {
+			for (int j = 0; j < 8; j++) {
+				enemyShots.add(new EnemyProjectile(enemyShots.get(i).x,enemyShots.get(i).y,rand.nextDouble()*10-5,rand.nextDouble()*10-5,enemyShots.get(i).damage,0));
+			}
+		}
 	}
 	for (int i = projectiles.size()-1; i >= 0; i--) {
 		projectiles.get(i).move();
@@ -121,6 +146,12 @@ public Enemy checkProjectile(Projectile p) {
 	}
 	return null;
 }
+public boolean checkEnemyProjectile(EnemyProjectile e) {
+	if (player.collisionBox.intersects(e.collisionBox)){
+		return true;
+	}
+	return false;
+}
 public Teleporter checkTeleport(Player player) {
 	for (int i = 0; i < teleporters.size(); i++) {
 		if (teleporters.get(i).collisionBox.intersects(player.collisionBox)){
@@ -145,6 +176,7 @@ public ArmorPlatform checkArmorPlatform(Player player) {
 	}
 	return null;
 }
+
 public void addTeleporter(Teleporter t) {
 	teleporters.add(t);
 }

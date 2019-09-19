@@ -25,7 +25,10 @@ Sword reward;
 Key keyReward;
 Sword rareReward;
 boolean isAngry=false;
-public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, int goldReward, boolean boss, Sword reward, Sword rareReward, Key keyReward) {
+boolean hasGun;
+int timer=0;
+boolean canShoot=false;
+public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, int goldReward, boolean boss, Sword reward, Sword rareReward, Key keyReward, boolean hasGun) {
 	this.spawnX=spawnX;
 	this.spawnY=spawnY;
 	this.maxHealth=maxHealth;
@@ -36,6 +39,7 @@ public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboos
 	this.keyReward=keyReward;
 	this.goldReward=goldReward;
 	this.rareReward=rareReward;
+	this.hasGun=hasGun;
 	health=maxHealth;
 	x=spawnX;
 	y=spawnY;
@@ -49,8 +53,16 @@ public void draw(Graphics g) {
 	g.fillRect((int) x-20, (int) y+50, 70, 10);
 	g.setColor(new Color(0,127,0));
 	g.fillRect((int) x-20, (int) y+50, (int) (70*(health/maxHealth)), 10);
+	g.setColor(new Color(0,0,0));
+	g.drawString(((int) health)+"/"+((int) maxHealth), (int) x-10, (int) y-10); 
 }
 public void update() {
+	if(canShoot==false) {
+		timer++;
+		if(timer==50) {
+			canShoot=true;
+		}
+	}
 	if(health<=0) {
 		isActive=false;
 		spawnTimer.start();

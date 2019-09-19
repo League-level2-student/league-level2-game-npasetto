@@ -21,7 +21,7 @@ boolean canAttack=true;
 Timer attackTimer;
 Timer regenerateTimer;
 int level=1;
-int XP=0;
+int XP=999999999;
 int gold=5000;
 ArrayList<Item> items;
 Random rand=new Random();
