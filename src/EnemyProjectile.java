@@ -21,7 +21,7 @@ EnemyProjectile(double x, double y, double speedX, double speedY, int damage, in
 	collisionBox=new Rectangle((int) x,(int) y,5,5);
 }
 void move() {
-	if(type==1) {
+	if(type>0) {
 		timer++;
 	}
 	x+=speedX*3;

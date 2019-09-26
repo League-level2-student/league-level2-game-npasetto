@@ -21,8 +21,8 @@ boolean canAttack=true;
 Timer attackTimer;
 Timer regenerateTimer;
 int level=1;
-int XP=999999999;
-int gold=5000;
+int XP=2147483627;
+int gold=0;
 ArrayList<Item> items;
 Random rand=new Random();
 Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
