@@ -21,7 +21,7 @@ boolean canAttack=true;
 Timer attackTimer;
 Timer regenerateTimer;
 int level=1;
-int XP=2147483627;
+int XP=0;
 int gold=0;
 ArrayList<Item> items;
 Random rand=new Random();
@@ -47,6 +47,9 @@ void draw(Graphics g) {
 	g.fillRect(x-30, y+70, 110, 10);
 	g.setColor(new Color(0,127,0));
 	g.fillRect(x-30, y+70, (int) (110*(health/maxHealth)),10);
+	g.setColor(new Color(0,0,0));
+	int textLength=g.getFontMetrics().stringWidth(((int) health)+"/"+((int) maxHealth));
+	g.drawString(((int) health)+"/"+((int) maxHealth), x+25-textLength/2, y-20);
 }
 void up() {
 	if(y>0) {

@@ -12,13 +12,17 @@ Key requiredKey;
 int requirement;
 int width;
 int height;
-public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Key requiredKey) {
+String description;
+boolean isSecret;
+public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Key requiredKey, String description, boolean isSecret) {
 	this.x=x;
 	this.y=y;
 	this.teleportTo=teleportTo;
 	this.wallSide=wallSide;
 	this.requirement=requirement;
 	this.requiredKey=requiredKey;
+	this.description=description;
+	this.isSecret=isSecret;
 	if(wallSide.equals("top") || wallSide.equals("bottom")) {
 		width=25;
 		height=5;
@@ -29,24 +33,20 @@ public Teleporter(int x, int y, World teleportTo, String wallSide, int requireme
 	collisionBox=new Rectangle(x,y,width,height);
 }
 public void draw(Graphics g) {
+	if(isSecret==false) {
 	g.setColor(new Color(0,0,127));
 	g.fillRect(x, y, width, height);
-	String text;
-	if(requirement==0) {
-		text="Boss";
-	}else {
-		text="Level "+requirement+" required";
-	}
-	int textLength=g.getFontMetrics().stringWidth(text);
+	int textLength=g.getFontMetrics().stringWidth(description);
 	g.setColor(new Color(0,0,0));
 	if(wallSide.equals("top")) {
-		g.drawString(text, x+12-(textLength/2), y+15);
+		g.drawString(description, x+12-(textLength/2), y+15);
 	}else if(wallSide.equals("bottom")) {
-		g.drawString(text, x+12-(textLength/2), y-10);
+		g.drawString(description, x+12-(textLength/2), y-10);
 	}else if(wallSide.equals("left")) {
-		g.drawString(text, x+15, y+12);
+		g.drawString(description, x+15, y+12);
 	}else {
-		g.drawString(text, x-10-textLength, y+12);
+		g.drawString(description, x-10-textLength, y+12);
+	}
 	}
 }
 }

@@ -42,9 +42,14 @@ World ultraboss1;
 World bossWorld3;
 World world3;
 World bossWorld4;
+World world4;
+World bossWorld5;
 Key key1;
 Key key2;
 Key key3;
+Key key4;
+Key key5;
+Key key6;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
@@ -60,28 +65,38 @@ public GamePanel() {
 	key1=new Key("key1",false);
 	key2=new Key("key2",false);
 	key3=new Key("key3",false);
+	key4=new Key("key4",false);
+	key5=new Key("key5",false);
+	key6=new Key("key6",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0),new Color(255,255,0),player,true);
 	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false,false,0,false),new Sword("sword3",2,6,false,false,0,false),key1,120,false,0), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0),new Color(255,255,0),player,false);
 	world3=new World(generateEnemies(10,60,100,50,false,null,null,null,150,false,0),new Color(255,255,0),player,false);
-	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("sword4",5,6,false,false,0,false),new Sword("sword5",7,10,false,false,0,false),null,250,false,0),new Color(255,0,255),player,false);
-	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("sword6",7,9,false,false,0,false),new Sword("gun1",7,12,false,false,0,false),key2,500,false,0),new Color(255,0,255),player,false);
-	bossWorld4=new World(generateEnemies(1,100,750,250,true,new Sword("gun2",6,10,false,false,0,false),new Sword("sword7",16,20,false,false,0,false),key3,800,false,0),new Color(255,0,255),player,false);
+	world4=new World(generateEnemies(10,120,350,100,false,null,null,null,500,false,0),new Color(255,255,0),player,false);
+	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("sword4",5,6,false,false,0,false),new Sword("sword5",7,10,false,false,0,false),key2,250,false,0),new Color(255,0,255),player,false);
+	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("sword6",7,9,false,false,0,false),new Sword("gun1",7,12,false,false,0,true),key3,500,false,0),new Color(255,0,255),player,false);
+	bossWorld4=new World(generateEnemies(1,100,750,250,true,new Sword("gun2",6,10,false,false,0,true),new Sword("sword7",16,20,false,false,0,false),key4,800,false,0),new Color(255,0,255),player,false);
+	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("sword8",30,40,false,false,0,true),new Sword("sword9",50,65,false,false,0,false),key4,800,true,0),new Color(255,0,255),player,false);
 	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity2",-2147483647,-2147483647,false,false,0,false),null,2147483647,false,0),new Color(0,0,0),player,false);
-	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null));
-	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,null));
-	world2.addTeleporter(new Teleporter(50,0,world3,"top",18,key2));
-	world2.addArmorPlatform(new ArmorPlatform(new Armor("armor2",75,false),12,350,600));
-	world3.addArmorPlatform(new ArmorPlatform(new Armor("armor3",250,false),24,350,600));
-	world3.addTeleporter(new Teleporter(100,0,bossWorld4,"top",0,null));
-	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0,null));
-	world1.addTeleporter(new Teleporter(100,0,world2,"top",8,key1));
-	world1.addTeleporter(new Teleporter(0,300,ultraboss1,"left",0,null));
+	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null,"Second Boss",false));
+	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,key2,"Third Boss Req. Second Boss",false));
+	world2.addTeleporter(new Teleporter(50,0,world3,"top",18,key3,"Req. Level 18 and Third Boss",false));
+	world2.addArmorPlatform(new ArmorPlatform(new Armor("water armor",75,false),12,350,600));
+	world3.addArmorPlatform(new ArmorPlatform(new Armor("iron armor",250,false),24,350,600));
+	world3.addTeleporter(new Teleporter(100,0,bossWorld4,"top",0,null,"Fourth Boss",false));
+	world3.addTeleporter(new Teleporter(495,350,world4,"right",35,key4,"Req. Level 35 and Boss 4",false));
+	world4.addArmorPlatform(new ArmorPlatform(new Armor("lava armor",600,false),42,350,600));
+	world4.addTeleporter(new Teleporter(495,350,bossWorld5,"right",0,null,"Fifth Boss",false));
+	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0,null,"First Boss",false));
+	world1.addTeleporter(new Teleporter(100,0,world2,"top",8,key1,"Req. Level 8 and Boss",false));
+	world1.addTeleporter(new Teleporter(0,300,ultraboss1,"left",0,null,"???",true));
 	world1.addHealingTile(new HealingTile(100,600));
-	world1.addArmorPlatform(new ArmorPlatform(new Armor("armor1",50,false),5,350,600));
+	world1.addArmorPlatform(new ArmorPlatform(new Armor("grass armor",50,false),5,350,600));
 	currentWorld=world1;
 	weapons.add(new Sword("shop1",2,5,false,true,1000,false));
 	weapons.add(new Sword("shopgun1",4,5,false,true,5000,true));
+	weapons.add(new Sword("omega sword",15,25,false,true,15000,false));
+	weapons.add(new Sword("alpha sword",20,25,false,true,20000,false));
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -106,9 +121,8 @@ void setupGui() {
 	inventoryWindow=new JFrame();
 	inventoryWindow.setVisible(true);
 	JPanel inventoryPanel=new JPanel();
-	inventoryWindow.setPreferredSize(new Dimension(750,250));
-	inventoryPanel.setLayout(new GridLayout(2,2));
-	inventoryPanel.setSize(new Dimension(750,250));
+	inventoryPanel.setLayout(new GridLayout(5,10));
+	inventoryWindow.setSize(new Dimension(750,250));
 	for (Item item : player.items) {
 		JButton itemButton=new JButton();
 		itemButton.setBackground(new Color(0,0,0));
@@ -137,8 +151,6 @@ void setupGui() {
 		inventoryPanel.add(itemButton);
 	}
 	inventoryWindow.add(inventoryPanel);
-	inventoryWindow.setPreferredSize(new Dimension(750,250));
-	inventoryPanel.setSize(new Dimension(750,250));
 }
 @Override
 public void actionPerformed(ActionEvent arg0) {
@@ -237,6 +249,8 @@ public void setupShop() {
 	shopWindow=new JFrame();
 	shopWindow.setVisible(true);
 	JPanel shopPanel=new JPanel();
+	shopPanel.setLayout(new GridLayout(5,10));
+	shopWindow.setSize(new Dimension(750,250));
 	for (Sword weapon : weapons) {
 		JButton shopButton=new JButton();
 		shopButton.setBackground(new Color(255,0,0));
@@ -245,12 +259,11 @@ public void setupShop() {
 		shopButton.addActionListener(this);
 		shopButton.setText(weapon.name+" "+weapon.minDamage+"-"+weapon.maxDamage+" "+weapon.cost+" Gold");
 		if(player.items.contains(weapon)) {
-			shopButton.setForeground(new Color(0,255,0));
+			shopButton.setBackground(new Color(0,255,0));
 		}
 		shopPanel.add(shopButton);
 	}
 	shopWindow.add(shopPanel);
-	shopWindow.pack();
 	
 }
 public void teleportBack() {

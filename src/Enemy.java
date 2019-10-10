@@ -1,5 +1,6 @@
 import java.awt.Color;
 
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -56,7 +57,8 @@ public void draw(Graphics g) {
 	g.setColor(new Color(0,127,0));
 	g.fillRect((int) x-20, (int) y+50, (int) (70*(health/maxHealth)), 10);
 	g.setColor(new Color(0,0,0));
-	g.drawString(((int) health)+"/"+((int) maxHealth), (int) x-10, (int) y-10); 
+	int textLength=g.getFontMetrics().stringWidth(((int) health)+"/"+((int) maxHealth));
+	g.drawString(((int) health)+"/"+((int) maxHealth), ((int) x)+15-textLength/2, (int) y-10); 
 }
 public void update() {
 	if(canShoot==false) {
