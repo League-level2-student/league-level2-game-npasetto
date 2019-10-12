@@ -69,15 +69,15 @@ public GamePanel() {
 	key5=new Key("key5",false);
 	key6=new Key("key6",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0),new Color(255,255,0),player,true);
-	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("sword2",2,3,false,false,0,false),new Sword("sword3",2,6,false,false,0,false),key1,120,false,0), new Color(255,0,255),player,false);
+	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,false),new Sword("forest blade",2,6,false,false,0,false),key1,120,false,0), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0),new Color(255,255,0),player,false);
 	world3=new World(generateEnemies(10,60,100,50,false,null,null,null,150,false,0),new Color(255,255,0),player,false);
 	world4=new World(generateEnemies(10,120,350,100,false,null,null,null,500,false,0),new Color(255,255,0),player,false);
-	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("sword4",5,6,false,false,0,false),new Sword("sword5",7,10,false,false,0,false),key2,250,false,0),new Color(255,0,255),player,false);
-	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("sword6",7,9,false,false,0,false),new Sword("gun1",7,12,false,false,0,true),key3,500,false,0),new Color(255,0,255),player,false);
-	bossWorld4=new World(generateEnemies(1,100,750,250,true,new Sword("gun2",6,10,false,false,0,true),new Sword("sword7",16,20,false,false,0,false),key4,800,false,0),new Color(255,0,255),player,false);
-	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("sword8",30,40,false,false,0,true),new Sword("sword9",50,65,false,false,0,false),key4,800,true,0),new Color(255,0,255),player,false);
-	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity2",-2147483647,-2147483647,false,false,0,false),null,2147483647,false,0),new Color(0,0,0),player,false);
+	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("water blade",5,6,false,false,0,false),new Sword("ocean sword",7,10,false,false,0,false),key2,250,false,0),new Color(255,0,255),player,false);
+	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("super water blade",7,9,false,false,0,false),new Sword("ocean gun",7,12,false,false,0,true),key3,500,false,0),new Color(255,0,255),player,false);
+	bossWorld4=new World(generateEnemies(1,160,750,300,true,new Sword("iron gun",6,10,false,false,0,true),new Sword("steel sword",16,20,false,false,0,false),key4,800,false,0),new Color(255,0,255),player,false);
+	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("lava blade",30,40,false,false,0,false),new Sword("lava broadsword",50,65,false,false,0,false),key4,3000,true,0),new Color(255,0,255),player,false);
+	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity gun",2147483647,2147483647,false,false,0,true),null,2147483647,false,0),new Color(0,0,0),player,false);
 	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null,"Second Boss",false));
 	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,key2,"Third Boss Req. Second Boss",false));
 	world2.addTeleporter(new Teleporter(50,0,world3,"top",18,key3,"Req. Level 18 and Third Boss",false));
@@ -93,10 +93,10 @@ public GamePanel() {
 	world1.addHealingTile(new HealingTile(100,600));
 	world1.addArmorPlatform(new ArmorPlatform(new Armor("grass armor",50,false),5,350,600));
 	currentWorld=world1;
-	weapons.add(new Sword("shop1",2,5,false,true,1000,false));
-	weapons.add(new Sword("shopgun1",4,5,false,true,5000,true));
-	weapons.add(new Sword("omega sword",15,25,false,true,15000,false));
-	weapons.add(new Sword("alpha sword",20,25,false,true,20000,false));
+	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,false));
+	weapons.add(new Sword("weak gun",4,5,false,true,5000,true));
+	weapons.add(new Sword("omega sword",15,25,false,true,20000,false));
+	weapons.add(new Sword("alpha blade",20,25,false,true,25000,false));
 }
 @Override
 public void paintComponent(Graphics g) {
