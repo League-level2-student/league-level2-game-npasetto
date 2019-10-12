@@ -20,7 +20,7 @@ Rectangle collisionBox;
 boolean canAttack=true;
 Timer attackTimer;
 Timer regenerateTimer;
-int level=1;
+int level=5;
 int XP=0;
 int gold=0;
 ArrayList<Item> items;

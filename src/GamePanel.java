@@ -131,13 +131,13 @@ void setupGui() {
 		itemButton.addActionListener(this);
 		if(item instanceof Sword) {
 			Sword swordItem=(Sword) item;
-			itemButton.setText(swordItem.name+" "+swordItem.minDamage+"-"+swordItem.maxDamage);
+			itemButton.setText(swordItem.name+"  "+swordItem.minDamage+"-"+swordItem.maxDamage);
 			if (swordItem.isActive) {
 				itemButton.setBackground(new Color(0,255,0));
 			}
 		}else if(item instanceof Armor) {
 			Armor armorItem=(Armor) item;
-			itemButton.setText(armorItem.name+" "+armorItem.bonusHealth);
+			itemButton.setText(armorItem.name+"  "+armorItem.bonusHealth);
 			if(armorItem.isActive) {
 				itemButton.setBackground(new Color(0,255,0));
 			}
@@ -188,7 +188,7 @@ public void actionPerformed(ActionEvent arg0) {
 		setupShop();
 	}else if(frame.equals(shopWindow)) {
 		JButton source=(JButton) arg0.getSource();
-		String[] textSplit=source.getText().split(" ");
+		String[] textSplit=source.getText().split("  ");
 		String name=textSplit[0];
 		for(Sword weapon : weapons) {
 			if(weapon.name.equals(name) && weapon.cost<=player.gold) {
@@ -200,7 +200,7 @@ public void actionPerformed(ActionEvent arg0) {
 		shopWindow.dispose();
 	}else {
 		JButton source=(JButton) arg0.getSource();
-		String[] damages=source.getText().split(" ");
+		String[] damages=source.getText().split("  ");
 		String name=damages[0];
 		for (Item item : player.items) {
 			if(item.name.equals(name)) {
@@ -257,7 +257,7 @@ public void setupShop() {
 		shopButton.setPreferredSize(new Dimension(200,50));
 		shopButton.setForeground(new Color(0,0,0));
 		shopButton.addActionListener(this);
-		shopButton.setText(weapon.name+" "+weapon.minDamage+"-"+weapon.maxDamage+" "+weapon.cost+" Gold");
+		shopButton.setText(weapon.name+"  "+weapon.minDamage+"-"+weapon.maxDamage+" "+weapon.cost+" Gold");
 		if(player.items.contains(weapon)) {
 			shopButton.setBackground(new Color(0,255,0));
 		}
