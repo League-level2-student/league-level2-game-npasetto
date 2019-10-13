@@ -44,6 +44,8 @@ World world3;
 World bossWorld4;
 World world4;
 World bossWorld5;
+World superboss1;
+World arena1;
 Key key1;
 Key key2;
 Key key3;
@@ -62,21 +64,23 @@ public GamePanel() {
 	frameDraw.start();
 	titleFont=new Font("Arial",Font.PLAIN,48);
 	textFont=new Font("Arial",Font.PLAIN,12);
-	key1=new Key("key1",false);
-	key2=new Key("key2",false);
-	key3=new Key("key3",false);
-	key4=new Key("key4",false);
-	key5=new Key("key5",false);
-	key6=new Key("key6",false);
+	key1=new Key("Forest Key",false);
+	key2=new Key("Water Key",false);
+	key3=new Key("Ocean Key",false);
+	key4=new Key("Iron Key",false);
+	key5=new Key("Lava Key",false);
+	key6=new Key("Volcano Key",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0),new Color(255,255,0),player,true);
 	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,false),new Sword("forest blade",2,6,false,false,0,false),key1,120,false,0), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0),new Color(255,255,0),player,false);
 	world3=new World(generateEnemies(10,60,100,50,false,null,null,null,150,false,0),new Color(255,255,0),player,false);
-	world4=new World(generateEnemies(10,120,350,100,false,null,null,null,500,false,0),new Color(255,255,0),player,false);
+	world4=new World(generateEnemies(10,175,350,100,false,null,null,null,500,false,0),new Color(255,255,0),player,false);
+	arena1=new World(generateEnemies(10,350,5000,1500,false,null,null,null,500,false,0),new Color(255,255,0),player,false);
 	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("water blade",5,6,false,false,0,false),new Sword("ocean sword",7,10,false,false,0,false),key2,250,false,0),new Color(255,0,255),player,false);
 	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("super water blade",7,9,false,false,0,false),new Sword("ocean gun",7,12,false,false,0,true),key3,500,false,0),new Color(255,0,255),player,false);
 	bossWorld4=new World(generateEnemies(1,160,750,300,true,new Sword("iron gun",6,10,false,false,0,true),new Sword("steel sword",16,20,false,false,0,false),key4,800,false,0),new Color(255,0,255),player,false);
-	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("lava blade",30,40,false,false,0,false),new Sword("lava broadsword",50,65,false,false,0,false),key4,3000,true,0),new Color(255,0,255),player,false);
+	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("lava blade",30,40,false,false,0,false),new Sword("lava broadsword",50,65,false,false,0,false),key5,3000,true,0),new Color(255,0,255),player,false);
+	superboss1=new World(generateEnemies(1,500,5000,2000,true,new Sword("volcano gun",0,120,false,false,0,true),new Sword("volcano blade",100,200,false,false,0,false),key6,7500,false,0),new Color(255,0,255),player,false);
 	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity gun",2147483647,2147483647,false,false,0,true),null,2147483647,false,0),new Color(0,0,0),player,false);
 	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null,"Second Boss",false));
 	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,key2,"Third Boss Req. Second Boss",false));
@@ -86,10 +90,14 @@ public GamePanel() {
 	world3.addTeleporter(new Teleporter(100,0,bossWorld4,"top",0,null,"Fourth Boss",false));
 	world3.addTeleporter(new Teleporter(495,350,world4,"right",35,key4,"Req. Level 35 and Boss 4",false));
 	world4.addArmorPlatform(new ArmorPlatform(new Armor("lava armor",600,false),42,350,600));
+	world4.addArmorPlatform(new ArmorPlatform(new Armor("volcano armor",1500,false),60,100,600));
 	world4.addTeleporter(new Teleporter(495,350,bossWorld5,"right",0,null,"Fifth Boss",false));
+	world4.addTeleporter(new Teleporter(0,350,superboss1,"left",65,key5,"Req. Level 65 and Boss 5",false));
+	world4.addTeleporter(new Teleporter(100,0,arena1,"top",100,key6,"Req. Level 100 and Volcano Key",false));
 	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0,null,"First Boss",false));
 	world1.addTeleporter(new Teleporter(100,0,world2,"top",8,key1,"Req. Level 8 and Boss",false));
 	world1.addTeleporter(new Teleporter(0,300,ultraboss1,"left",0,null,"???",true));
+	world1.addTeleporter(new Teleporter(0,400,arena1,"left",110,key6,"Lv.110 Arena QT",false));
 	world1.addHealingTile(new HealingTile(100,600));
 	world1.addArmorPlatform(new ArmorPlatform(new Armor("grass armor",50,false),5,350,600));
 	currentWorld=world1;
@@ -97,6 +105,7 @@ public GamePanel() {
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,true));
 	weapons.add(new Sword("omega sword",15,25,false,true,20000,false));
 	weapons.add(new Sword("alpha blade",20,25,false,true,25000,false));
+	weapons.add(new Sword("lava sword",80,100,false,true,60000,false));
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -122,7 +131,7 @@ void setupGui() {
 	inventoryWindow.setVisible(true);
 	JPanel inventoryPanel=new JPanel();
 	inventoryPanel.setLayout(new GridLayout(5,10));
-	inventoryWindow.setSize(new Dimension(750,250));
+	inventoryWindow.setSize(new Dimension(150+player.items.size()*30,250));
 	for (Item item : player.items) {
 		JButton itemButton=new JButton();
 		itemButton.setBackground(new Color(0,0,0));
@@ -219,7 +228,6 @@ public void actionPerformed(ActionEvent arg0) {
 						Armor armorItem=(Armor) player.items.get(i);
 						if (armorItem.isActive) {
 							player.maxHealth-=armorItem.bonusHealth;
-							player.health=player.maxHealth;
 						}
 						player.items.get(i).isActive=false;
 					}else if(player.items.get(i) instanceof Key && type.equals("key")) {

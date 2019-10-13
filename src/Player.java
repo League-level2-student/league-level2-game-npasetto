@@ -78,6 +78,7 @@ public void attack(Enemy enemy) {
 		gainXP(enemy.XPboost);
 		gold+=enemy.goldReward;
 	}
+	//canAttack=false; Makes the game much harder
 	attackTimer.start();
 }
 public void gainXP(int XPboost) {
