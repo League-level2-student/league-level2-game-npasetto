@@ -111,9 +111,9 @@ public void update() {
 			intersection.isAngry=true;
 			if(intersection.health<=0) {
 				if(intersection.boss) {
-				Sword reward;
-				int random=rand.nextInt(10);
-				if(random<9) {
+				Item reward;
+				int random=rand.nextInt(intersection.dropChance);
+				if(random<intersection.dropChance-1) {
 					reward=intersection.reward;
 				}else {
 					reward=intersection.rareReward;

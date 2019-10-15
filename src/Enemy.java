@@ -24,13 +24,14 @@ int XPboost;
 int goldReward;
 Sword reward;
 Key keyReward;
-Sword rareReward;
+Item rareReward;
 boolean isAngry=false;
 boolean hasGun;
 int timer=0;
 boolean canShoot=false;
 int gunType;
-public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, int goldReward, boolean boss, Sword reward, Sword rareReward, Key keyReward, boolean hasGun, int gunType) {
+int dropChance;
+public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, int goldReward, boolean boss, Sword reward, Item rareReward, Key keyReward, boolean hasGun, int gunType, int dropChance) {
 	this.spawnX=spawnX;
 	this.spawnY=spawnY;
 	this.maxHealth=maxHealth;
@@ -43,6 +44,7 @@ public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboos
 	this.rareReward=rareReward;
 	this.hasGun=hasGun;
 	this.gunType=gunType;
+	this.dropChance=dropChance;
 	health=maxHealth;
 	x=spawnX;
 	y=spawnY;
