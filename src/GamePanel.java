@@ -47,6 +47,8 @@ World bossWorld5;
 World superboss1;
 World arena1;
 World arenaBoss1;
+World arenaBoss2;
+World arena2;
 Key key1;
 Key key2;
 Key key3;
@@ -73,19 +75,21 @@ public GamePanel() {
 	key5=new Key("Lava Key",false);
 	key6=new Key("Volcano Key",false);
 	arenaKey=new Key("Arena Key",false);
-	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0,10),new Color(255,255,0),player,true);
-	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,false),new Sword("forest blade",2,6,false,false,0,false),key1,120,false,0,10), new Color(255,0,255),player,false);
-	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0,10),new Color(255,255,0),player,false);
-	world3=new World(generateEnemies(10,60,100,50,false,null,null,null,150,false,0,10),new Color(255,255,0),player,false);
-	world4=new World(generateEnemies(10,175,350,100,false,null,null,null,500,false,0,10),new Color(255,255,0),player,false);
-	arena1=new World(generateEnemies(10,350,5000,1500,false,null,arenaKey,null,500,false,0,30),new Color(255,255,0),player,false);
-	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("water blade",5,6,false,false,0,false),new Sword("ocean sword",7,10,false,false,0,false),key2,250,false,0,10),new Color(255,0,255),player,false);
-	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("super water blade",7,9,false,false,0,false),new Sword("ocean gun",7,12,false,false,0,true),key3,500,false,0,10),new Color(255,0,255),player,false);
-	bossWorld4=new World(generateEnemies(1,160,750,300,true,new Sword("iron gun",6,10,false,false,0,true),new Sword("steel sword",16,20,false,false,0,false),key4,800,false,0,10),new Color(255,0,255),player,false);
-	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("lava blade",30,40,false,false,0,false),new Sword("lava broadsword",50,65,false,false,0,false),key5,3000,true,0,10),new Color(255,0,255),player,false);
-	arenaBoss1=new World(generateEnemies(1,1000,20000,5000,true,new Sword("arena blade",200,300,false,false,0,false),arenaKey,null,5000,false,0,10),new Color(255,0,255),player,false);
-	superboss1=new World(generateEnemies(1,500,5000,2000,true,new Sword("volcano gun",0,120,false,false,0,true),new Sword("volcano blade",100,200,false,false,0,false),key6,7500,false,0,10),new Color(255,0,255),player,false);
-	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity gun",2147483647,2147483647,false,false,0,true),null,2147483647,false,0,10),new Color(0,0,0),player,false);
+	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0,10,"grass monster"),new Color(255,255,0),player,true);
+	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,false),new Sword("forest blade",2,6,false,false,0,false),key1,120,false,0,10,"grass titan"), new Color(255,0,255),player,false);
+	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0,10,"ocean monster"),new Color(255,255,0),player,false);
+	world3=new World(generateEnemies(10,60,100,50,false,null,null,null,150,false,0,10,"iron monster"),new Color(255,255,0),player,false);
+	world4=new World(generateEnemies(10,175,350,100,false,null,null,null,500,false,0,10,"lava monster"),new Color(255,255,0),player,false);
+	arena1=new World(generateEnemies(10,350,5000,1500,false,null,arenaKey,null,5000,false,0,30,"arena monster"),new Color(255,255,0),player,false);
+	arena2=new World(generateEnemies(10,1000,25000,5000,false,null,null,null,25000,false,0,30,"arena titan"),new Color(255,255,0),player,false);
+	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("water blade",5,6,false,false,0,false),new Sword("ocean sword",7,10,false,false,0,false),key2,250,false,0,10,"water giant"),new Color(255,0,255),player,false);
+	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("super water blade",7,9,false,false,0,false),new Sword("ocean gun",7,12,false,false,0,true),key3,500,false,0,10,"ocean titan"),new Color(255,0,255),player,false);
+	bossWorld4=new World(generateEnemies(1,160,750,300,true,new Sword("iron gun",6,10,false,false,0,true),new Sword("steel sword",16,20,false,false,0,false),key4,800,false,0,10,"steel giant"),new Color(255,0,255),player,false);
+	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("lava blade",30,40,false,false,0,false),new Sword("lava broadsword",50,65,false,false,0,false),key5,3000,true,0,10,"lava titan"),new Color(255,0,255),player,false);
+	arenaBoss1=new World(generateEnemies(1,1000,20000,5000,true,new Sword("arena blade",200,300,false,false,0,false),arenaKey,null,30000,false,0,10,"overseer lord"),new Color(255,0,255),player,false);
+	arenaBoss2=new World(generateEnemies(1,2000,30000,4000,true,new Sword("time sword",0,700,false,false,0,false),new Sword("wormhole gun",200,400,false,false,0,true),null,50000,false,0,10,"time destroyer"),new Color(255,0,255),player,false);
+	superboss1=new World(generateEnemies(1,500,5000,2000,true,new Sword("volcano gun",0,120,false,false,0,true),new Sword("volcano blade",100,200,false,false,0,false),key6,7500,false,0,10,"volcano giant"),new Color(255,0,255),player,false);
+	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity gun",2147483647,2147483647,false,false,0,true),null,2147483647,false,0,10,"INFINITY"),new Color(0,0,0),player,false);
 	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null,"Second Boss",false));
 	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,key2,"Third Boss Req. Second Boss",false));
 	world2.addTeleporter(new Teleporter(50,0,world3,"top",18,key3,"Req. Level 18 and Third Boss",false));
@@ -100,6 +104,7 @@ public GamePanel() {
 	world4.addTeleporter(new Teleporter(100,0,arena1,"top",100,key6,"Req. Level 100 and Volcano Key",false));
 	arena1.addArmorPlatform(new ArmorPlatform(new Armor("arena armor",3000,false),130,350,600));
 	arena1.addTeleporter(new Teleporter(0,350,arenaBoss1,"left",150,null,"Req. Level 150",false));
+	arena1.addTeleporter(new Teleporter(495,350,arenaBoss2,"right",200,arenaKey,"Req. Level 200 and Arena Key",false));
 	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0,null,"First Boss",false));
 	world1.addTeleporter(new Teleporter(100,0,world2,"top",8,key1,"Req. Level 8 and Boss",false));
 	world1.addTeleporter(new Teleporter(0,300,ultraboss1,"left",0,null,"???",true));
@@ -113,12 +118,14 @@ public GamePanel() {
 	bossWorld5.addTeleporter(new Teleporter(250,715,world4,"bottom",0,null,"Go Back",false));
 	superboss1.addTeleporter(new Teleporter(250,715,world4,"bottom",0,null,"Go Back",false));
 	arenaBoss1.addTeleporter(new Teleporter(250,715,arena1,"bottom",0,null,"Go Back",false));
+	arenaBoss2.addTeleporter(new Teleporter(495,350,arena2,"right",300,null,"Req. Lv.300",false));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,false));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,true));
 	weapons.add(new Sword("omega sword",15,25,false,true,20000,false));
 	weapons.add(new Sword("alpha blade",20,25,false,true,25000,false));
 	weapons.add(new Sword("lava sword",80,100,false,true,60000,false));
+	weapons.add(new Sword("???",500,500,false,true,999999,false));
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -138,6 +145,8 @@ void drawMenu(Graphics g) {
 	g.setFont(titleFont);
 	g.setColor(new Color(255,255,255));
 	g.drawString("RPGgame", 130, 120);
+	g.setFont(textFont);
+	g.drawString("Press ENTER to start", 190, 200);
 }
 void setupGui() {
 	inventoryWindow=new JFrame();
@@ -331,10 +340,10 @@ public void keyPressed(KeyEvent arg0) {
 	}
 	
 }
-public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health, boolean boss, Sword reward, Item rareReward, Key keyReward, int goldReward, boolean hasGun, int gunType, int dropChance){
+public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health, boolean boss, Sword reward, Item rareReward, Key keyReward, int goldReward, boolean hasGun, int gunType, int dropChance, String enemyName){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
-		newEnemies.add(new Enemy((RPGgame.WIDTH-50)*rand.nextDouble(),100+(RPGgame.HEIGHT-250)*rand.nextDouble(),health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance));
+		newEnemies.add(new Enemy((RPGgame.WIDTH-50)*rand.nextDouble(),100+(RPGgame.HEIGHT-250)*rand.nextDouble(),health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName));
 	}
 	return newEnemies;
 }

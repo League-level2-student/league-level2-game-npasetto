@@ -73,7 +73,7 @@ public void update() {
 		double speedy=ydiff/distance;
 		enemy.timer=0;
 		enemy.canShoot=false;
-		enemyShots.add(new EnemyProjectile(enemy.x,enemy.y,speedx,speedy,enemy.damage,enemy.gunType));
+		enemyShots.add(new EnemyProjectile(enemy.x,enemy.y,speedx,speedy,enemy.damage,enemy.gunType,true));
 		}
 		}
 		if(enemy.isActive) {
@@ -93,10 +93,10 @@ public void update() {
 		}else if(checkEnemyProjectile(enemyShots.get(i))) {
 			player.health-=enemyShots.get(i).damage;
 			enemyShots.remove(i);
-		}else if(enemyShots.get(i).type>0 && enemyShots.get(i).timer>=30) {
+		}else if(enemyShots.get(i).type>0 && (enemyShots.get(i).timer>=30 || enemyShots.get(i).isStarting)) {
 			System.out.println("Split");
 			for (int j = 0; j < 8; j++) {
-				enemyShots.add(new EnemyProjectile(enemyShots.get(i).x,enemyShots.get(i).y,rand.nextDouble()*10-5,rand.nextDouble()*10-5,enemyShots.get(i).damage,enemyShots.get(i).type-1));
+				enemyShots.add(new EnemyProjectile(enemyShots.get(i).x,enemyShots.get(i).y,rand.nextDouble()*10-5,rand.nextDouble()*10-5,enemyShots.get(i).damage,enemyShots.get(i).type-1,false));
 			}
 			enemyShots.remove(i);
 		}

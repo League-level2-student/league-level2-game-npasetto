@@ -11,13 +11,15 @@ int damage;
 Rectangle collisionBox;
 int type;
 int timer=0;
-EnemyProjectile(double x, double y, double speedX, double speedY, int damage, int type){
+boolean isStarting;
+EnemyProjectile(double x, double y, double speedX, double speedY, int damage, int type, boolean isStarting){
 	this.x=x;
 	this.y=y;
 	this.speedX=speedX;
 	this.speedY=speedY;
 	this.damage=damage;
 	this.type=type;
+	this.isStarting=isStarting;
 	collisionBox=new Rectangle((int) x,(int) y,5,5);
 }
 void move() {
