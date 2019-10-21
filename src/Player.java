@@ -33,7 +33,7 @@ Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
 	this.minDamage=minDamage;
 	this.maxDamage=maxDamage;
 	items=new ArrayList<Item>();
-	items.add(new Sword("bronze sword",1,2,true,false,0,false));
+	items.add(new Sword("bronze sword",1,2,true,false,0,true));
 	collisionBox=new Rectangle();
 	attackTimer=new Timer(1000,this);
 	attackTimer.start();
@@ -48,8 +48,21 @@ void draw(Graphics g) {
 	g.setColor(new Color(0,127,0));
 	g.fillRect(x-30, y+70, (int) (110*(health/maxHealth)),10);
 	g.setColor(new Color(0,0,0));
-	int textLength=g.getFontMetrics().stringWidth(((int) health)+"/"+((int) maxHealth));
-	g.drawString(((int) health)+"/"+((int) maxHealth), x+25-textLength/2, y-20);
+	String healthText;
+	String maxHealthText;
+	if(health<1000) {
+		healthText=((int) health)+"";
+	}else {
+		healthText=((double) ((int) (health/10)))/100+"K";
+	}
+	if(maxHealth<1000) {
+		maxHealthText=((int) maxHealth)+"";
+	}else {
+		maxHealthText=((double) ((int) (maxHealth/10)))/100+"K";
+	}
+	String text=healthText+"/"+maxHealthText;
+	int textLength=g.getFontMetrics().stringWidth(text);
+	g.drawString(text, x+25-textLength/2, y-20);
 }
 void up() {
 	if(y>0) {

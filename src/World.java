@@ -57,8 +57,29 @@ public void draw(Graphics g) {
 	}
 	g.setColor(new Color(0,0,0));
 	g.drawString("Level: "+player.level, 10, 20);
-	g.drawString("XP: "+player.XP+"/"+player.level*20, 10, 40);
-	g.drawString("Gold: "+player.gold, 10, 60);
+	String textXP;
+	String textMaxXP;
+	if(player.XP<1000) {
+		textXP=((int) player.XP)+"";
+	}else {
+		textXP=((double) ((int) (player.XP/10)))/100+"K";
+	}
+	if(player.level*20<1000) {
+		textMaxXP=((int) player.level*20)+"";
+	}else {
+		textMaxXP=((double) ((int) (player.level*2)))/100+"K";
+	}
+	String text="XP: "+textXP+"/"+textMaxXP;
+	g.drawString(text, 10, 40);
+	String textGold;
+	if(player.gold<1000) {
+		textGold=((int) player.gold)+"";
+	}else if(player.gold<1000000){
+		textGold=((double) ((int) (player.gold/10)))/100+"K";
+	}else {
+		textGold=((double) ((int) (player.gold/10000)))/100+"M";
+	}
+	g.drawString("Gold: "+textGold, 10, 60);
 }
 public void update() {
 	for (Enemy enemy : enemies) {

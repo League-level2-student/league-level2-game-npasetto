@@ -22,7 +22,7 @@ Timer spawnTimer;
 boolean isActive=true;
 int XPboost;
 int goldReward;
-Sword reward;
+Item reward;
 Key keyReward;
 Item rareReward;
 boolean isAngry=false;
@@ -32,7 +32,7 @@ boolean canShoot=false;
 int gunType;
 int dropChance;
 String name;
-public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, int goldReward, boolean boss, Sword reward, Item rareReward, Key keyReward, boolean hasGun, int gunType, int dropChance, String name) {
+public Enemy(double spawnX, double spawnY, int maxHealth, int damage, int XPboost, int goldReward, boolean boss, Item reward, Item rareReward, Key keyReward, boolean hasGun, int gunType, int dropChance, String name) {
 	this.spawnX=spawnX;
 	this.spawnY=spawnY;
 	this.maxHealth=maxHealth;
@@ -61,8 +61,21 @@ public void draw(Graphics g) {
 	g.setColor(new Color(0,127,0));
 	g.fillRect((int) x-20, (int) y+50, (int) (70*(health/maxHealth)), 10);
 	g.setColor(new Color(0,0,0));
-	int textLength=g.getFontMetrics().stringWidth(name+" "+((int) health)+"/"+((int) maxHealth));
-	g.drawString(name+" "+((int) health)+"/"+((int) maxHealth), ((int) x)+15-textLength/2, (int) y-10); 
+	String healthText;
+	String maxHealthText;
+	if(health<1000) {
+		healthText=((int) health)+"";
+	}else {
+		healthText=((double) ((int) (health/10)))/100+"K";
+	}
+	if(maxHealth<1000) {
+		maxHealthText=((int) maxHealth)+"";
+	}else {
+		maxHealthText=((double) ((int) (maxHealth/10)))/100+"K";
+	}
+	String text=name+" "+healthText+"/"+maxHealthText;
+	int textLength=g.getFontMetrics().stringWidth(text);
+	g.drawString(text, ((int) x)+15-textLength/2, (int) y-10); 
 }
 public void update() {
 	if(canShoot==false) {
