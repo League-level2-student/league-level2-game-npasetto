@@ -23,6 +23,10 @@ Timer regenerateTimer;
 int level=1;
 int XP=0;
 int gold=0;
+double XPMultiplier=1;
+double goldMultiplier=1;
+int prestiges=0;
+int levelRequired=1000;
 ArrayList<Item> items;
 Random rand=new Random();
 Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
@@ -33,7 +37,7 @@ Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
 	this.minDamage=minDamage;
 	this.maxDamage=maxDamage;
 	items=new ArrayList<Item>();
-	items.add(new Sword("bronze sword",1,2,true,false,0,true));
+	items.add(new Sword("bronze sword",1,2,true,false,0,false));
 	collisionBox=new Rectangle();
 	attackTimer=new Timer(1000,this);
 	attackTimer.start();
@@ -88,8 +92,8 @@ public void attack(Enemy enemy) {
 	enemy.health=enemy.health-(rand.nextInt(maxDamage-minDamage+1)+minDamage);
 	if(enemy.health<=0) {
 		enemy.isAngry=false;
-		gainXP(enemy.XPboost);
-		gold+=enemy.goldReward;
+		gainXP((int) (enemy.XPboost*XPMultiplier));
+		gold+=(int) (enemy.goldReward*goldMultiplier);
 	}
 	//canAttack=false; Makes the game much harder
 	attackTimer.start();

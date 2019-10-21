@@ -1,9 +1,8 @@
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +15,6 @@ import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -69,9 +67,12 @@ Key ultimateKey;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
+JButton prestige=new JButton();
+JButton menu=new JButton();
 JFrame inventoryWindow;
 JFrame shopWindow;
 JFrame frame;
+JFrame menuFrame;
 ArrayList<Sword> weapons=new ArrayList<Sword>();
 public GamePanel() {
 	frameDraw=new Timer(1000/100, this);
@@ -109,45 +110,45 @@ public GamePanel() {
 	arenaBoss3=new World(generateEnemies(1,3500,50000,20000,true,new Sword("omicron blade",500,1200,false,false,0,false),new Sword("omicron gun",800,1200,false,false,0,true),null,100000,false,0,10,"omicron giant"),new Color(255,0,255),player,false);
 	arenaFinalBoss=new World(generateEnemies(1,6000,1000000,999000,true,ultimateKey,new Sword("ultimate sword",50000,150000,false,false,0,false),null,3000000,false,0,10,"arena king"),new Color(255,0,255),player,false);
 	superboss1=new World(generateEnemies(1,500,5000,2000,true,new Sword("volcano gun",0,120,false,false,0,true),new Sword("volcano blade",100,200,false,false,0,false),key6,7500,false,0,10,"volcano giant"),new Color(255,0,255),player,false);
-	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity gun",2147483647,2147483647,false,false,0,true),null,2147483647,false,0,10,"INFINITY"),new Color(0,0,0),player,false);
-	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null,"Second Boss",false));
-	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,key2,"Third Boss Req. Second Boss",false));
-	world2.addTeleporter(new Teleporter(50,0,world3,"top",18,key3,"Req. Level 18 and Third Boss",false));
-	world2.addTeleporter(new Teleporter(350,715,secretWorld4,"bottom",450,deathKey,"",true));
+	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity gun",2147483647,2147483647,false,false,0,true),null,2147483647,false,0,10,"INFINITY"),new Color(255,255,255),player,false);
+	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null,"Second Boss",false,0));
+	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,key2,"Third Boss Req. Second Boss",false,0));
+	world2.addTeleporter(new Teleporter(50,0,world3,"top",18,key3,"Req. Level 18 and Third Boss",false,0));
+	world2.addTeleporter(new Teleporter(350,715,secretWorld4,"bottom",450,deathKey,"",true,0));
 	world2.addArmorPlatform(new ArmorPlatform(new Armor("water armor",75,false),12,350,600));
 	world3.addArmorPlatform(new ArmorPlatform(new Armor("iron armor",250,false),24,350,600));
-	world3.addTeleporter(new Teleporter(100,0,bossWorld4,"top",0,null,"Fourth Boss",false));
-	world3.addTeleporter(new Teleporter(495,350,world4,"right",35,key4,"Req. Level 35 and Boss 4",false));
-	world3.addTeleporter(new Teleporter(0,350,secretWorld1,"left",200,arenaKey,"",true));
+	world3.addTeleporter(new Teleporter(100,0,bossWorld4,"top",0,null,"Fourth Boss",false,0));
+	world3.addTeleporter(new Teleporter(495,350,world4,"right",35,key4,"Req. Level 35 and Boss 4",false,0));
+	world3.addTeleporter(new Teleporter(0,350,secretWorld1,"left",200,arenaKey,"",true,0));
 	world4.addArmorPlatform(new ArmorPlatform(new Armor("lava armor",600,false),42,350,600));
 	world4.addArmorPlatform(new ArmorPlatform(new Armor("volcano armor",1500,false),60,100,600));
-	world4.addTeleporter(new Teleporter(495,350,bossWorld5,"right",0,null,"Fifth Boss",false));
-	world4.addTeleporter(new Teleporter(0,350,superboss1,"left",65,key5,"Req. Level 65 and Boss 5",false));
-	world4.addTeleporter(new Teleporter(100,0,arena1,"top",100,key6,"Req. Level 100 and Volcano Key",false));
+	world4.addTeleporter(new Teleporter(495,350,bossWorld5,"right",0,null,"Fifth Boss",false,0));
+	world4.addTeleporter(new Teleporter(0,350,superboss1,"left",65,key5,"Req. Level 65 and Boss 5",false,0));
+	world4.addTeleporter(new Teleporter(100,0,arena1,"top",100,key6,"Req. Level 100 and Volcano Key",false,0));
 	arena1.addArmorPlatform(new ArmorPlatform(new Armor("arena armor",3000,false),130,350,600));
-	arena1.addTeleporter(new Teleporter(0,350,arenaBoss1,"left",150,null,"Req. Level 150",false));
-	arena1.addTeleporter(new Teleporter(495,350,arenaBoss2,"right",200,arenaKey,"Req. Level 200 and Arena Key",false));
-	arena1.addTeleporter(new Teleporter(250,715,secretWorld2,"bottom",300,darknessKey,"",true));
+	arena1.addTeleporter(new Teleporter(0,350,arenaBoss1,"left",150,null,"Req. Level 150",false,0));
+	arena1.addTeleporter(new Teleporter(495,350,arenaBoss2,"right",200,arenaKey,"Req. Level 200 and Arena Key",false,0));
+	arena1.addTeleporter(new Teleporter(250,715,secretWorld2,"bottom",300,darknessKey,"",true,0));
 	arena2.addArmorPlatform(new ArmorPlatform(new Armor("elite arena armor",10000,false),400,350,600));
-	arena2.addTeleporter(new Teleporter(495,350,arenaBoss3,"right",450,destructionKey,"Req. Level 450 & Destruction Key",false));
-	arena2.addTeleporter(new Teleporter(100,0,secretWorld3,"top",450,destructionKey,"",true));
-	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0,null,"First Boss",false));
-	world1.addTeleporter(new Teleporter(100,0,world2,"top",8,key1,"Req. Level 8 and Boss",false));
-	world1.addTeleporter(new Teleporter(0,300,ultraboss1,"left",0,null,"???",true));
-	world1.addTeleporter(new Teleporter(0,400,arena1,"left",110,key6,"Lv.110 Arena QT",false));
+	arena2.addTeleporter(new Teleporter(495,350,arenaBoss3,"right",450,destructionKey,"Req. Level 450 & Destruction Key",false,0));
+	arena2.addTeleporter(new Teleporter(100,0,secretWorld3,"top",450,destructionKey,"",true,0));
+	world1.addTeleporter(new Teleporter(495,350,bossWorld1,"right",0,null,"First Boss",false,0));
+	world1.addTeleporter(new Teleporter(100,0,world2,"top",8,key1,"Req. Level 8 and Boss",false,0));
+	world1.addTeleporter(new Teleporter(0,300,ultraboss1,"left",0,null,"???",true,0));
+	world1.addTeleporter(new Teleporter(0,400,arena1,"left",110,key6,"Lv.110 Arena QT",false,0));
 	world1.addHealingTile(new HealingTile(100,600));
 	world1.addArmorPlatform(new ArmorPlatform(new Armor("grass armor",50,false),5,350,600));
-	bossWorld1.addTeleporter(new Teleporter(250,715,world1,"bottom",0,null,"Go Back",false));
-	bossWorld2.addTeleporter(new Teleporter(250,715,world2,"bottom",0,null,"Go Back",false));
-	bossWorld3.addTeleporter(new Teleporter(250,715,world2,"bottom",0,null,"Go Back",false));
-	bossWorld4.addTeleporter(new Teleporter(250,715,world3,"bottom",0,null,"Go Back",false));
-	bossWorld5.addTeleporter(new Teleporter(250,715,world4,"bottom",0,null,"Go Back",false));
-	superboss1.addTeleporter(new Teleporter(250,715,world4,"bottom",0,null,"Go Back",false));
-	arenaBoss1.addTeleporter(new Teleporter(250,715,arena1,"bottom",0,null,"Go Back",false));
-	arenaBoss2.addTeleporter(new Teleporter(495,350,arena2,"right",300,darknessKey,"Req. Lv.300 & Darkness Key",false));
-	arenaBoss2.addTeleporter(new Teleporter(250,715,arena1,"bottom",0,null,"Go Back",false));
-	arenaBoss3.addTeleporter(new Teleporter(250,715,arena2,"bottom",0,null,"Go Back",false));
-	arenaBoss3.addTeleporter(new Teleporter(495,350,arenaFinalBoss,"right",450,null,"Final Boss",false));
+	bossWorld1.addTeleporter(new Teleporter(250,715,world1,"bottom",0,null,"Go Back",false,0));
+	bossWorld2.addTeleporter(new Teleporter(250,715,world2,"bottom",0,null,"Go Back",false,0));
+	bossWorld3.addTeleporter(new Teleporter(250,715,world2,"bottom",0,null,"Go Back",false,0));
+	bossWorld4.addTeleporter(new Teleporter(250,715,world3,"bottom",0,null,"Go Back",false,0));
+	bossWorld5.addTeleporter(new Teleporter(250,715,world4,"bottom",0,null,"Go Back",false,0));
+	superboss1.addTeleporter(new Teleporter(250,715,world4,"bottom",0,null,"Go Back",false,0));
+	arenaBoss1.addTeleporter(new Teleporter(250,715,arena1,"bottom",0,null,"Go Back",false,0));
+	arenaBoss2.addTeleporter(new Teleporter(495,350,arena2,"right",300,darknessKey,"Req. Lv.300 & Darkness Key",false,0));
+	arenaBoss2.addTeleporter(new Teleporter(250,715,arena1,"bottom",0,null,"Go Back",false,0));
+	arenaBoss3.addTeleporter(new Teleporter(250,715,arena2,"bottom",0,null,"Go Back",false,0));
+	arenaBoss3.addTeleporter(new Teleporter(495,350,arenaFinalBoss,"right",450,null,"Final Boss",false,0));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,false));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,true));
@@ -156,7 +157,6 @@ public GamePanel() {
 	weapons.add(new Sword("lava sword",80,100,false,true,60000,false));
 	weapons.add(new Sword("???",500,500,false,true,999999,false));
 	weapons.add(new Sword("portal blade",10000,250000,false,true,25000000,false));
-	
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -260,6 +260,23 @@ public void actionPerformed(ActionEvent arg0) {
 		}
 		shopWindow.removeAll();
 		shopWindow.dispose();
+	}else if(arg0.getSource().equals(prestige)){
+		if(player.level>=player.levelRequired) {
+			player.level=1;
+			player.XP=0;
+			player.gold=0;
+			teleportBack();
+			player.items.clear();
+			player.items.add(new Sword("bronze sword",1,2,true,false,0,false));
+			player.items.add(new Sword("prestige sword 1",1,250,false,false,0,false));
+			player.XPMultiplier*=1.5;
+			player.goldMultiplier*=1.5;
+			player.prestiges++;
+			player.levelRequired*=10;
+			prestige.setText("Prestige: Level "+player.levelRequired);
+		}
+	}else if(arg0.getSource().equals(menu)){
+		setupMenu();
 	}else {
 		JButton source=(JButton) arg0.getSource();
 		String[] damages=source.getText().split("  ");
@@ -299,12 +316,22 @@ public void actionPerformed(ActionEvent arg0) {
 					player.maxHealth+=armorItem.bonusHealth;
 				}
 			}
-			
 		}
 		inventoryWindow.removeAll();
 		inventoryWindow.dispose();
 	}
 	repaint();
+}
+public void setupMenu() {
+	menuFrame=new JFrame();
+	menuFrame.setVisible(true);
+	JPanel menuPanel=new JPanel();
+	menuPanel.add(toSpawn);
+	menuPanel.add(inventory);
+	menuPanel.add(shop);
+	menuPanel.add(prestige);
+	menuFrame.add(menuPanel);
+	menuFrame.pack();
 }
 public void setupShop() {
 	shopWindow=new JFrame();
@@ -325,7 +352,6 @@ public void setupShop() {
 		shopPanel.add(shopButton);
 	}
 	shopWindow.add(shopPanel);
-	
 }
 public void teleportBack() {
 	player.x=250;
@@ -353,9 +379,17 @@ public void keyPressed(KeyEvent arg0) {
 		shop.addActionListener(this);
 		shop.addKeyListener(this);
 		shop.addMouseListener(this);
-		this.add(toSpawn);
-		this.add(inventory);
-		this.add(shop);
+		prestige.setBounds(180, 70, 150, 50);
+		prestige.setText("Prestige: Level 1000");
+		prestige.addActionListener(this);
+		prestige.addKeyListener(this);
+		prestige.addMouseListener(this);
+		menu.setBounds(350,0,150,50);
+		menu.setText("Menu");
+		menu.addActionListener(this);
+		menu.addKeyListener(this);
+		menu.addMouseListener(this);
+		this.add(menu);
 	}
 	if(arg0.getKeyCode()==KeyEvent.VK_UP) {
 		player.up();
@@ -369,7 +403,6 @@ public void keyPressed(KeyEvent arg0) {
 	if(arg0.getKeyCode()==KeyEvent.VK_RIGHT) {
 		player.right();
 	}
-	
 }
 public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health, boolean boss, Item reward, Item rareReward, Key keyReward, int goldReward, boolean hasGun, int gunType, int dropChance, String enemyName){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
@@ -380,13 +413,9 @@ public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int
 }
 @Override
 public void keyReleased(KeyEvent arg0) {
-	// TODO Auto-generated method stub TODO
-	
 }
 @Override
 public void keyTyped(KeyEvent arg0) {
-	// TODO Auto-generated method stub TODO
-	
 }
 @Override
 public void mouseClicked(MouseEvent arg0) {
@@ -428,26 +457,17 @@ public void mouseClicked(MouseEvent arg0) {
 	double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
 	currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage));
 	}
-	
 }
 @Override
 public void mouseEntered(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
 }
 @Override
-public void mouseExited(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
+public void mouseExited(MouseEvent arg0) {	
 }
 @Override
 public void mousePressed(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
 }
 @Override
 public void mouseReleased(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
 }
 }

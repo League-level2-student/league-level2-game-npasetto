@@ -14,7 +14,8 @@ int width;
 int height;
 String description;
 boolean isSecret;
-public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Key requiredKey, String description, boolean isSecret) {
+int prestigeRequired;
+public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Key requiredKey, String description, boolean isSecret, int prestigeRequired) {
 	this.x=x;
 	this.y=y;
 	this.teleportTo=teleportTo;
@@ -23,6 +24,7 @@ public Teleporter(int x, int y, World teleportTo, String wallSide, int requireme
 	this.requiredKey=requiredKey;
 	this.description=description;
 	this.isSecret=isSecret;
+	this.prestigeRequired=prestigeRequired;
 	if(wallSide.equals("top") || wallSide.equals("bottom")) {
 		width=25;
 		height=5;

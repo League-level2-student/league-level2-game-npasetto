@@ -80,6 +80,7 @@ public void draw(Graphics g) {
 		textGold=((double) ((int) (player.gold/10000)))/100+"M";
 	}
 	g.drawString("Gold: "+textGold, 10, 60);
+	g.drawString("Prestiges: "+player.prestiges, 10, 80);
 }
 public void update() {
 	for (Enemy enemy : enemies) {
@@ -146,8 +147,8 @@ public void update() {
 					player.items.add(intersection.keyReward);
 				}
 				}
-				player.gainXP(intersection.XPboost);
-				player.gold+=intersection.goldReward;
+				player.gainXP((int) (intersection.XPboost*player.XPMultiplier));
+				player.gold+=(int) (intersection.goldReward*player.goldMultiplier);
 			}
 			projectiles.remove(i);
 		}
