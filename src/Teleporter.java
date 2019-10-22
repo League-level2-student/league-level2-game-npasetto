@@ -8,14 +8,14 @@ int y;
 World teleportTo;
 Rectangle collisionBox;
 String wallSide;
-Key requiredKey;
+Item requiredKey;
 int requirement;
 int width;
 int height;
 String description;
 boolean isSecret;
 int prestigeRequired;
-public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Key requiredKey, String description, boolean isSecret, int prestigeRequired) {
+public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Item requiredKey, String description, boolean isSecret, int prestigeRequired) {
 	this.x=x;
 	this.y=y;
 	this.teleportTo=teleportTo;
