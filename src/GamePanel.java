@@ -58,6 +58,7 @@ World skyRealm;
 World windRealm;
 World stormRealm;
 World skyRealmBoss;
+World theVoid;
 Key key1;
 Key key2;
 Key key3;
