@@ -65,13 +65,17 @@ public void draw(Graphics g) {
 	String maxHealthText;
 	if(health<1000) {
 		healthText=((int) health)+"";
-	}else {
+	}else if(health<1000000){
 		healthText=((double) ((int) (health/10)))/100+"K";
+	}else {
+		healthText=((double) ((int) (health/10000)))/100+"M";
 	}
 	if(maxHealth<1000) {
 		maxHealthText=((int) maxHealth)+"";
-	}else {
+	}else if(maxHealth<1000000){
 		maxHealthText=((double) ((int) (maxHealth/10)))/100+"K";
+	}else {
+		maxHealthText=((double) ((int) (maxHealth/10000)))/100+"M";
 	}
 	String text=name+" "+healthText+"/"+maxHealthText;
 	int textLength=g.getFontMetrics().stringWidth(text);

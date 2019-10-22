@@ -55,6 +55,9 @@ World secretWorld3;
 World secretWorld4;
 World portalWorld;
 World skyRealm;
+World windRealm;
+World stormRealm;
+World skyRealmBoss;
 Key key1;
 Key key2;
 Key key3;
@@ -66,6 +69,7 @@ Key darknessKey;
 Key destructionKey;
 Key deathKey;
 Key ultimateKey;
+Key skyKey;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
@@ -92,6 +96,7 @@ public GamePanel() {
 	destructionKey=new Key("Destruction Key",false);
 	deathKey=new Key("Death Key",false);
 	ultimateKey=new Key("Ultimate Key",false);
+	skyKey=new Key("Sky Key",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0,10,"grass monster"),new Color(255,255,0),player,true);
 	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,false),new Sword("forest blade",2,6,false,false,0,false),key1,120,false,0,10,"grass titan"), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0,10,"ocean monster"),new Color(255,255,0),player,false);
@@ -99,7 +104,10 @@ public GamePanel() {
 	world4=new World(generateEnemies(10,175,350,100,false,null,null,null,500,false,0,10,"lava monster"),new Color(255,255,0),player,false);
 	arena1=new World(generateEnemies(10,350,5000,1500,false,null,arenaKey,null,5000,false,0,30,"arena monster"),new Color(255,255,0),player,false);
 	arena2=new World(generateEnemies(10,1000,25000,5000,false,null,null,null,25000,false,0,30,"arena titan"),new Color(255,255,0),player,false);
-	skyRealm=new World(generateEnemies(10,6500,1800000,1500000,false,null,null,null,6000000,false,0,10,"sky monster"),new Color(255,255,0),player,false);
+	skyRealm=new World(generateEnemies(10,10000,1800000,1500000,false,null,null,null,6000000,false,0,10,"sky monster"),new Color(255,255,0),player,false);
+	windRealm=new World(generateEnemies(10,15000,3000000,2500000,false,null,null,null,10000000,false,0,10,"wind monster"),new Color(255,255,0),player,false);
+	stormRealm=new World(generateEnemies(10,20000,5000000,3500000,false,null,null,null,17777777,false,0,10,"wind monster"),new Color(255,255,0),player,false);
+	skyRealmBoss=new World(generateEnemies(1,30000,15000000,7500000,true,new Sword("sky blade",0,1000000,false,false,0,false),new Sword("sky gun",600000,800000,false,false,0,true),skyKey,50000000,false,0,6,"sky overlord"),new Color(255,0,255),player,false);
 	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("water blade",5,6,false,false,0,false),new Sword("ocean sword",7,10,false,false,0,false),key2,250,false,0,10,"water giant"),new Color(255,0,255),player,false);
 	secretWorld1=new World(generateEnemies(1,1500,0,9999,true,darknessKey,new Sword("blade of darkness",200,1000,false,false,0,false),null,0,false,0,5,"THE DARKNESS"),new Color(255,0,255),player,false);
 	secretWorld2=new World(generateEnemies(1,2500,0,15000,true,destructionKey,new Sword("blade of destruction",700,900,false,false,0,false),null,0,false,0,5,"THE DESTROYER"),new Color(255,0,255),player,false);
@@ -143,6 +151,12 @@ public GamePanel() {
 	world1.addTeleporter(new Teleporter(495,450,portalWorld,"right",2000,ultimateKey,"Portal World Lv.2000",false,0));
 	world1.addHealingTile(new HealingTile(100,600));
 	world1.addArmorPlatform(new ArmorPlatform(new Armor("grass armor",50,false),5,350,600));
+	skyRealm.addArmorPlatform(new ArmorPlatform(new Armor("sky armor",30000,false),2222,350,600));
+	skyRealm.addArmorPlatform(new ArmorPlatform(new Armor("wind armor",75000,false),3333,100,600));
+	skyRealm.addTeleporter(new Teleporter(495,350,windRealm,"right",3000,null,"Wind Realm Lv.3000",false,0));
+	skyRealm.addTeleporter(new Teleporter(0,350,stormRealm,"left",4000,null,"Storm Realm Lv.4000",false,0));
+	skyRealm.addTeleporter(new Teleporter(200,0,skyRealmBoss,"top",5000,null,"Boss Lv.5000",false,0));
+	stormRealm.addArmorPlatform(new ArmorPlatform(new Armor("storm armor",150000,false),4500,350,600));
 	bossWorld1.addTeleporter(new Teleporter(250,715,world1,"bottom",0,null,"Go Back",false,0));
 	bossWorld2.addTeleporter(new Teleporter(250,715,world2,"bottom",0,null,"Go Back",false,0));
 	bossWorld3.addTeleporter(new Teleporter(250,715,world2,"bottom",0,null,"Go Back",false,0));
@@ -162,7 +176,7 @@ public GamePanel() {
 	weapons.add(new Sword("alpha blade",20,25,false,true,25000,false));
 	weapons.add(new Sword("lava sword",80,100,false,true,60000,false));
 	weapons.add(new Sword("???",500,500,false,true,999999,false));
-	weapons.add(new Sword("portal blade",10000,250000,false,true,25000000,false));
+	weapons.add(new Sword("portal blade",123456,123456,false,true,25000000,false));
 	player.items.add(ultimateKey);
 }
 @Override
@@ -281,6 +295,10 @@ public void actionPerformed(ActionEvent arg0) {
 			player.prestiges++;
 			player.levelRequired*=10;
 			prestige.setText("Prestige: Level "+player.levelRequired);
+			player.minDamage=1;
+			player.maxDamage=2;
+			player.health=100;
+			player.maxHealth=100;
 		}
 	}else if(arg0.getSource().equals(menu)){
 		setupMenu();

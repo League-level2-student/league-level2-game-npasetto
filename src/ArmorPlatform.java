@@ -23,6 +23,14 @@ void giveArmor(Player player) {
 void draw(Graphics g) {
 	g.setColor(new Color(127,127,127));
 	g.fillRect(x, y, 50, 50);
-	g.drawString(giveArmor.name+" Level: "+requiredLevel+" Health: "+giveArmor.bonusHealth, x-50, y-15);
+	String bonusHealthText;
+	if(giveArmor.bonusHealth<1000) {
+		bonusHealthText=giveArmor.bonusHealth+"";
+	}else {
+		bonusHealthText=((double) ((int) (giveArmor.bonusHealth/10)))/100+"K";
+	}
+	String text=giveArmor.name+"Level: "+requiredLevel+" Health: "+bonusHealthText;
+	int textLength=g.getFontMetrics().stringWidth(text);
+	g.drawString(text, x+25-textLength/2, y-15);
 }
 }
