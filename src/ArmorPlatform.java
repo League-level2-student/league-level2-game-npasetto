@@ -29,7 +29,7 @@ void draw(Graphics g) {
 	}else {
 		bonusHealthText=((double) ((int) (giveArmor.bonusHealth/10)))/100+"K";
 	}
-	String text=giveArmor.name+"Level: "+requiredLevel+" Health: "+bonusHealthText;
+	String text=giveArmor.name+" Level: "+requiredLevel+" Health: "+bonusHealthText;
 	int textLength=g.getFontMetrics().stringWidth(text);
 	g.drawString(text, x+25-textLength/2, y-15);
 }

@@ -76,8 +76,10 @@ public void draw(Graphics g) {
 		textGold=((int) player.gold)+"";
 	}else if(player.gold<1000000){
 		textGold=((double) ((int) (player.gold/10)))/100+"K";
-	}else {
+	}else if(player.gold<1000000000){
 		textGold=((double) ((int) (player.gold/10000)))/100+"M";
+	}else {
+		textGold=((double) ((int) (player.gold/10000000)))/100+"B";
 	}
 	g.drawString("Gold: "+textGold, 10, 60);
 	g.drawString("Prestiges: "+player.prestiges, 10, 80);
