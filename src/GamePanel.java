@@ -10,6 +10,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -85,6 +89,8 @@ JButton inventory=new JButton();
 JButton shop=new JButton();
 JButton prestige=new JButton();
 JButton menu=new JButton();
+JButton save=new JButton();
+JButton load=new JButton();
 JFrame inventoryWindow;
 JFrame shopWindow;
 JFrame frame;
@@ -224,8 +230,6 @@ public GamePanel() {
 	weapons.add(new Sword("lava sword",80,100,false,true,60000,false));
 	weapons.add(new Sword("???",500,500,false,true,999999,false));
 	weapons.add(new Sword("portal blade",123456,123456,false,true,25000000,false));
-	player.items.add(ultimateKey);
-	player.items.add(skyKey);
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -300,7 +304,14 @@ public void actionPerformed(ActionEvent arg0) {
 		}
 		currentWorld.update();
 		if(currentWorld.checkTeleport(player)!=null) {
-			if(player.level>=currentWorld.checkTeleport(player).requirement && player.prestiges>=currentWorld.checkTeleport(player).prestigeRequired && (player.items.contains(currentWorld.checkTeleport(player).requiredKey) || currentWorld.checkTeleport(player).requiredKey==null)) {
+			Key requiredKey=(Key) (currentWorld.checkTeleport(player).requiredKey);
+			boolean hasKey=false;
+			for (Item item : player.items) {
+				if(item.name==requiredKey.name) {
+					hasKey=true;
+				}
+			}
+			if(player.level>=currentWorld.checkTeleport(player).requirement && player.prestiges>=currentWorld.checkTeleport(player).prestigeRequired && (hasKey || currentWorld.checkTeleport(player).requiredKey==null)) {
 			World newWorld=currentWorld.checkTeleport(player).teleportTo;
 			currentWorld.isActive=false;
 			newWorld.isActive=true;
@@ -350,6 +361,10 @@ public void actionPerformed(ActionEvent arg0) {
 		}
 	}else if(arg0.getSource().equals(menu)){
 		setupMenu();
+	}else if(arg0.getSource().equals(save)){
+		createSave();
+	}else if(arg0.getSource().equals(load)){
+		loadSave();
 	}else {
 		JButton source=(JButton) arg0.getSource();
 		String[] damages=source.getText().split("  ");
@@ -403,6 +418,8 @@ public void setupMenu() {
 	menuPanel.add(inventory);
 	menuPanel.add(shop);
 	menuPanel.add(prestige);
+	menuPanel.add(save);
+	menuPanel.add(load);
 	menuFrame.add(menuPanel);
 	menuFrame.pack();
 }
@@ -426,6 +443,65 @@ public void setupShop() {
 	}
 	shopWindow.add(shopPanel);
 }
+public void createSave() {
+	String data=player.level+"~"+player.XP+"~"+player.gold+"~"+player.prestiges+"~";
+	for (Item item : player.items) {
+		if(item instanceof Key) {
+			data+=(item.name+"*");
+		}
+		if(item instanceof Armor) {
+			Armor armor=(Armor) item;
+			data+=(armor.name+"#"+armor.bonusHealth+"*");
+		}
+		if(item instanceof Sword) {
+			Sword sword=(Sword) item;
+			data+=(sword.name+"#"+sword.minDamage+"#"+sword.maxDamage+"#"+sword.isGun+"*");
+		}
+	}
+	try {
+		FileOutputStream out=new FileOutputStream("/home/leaguestudent/git/league-level2-game-npasetto/src/SaveData.txt");
+		out.write(data.getBytes());
+		out.close();
+	}catch(Exception e) {
+		e.printStackTrace();
+	}
+}
+public void loadSave() {
+	File file=new File("/home/leaguestudent/git/league-level2-game-npasetto/src/SaveData.txt");
+	try {
+		BufferedReader br=new BufferedReader(new FileReader(file));
+		String data=br.readLine();
+	
+		String[] firstSplit=data.split("~");
+		player.level=Integer.parseInt(firstSplit[0]);
+		player.maxHealth=(player.level*25)+75;
+		player.health=player.maxHealth;
+		player.XP=Integer.parseInt(firstSplit[1]);
+		player.gold=Integer.parseInt(firstSplit[2]);
+		player.prestiges=Integer.parseInt(firstSplit[3]);
+		player.XPMultiplier=Math.pow(1.5, player.prestiges);
+		player.goldMultiplier=Math.pow(1.5, player.prestiges);
+		player.levelRequired=(int) (1000*Math.pow(10, player.prestiges));
+		player.items.clear();
+		String[] secondSplit=firstSplit[4].split("\\*");
+		for (String string : secondSplit) {
+			String[] thirdSplit=string.split("#");
+			if(thirdSplit.length==1) {
+				player.items.add(new Key(thirdSplit[0],false));
+			}else if(thirdSplit.length==2) {
+				player.items.add(new Armor(thirdSplit[0],Integer.parseInt(thirdSplit[1]),false));
+			}else {
+				boolean isGun=false;
+				if(thirdSplit[3]=="true") {
+					isGun=true;
+				}
+				player.items.add(new Sword(thirdSplit[0],Integer.parseInt(thirdSplit[1]),Integer.parseInt(thirdSplit[2]),false,false,0,isGun));
+			}
+		}
+	}catch(Exception e) {
+		e.printStackTrace();
+	}
+}
 public void teleportBack() {
 	player.x=250;
 	player.y=600;
@@ -437,22 +513,18 @@ public void teleportBack() {
 public void keyPressed(KeyEvent arg0) {
 	if(arg0.getKeyCode()==KeyEvent.VK_ENTER && currentState==MENU) {
 		currentState=GAME;
-		toSpawn.setBounds(350, 0, 150, 50);
 		toSpawn.setText("Go to spawn");
 		toSpawn.addActionListener(this);
 		toSpawn.addKeyListener(this);
 		toSpawn.addMouseListener(this);
-		inventory.setBounds(180, 0, 150, 50);
 		inventory.setText("Inventory");
 		inventory.addActionListener(this);
 		inventory.addKeyListener(this);
 		inventory.addMouseListener(this);
-		shop.setBounds(350, 70, 150, 50);
 		shop.setText("Shop");
 		shop.addActionListener(this);
 		shop.addKeyListener(this);
 		shop.addMouseListener(this);
-		prestige.setBounds(180, 70, 150, 50);
 		prestige.setText("Prestige: Level 1000");
 		prestige.addActionListener(this);
 		prestige.addKeyListener(this);
@@ -462,6 +534,14 @@ public void keyPressed(KeyEvent arg0) {
 		menu.addActionListener(this);
 		menu.addKeyListener(this);
 		menu.addMouseListener(this);
+		save.setText("Save");
+		save.addActionListener(this);
+		save.addKeyListener(this);
+		save.addMouseListener(this);
+		load.setText("Load");
+		load.addActionListener(this);
+		load.addKeyListener(this);
+		load.addMouseListener(this);
 		this.add(menu);
 	}
 	if(arg0.getKeyCode()==KeyEvent.VK_UP) {

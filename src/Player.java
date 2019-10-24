@@ -21,12 +21,12 @@ boolean canAttack=true;
 Timer attackTimer;
 Timer regenerateTimer;
 int level=1;
-int XP=2147483600;
+int XP=0;
 long gold=0;
-double XPMultiplier=1.5;
-double goldMultiplier=1.5;
-int prestiges=1;
-int levelRequired=10000;
+double XPMultiplier=1;
+double goldMultiplier=1;
+int prestiges=0;
+int levelRequired=1000;
 ArrayList<Item> items;
 Random rand=new Random();
 Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
@@ -37,7 +37,7 @@ Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
 	this.minDamage=minDamage;
 	this.maxDamage=maxDamage;
 	items=new ArrayList<Item>();
-	items.add(new Sword("bronze sword",600000,800000,true,false,0,true));
+	items.add(new Sword("bronze sword",1,2,true,false,0,false));
 	collisionBox=new Rectangle();
 	attackTimer=new Timer(1000,this);
 	attackTimer.start();
