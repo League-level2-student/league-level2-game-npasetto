@@ -306,9 +306,13 @@ public void actionPerformed(ActionEvent arg0) {
 		if(currentWorld.checkTeleport(player)!=null) {
 			Key requiredKey=(Key) (currentWorld.checkTeleport(player).requiredKey);
 			boolean hasKey=false;
-			for (Item item : player.items) {
-				if(item.name==requiredKey.name) {
-					hasKey=true;
+			if(requiredKey==null) {
+				hasKey=true;
+			}else {
+				for (Item item : player.items) {
+					if(item.name.equals(requiredKey.name)) {
+						hasKey=true;
+					}
 				}
 			}
 			if(player.level>=currentWorld.checkTeleport(player).requirement && player.prestiges>=currentWorld.checkTeleport(player).prestigeRequired && (hasKey || currentWorld.checkTeleport(player).requiredKey==null)) {
@@ -459,7 +463,7 @@ public void createSave() {
 		}
 	}
 	try {
-		FileOutputStream out=new FileOutputStream("/home/leaguestudent/git/league-level2-game-npasetto/src/SaveData.txt");
+		FileOutputStream out=new FileOutputStream("C:/Users/npase/git/league-level2-game4-npasetto/src/SaveData.txt");
 		out.write(data.getBytes());
 		out.close();
 	}catch(Exception e) {
@@ -467,11 +471,11 @@ public void createSave() {
 	}
 }
 public void loadSave() {
-	File file=new File("/home/leaguestudent/git/league-level2-game-npasetto/src/SaveData.txt");
+	File file=new File("C:/Users/npase/git/league-level2-game4-npasetto/src/SaveData.txt");
 	try {
 		BufferedReader br=new BufferedReader(new FileReader(file));
 		String data=br.readLine();
-	
+		br.close();
 		String[] firstSplit=data.split("~");
 		player.level=Integer.parseInt(firstSplit[0]);
 		player.maxHealth=(player.level*25)+75;
@@ -492,7 +496,7 @@ public void loadSave() {
 				player.items.add(new Armor(thirdSplit[0],Integer.parseInt(thirdSplit[1]),false));
 			}else {
 				boolean isGun=false;
-				if(thirdSplit[3]=="true") {
+				if(thirdSplit[3].equals("true")) {
 					isGun=true;
 				}
 				player.items.add(new Sword(thirdSplit[0],Integer.parseInt(thirdSplit[1]),Integer.parseInt(thirdSplit[2]),false,false,0,isGun));
