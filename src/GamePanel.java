@@ -72,6 +72,7 @@ World void7;
 World void8;
 World void9;
 World voidBoss;
+World grassCorruption;
 Key key1;
 Key key2;
 Key key3;
@@ -84,6 +85,7 @@ Key destructionKey;
 Key deathKey;
 Key ultimateKey;
 Key skyKey;
+Key voidKey;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
@@ -113,6 +115,7 @@ public GamePanel() {
 	deathKey=new Key("Death Key",false);
 	ultimateKey=new Key("Ultimate Key",false);
 	skyKey=new Key("Sky Key",false);
+	voidKey=new Key("Void Key",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0,10,"grass monster"),new Color(255,255,0),player,true);
 	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,false),new Sword("forest blade",2,6,false,false,0,false),key1,120,false,0,10,"grass titan"), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0,10,"ocean monster"),new Color(255,255,0),player,false);
@@ -123,6 +126,7 @@ public GamePanel() {
 	skyRealm=new World(generateEnemies(10,10000,1800000,1500000,false,null,null,null,6000000,false,0,10,"sky monster"),new Color(255,255,0),player,false);
 	windRealm=new World(generateEnemies(10,15000,3000000,2500000,false,null,null,null,10000000,false,0,10,"wind monster"),new Color(255,255,0),player,false);
 	stormRealm=new World(generateEnemies(10,20000,5000000,3500000,false,null,null,null,17777777,false,0,10,"storm monster"),new Color(255,255,0),player,false);
+	grassCorruption=new World(generateEnemies(10,100000,100000000,100000000,false,null,null,null,300000000,false,0,10,"corrupted grass monster"),new Color(255,255,0),player,false);
 	skyRealmBoss=new World(generateEnemies(1,30000,15000000,7500000,true,new Sword("sky blade",0,1000000,false,false,0,false),new Sword("sky gun",600000,800000,false,false,0,true),skyKey,50000000,false,0,6,"sky overlord"),new Color(255,0,255),player,false);
 	void1=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
 	void2=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
@@ -133,7 +137,7 @@ public GamePanel() {
 	void7=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
 	void8=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
 	void9=new World(generateEnemies(1,120000,100000000,100000000,true,new Sword("guardian sword",2000000,3000000,false,false,0,false),new Sword("ultimate void gun",0,6000000,false,false,0,true),null,500000000,false,0,6,"void guardian"),new Color(255,0,255),player,false);
-	voidBoss=new World(generateEnemies(1,150000,250000000,250000000,true,new Sword("black hole blade",5000000,10000000,false,false,0,false),new Sword("black hole gun",8000000,8000000,false,false,0,true),null,800000000,false,0,6,"black hole overlord"),new Color(255,0,255),player,false);
+	voidBoss=new World(generateEnemies(1,150000,250000000,250000000,true,new Sword("black hole blade",5000000,10000000,false,false,0,false),new Sword("black hole gun",8000000,8000000,false,false,0,true),voidKey,800000000,false,0,6,"black hole overlord"),new Color(255,0,255),player,false);
 	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("water blade",5,6,false,false,0,false),new Sword("ocean sword",7,10,false,false,0,false),key2,250,false,0,10,"water giant"),new Color(255,0,255),player,false);
 	secretWorld1=new World(generateEnemies(1,1500,0,9999,true,darknessKey,new Sword("blade of darkness",200,1000,false,false,0,false),null,0,false,0,5,"THE DARKNESS"),new Color(255,0,255),player,false);
 	secretWorld2=new World(generateEnemies(1,2500,0,15000,true,destructionKey,new Sword("blade of destruction",700,900,false,false,0,false),null,0,false,0,5,"THE DESTROYER"),new Color(255,0,255),player,false);
@@ -222,6 +226,7 @@ public GamePanel() {
 	arenaBoss3.addTeleporter(new Teleporter(495,350,arenaFinalBoss,"right",450,null,"Final Boss",false,0));
 	portalWorld.addTeleporter(new Teleporter(495,550,skyRealm,"right",2000,null,"Sky Realm Lv.2000",false,0));
 	portalWorld.addTeleporter(new Teleporter(495,450,void1,"right",7500,skyKey,"Void Labyrinth Lv.7500",false,0));
+	portalWorld.addTeleporter(new Teleporter(495,350,grassCorruption,"right",25000,voidKey,"The Corruption Lv.25000",false,0));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,false));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,true));
