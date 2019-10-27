@@ -21,7 +21,7 @@ boolean canAttack=true;
 Timer attackTimer;
 Timer regenerateTimer;
 int level=1;
-int XP=0;
+long XP=0;
 long gold=0;
 double XPMultiplier=1;
 double goldMultiplier=1;
@@ -37,7 +37,7 @@ Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
 	this.minDamage=minDamage;
 	this.maxDamage=maxDamage;
 	items=new ArrayList<Item>();
-	items.add(new Sword("bronze sword",1,2,true,false,0,false));
+	items.add(new Sword("bronze sword",1,2,true,false,0,"sword"));
 	collisionBox=new Rectangle();
 	attackTimer=new Timer(1000,this);
 	attackTimer.start();
@@ -56,14 +56,18 @@ void draw(Graphics g) {
 	String maxHealthText;
 	if(health<1000) {
 		healthText=((int) health)+"";
-	}else {
+	}else if(health<1000000){
 		healthText=((double) ((int) (health/10)))/100+"K";
+	}else {
+		healthText=((double) ((int) (health/10000)))/100+"M";
 	}
 	if(maxHealth<1000) {
 		maxHealthText=((int) maxHealth)+"";
-	}else {
+	}else if(maxHealth<1000000){
 		maxHealthText=((double) ((int) (maxHealth/10)))/100+"K";
-	}
+	}else{
+		maxHealthText=((double) ((int) (maxHealth/10000)))/100+"M";
+	}	
 	String text=healthText+"/"+maxHealthText;
 	int textLength=g.getFontMetrics().stringWidth(text);
 	g.drawString(text, x+25-textLength/2, y-20);

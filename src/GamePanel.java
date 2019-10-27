@@ -34,6 +34,9 @@ Font textFont;
 final int MENU=0;
 final int GAME=1;
 int currentState=0;
+boolean mousePressed=false;
+int mouseX=0;
+int mouseY=0;
 Random rand=new Random();
 World world1;
 World bossWorld1;
@@ -73,6 +76,10 @@ World void8;
 World void9;
 World voidBoss;
 World grassCorruption;
+World oceanCorruption;
+World ironCorruption;
+World lavaCorruption;
+World corruptionBoss;
 Key key1;
 Key key2;
 Key key3;
@@ -86,6 +93,8 @@ Key deathKey;
 Key ultimateKey;
 Key skyKey;
 Key voidKey;
+Key infinityKey;
+Key corruptedKey;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
@@ -116,8 +125,10 @@ public GamePanel() {
 	ultimateKey=new Key("Ultimate Key",false);
 	skyKey=new Key("Sky Key",false);
 	voidKey=new Key("Void Key",false);
+	corruptedKey=new Key("Corrupted Key",false);
+	infinityKey=new Key("Infinity Key",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0,10,"grass monster"),new Color(255,255,0),player,true);
-	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,false),new Sword("forest blade",2,6,false,false,0,false),key1,120,false,0,10,"grass titan"), new Color(255,0,255),player,false);
+	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,"sword"),new Sword("forest blade",2,6,false,false,0,"sword"),key1,120,false,0,10,"grass titan"), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0,10,"ocean monster"),new Color(255,255,0),player,false);
 	world3=new World(generateEnemies(10,60,100,50,false,null,null,null,150,false,0,10,"iron monster"),new Color(255,255,0),player,false);
 	world4=new World(generateEnemies(10,175,350,100,false,null,null,null,500,false,0,10,"lava monster"),new Color(255,255,0),player,false);
@@ -127,32 +138,36 @@ public GamePanel() {
 	windRealm=new World(generateEnemies(10,15000,3000000,2500000,false,null,null,null,10000000,false,0,10,"wind monster"),new Color(255,255,0),player,false);
 	stormRealm=new World(generateEnemies(10,20000,5000000,3500000,false,null,null,null,17777777,false,0,10,"storm monster"),new Color(255,255,0),player,false);
 	grassCorruption=new World(generateEnemies(10,100000,100000000,100000000,false,null,null,null,300000000,false,0,10,"corrupted grass monster"),new Color(255,255,0),player,false);
-	skyRealmBoss=new World(generateEnemies(1,30000,15000000,7500000,true,new Sword("sky blade",0,1000000,false,false,0,false),new Sword("sky gun",600000,800000,false,false,0,true),skyKey,50000000,false,0,6,"sky overlord"),new Color(255,0,255),player,false);
-	void1=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
-	void2=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
-	void3=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
-	void4=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
-	void5=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void destroyer",0,3500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
-	void6=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
-	void7=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
-	void8=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,false),new Sword("void gun",1000000,1500000,false,false,0,true),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
-	void9=new World(generateEnemies(1,120000,100000000,100000000,true,new Sword("guardian sword",2000000,3000000,false,false,0,false),new Sword("ultimate void gun",0,6000000,false,false,0,true),null,500000000,false,0,6,"void guardian"),new Color(255,0,255),player,false);
-	voidBoss=new World(generateEnemies(1,150000,250000000,250000000,true,new Sword("black hole blade",5000000,10000000,false,false,0,false),new Sword("black hole gun",8000000,8000000,false,false,0,true),voidKey,800000000,false,0,6,"black hole overlord"),new Color(255,0,255),player,false);
-	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("water blade",5,6,false,false,0,false),new Sword("ocean sword",7,10,false,false,0,false),key2,250,false,0,10,"water giant"),new Color(255,0,255),player,false);
-	secretWorld1=new World(generateEnemies(1,1500,0,9999,true,darknessKey,new Sword("blade of darkness",200,1000,false,false,0,false),null,0,false,0,5,"THE DARKNESS"),new Color(255,0,255),player,false);
-	secretWorld2=new World(generateEnemies(1,2500,0,15000,true,destructionKey,new Sword("blade of destruction",700,900,false,false,0,false),null,0,false,0,5,"THE DESTROYER"),new Color(255,0,255),player,false);
-	secretWorld3=new World(generateEnemies(1,4000,0,30000,true,deathKey,new Sword("death sword",0,5000,false,false,0,false),null,0,false,0,5,"Death"),new Color(255,0,255),player,false);
-	secretWorld4=new World(generateEnemies(1,5000,0,60000,true,new Sword("chaos blade",5000,10000,false,false,0,false),new Sword("chaos gun",20000,20000,false,false,0,true),null,0,false,0,5,"Chaos"),new Color(255,0,255),player,false);
-	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("super water blade",7,9,false,false,0,false),new Sword("ocean gun",7,12,false,false,0,true),key3,500,false,0,10,"ocean titan"),new Color(255,0,255),player,false);
-	bossWorld4=new World(generateEnemies(1,160,750,300,true,new Sword("iron gun",6,10,false,false,0,true),new Sword("steel sword",16,20,false,false,0,false),key4,800,false,0,10,"steel giant"),new Color(255,0,255),player,false);
-	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("lava blade",30,40,false,false,0,false),new Sword("lava broadsword",50,65,false,false,0,false),key5,3000,true,0,10,"lava titan"),new Color(255,0,255),player,false);
-	arenaBoss1=new World(generateEnemies(1,1000,20000,5000,true,new Sword("arena blade",200,300,false,false,0,false),arenaKey,null,30000,false,0,10,"overseer lord"),new Color(255,0,255),player,false);
-	arenaBoss2=new World(generateEnemies(1,2000,30000,4000,true,new Sword("time sword",0,700,false,false,0,false),new Sword("wormhole gun",200,400,false,false,0,true),null,50000,false,0,10,"time destroyer"),new Color(255,0,255),player,false);
-	arenaBoss3=new World(generateEnemies(1,3500,50000,20000,true,new Sword("omicron blade",500,1200,false,false,0,false),new Sword("omicron gun",800,1200,false,false,0,true),null,100000,false,0,10,"omicron giant"),new Color(255,0,255),player,false);
-	arenaFinalBoss=new World(generateEnemies(1,6000,1000000,999000,true,ultimateKey,new Sword("ultimate sword",50000,150000,false,false,0,false),null,3000000,false,0,10,"arena king"),new Color(255,0,255),player,false);
-	superboss1=new World(generateEnemies(1,500,5000,2000,true,new Sword("volcano gun",0,120,false,false,0,true),new Sword("volcano blade",100,200,false,false,0,false),key6,7500,false,0,10,"volcano giant"),new Color(255,0,255),player,false);
+	oceanCorruption=new World(generateEnemies(10,200000,175000000,150000000,false,null,null,null,500000000,false,0,10,"corrupted ocean monster"),new Color(255,255,0),player,false);
+	ironCorruption=new World(generateEnemies(10,250000,250000000,225000000,false,null,null,null,750000000,false,0,10,"corrupted iron monster"),new Color(255,255,0),player,false);
+	lavaCorruption=new World(generateEnemies(10,300000,750000000,750000000,false,null,null,null,2147483647,false,0,10,"corrupted lava monster"),new Color(255,255,0),player,false);
+	corruptionBoss=new World(generateEnemies(1,1000000,5000000000D,5000000000D,true,new Sword("corrupted gun",30000000,50000000,false,false,0,"gun"),new Sword("corrupted exploder",20000000,40000000,false,false,0,"exploder"),corruptedKey,12000000000L,false,0,4,"corruption king"),new Color(255,0,255),player,false);
+	skyRealmBoss=new World(generateEnemies(1,30000,15000000,7500000,true,new Sword("sky blade",0,1000000,false,false,0,"sword"),new Sword("sky gun",600000,800000,false,false,0,"gun"),skyKey,50000000,false,0,6,"sky overlord"),new Color(255,0,255),player,false);
+	void1=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
+	void2=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
+	void3=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
+	void4=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
+	void5=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void destroyer",0,3500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
+	void6=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
+	void7=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
+	void8=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
+	void9=new World(generateEnemies(1,120000,100000000,100000000,true,new Sword("guardian sword",2000000,3000000,false,false,0,"sword"),new Sword("ultimate void gun",0,6000000,false,false,0,"gun"),null,500000000,false,0,6,"void guardian"),new Color(255,0,255),player,false);
+	voidBoss=new World(generateEnemies(1,150000,250000000,250000000,true,new Sword("black hole blade",5000000,10000000,false,false,0,"sword"),new Sword("black hole gun",8000000,8000000,false,false,0,"gun"),voidKey,800000000,false,0,6,"black hole overlord"),new Color(255,0,255),player,false);
+	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("water blade",5,6,false,false,0,"sword"),new Sword("ocean sword",7,10,false,false,0,"sword"),key2,250,false,0,10,"water giant"),new Color(255,0,255),player,false);
+	secretWorld1=new World(generateEnemies(1,1500,0,9999,true,darknessKey,new Sword("blade of darkness",200,1000,false,false,0,"sword"),null,0,false,0,5,"THE DARKNESS"),new Color(255,0,255),player,false);
+	secretWorld2=new World(generateEnemies(1,2500,0,15000,true,destructionKey,new Sword("blade of destruction",700,900,false,false,0,"sword"),null,0,false,0,5,"THE DESTROYER"),new Color(255,0,255),player,false);
+	secretWorld3=new World(generateEnemies(1,4000,0,30000,true,deathKey,new Sword("death sword",0,5000,false,false,0,"sword"),null,0,false,0,5,"Death"),new Color(255,0,255),player,false);
+	secretWorld4=new World(generateEnemies(1,5000,0,60000,true,new Sword("chaos blade",5000,10000,false,false,0,"sword"),new Sword("chaos gun",20000,20000,false,false,0,"gun"),null,0,false,0,5,"Chaos"),new Color(255,0,255),player,false);
+	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("super water blade",7,9,false,false,0,"sword"),new Sword("ocean gun",7,12,false,false,0,"gun"),key3,500,false,0,10,"ocean titan"),new Color(255,0,255),player,false);
+	bossWorld4=new World(generateEnemies(1,160,750,300,true,new Sword("iron gun",6,10,false,false,0,"gun"),new Sword("steel sword",16,20,false,false,0,"sword"),key4,800,false,0,10,"steel giant"),new Color(255,0,255),player,false);
+	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("lava blade",30,40,false,false,0,"sword"),new Sword("lava broadsword",50,65,false,false,0,"sword"),key5,3000,true,0,10,"lava titan"),new Color(255,0,255),player,false);
+	arenaBoss1=new World(generateEnemies(1,1000,20000,5000,true,new Sword("arena blade",200,300,false,false,0,"sword"),arenaKey,null,30000,false,0,10,"overseer lord"),new Color(255,0,255),player,false);
+	arenaBoss2=new World(generateEnemies(1,2000,30000,4000,true,new Sword("time sword",0,700,false,false,0,"sword"),new Sword("wormhole gun",200,400,false,false,0,"gun"),null,50000,false,0,10,"time destroyer"),new Color(255,0,255),player,false);
+	arenaBoss3=new World(generateEnemies(1,3500,50000,20000,true,new Sword("omicron blade",500,1200,false,false,0,"sword"),new Sword("omicron gun",800,1200,false,false,0,"gun"),null,100000,false,0,10,"omicron giant"),new Color(255,0,255),player,false);
+	arenaFinalBoss=new World(generateEnemies(1,6000,1000000,999000,true,ultimateKey,new Sword("ultimate sword",50000,150000,false,false,0,"sword"),null,3000000,false,0,10,"arena king"),new Color(255,0,255),player,false);
+	superboss1=new World(generateEnemies(1,500,5000,2000,true,new Sword("volcano gun",0,120,false,false,0,"gun"),new Sword("volcano blade",100,200,false,false,0,"sword"),key6,7500,false,0,10,"volcano giant"),new Color(255,0,255),player,false);
 	portalWorld=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,0,1,""),new Color(255,0,255),player,false);
-	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity",2147483647,2147483647,false,false,0,false), new Sword("infinity gun",2147483647,2147483647,false,false,0,true),null,2147483647,false,0,10,"INFINITY"),new Color(255,255,255),player,false);
+	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity laser",0,4000000,false,false,0,"laser"), null,null,2147483647,false,0,3,"INFINITY"),new Color(255,255,255),player,false);
 	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null,"Second Boss",false,0));
 	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,key2,"Third Boss Req. Second Boss",false,0));
 	world2.addTeleporter(new Teleporter(50,0,world3,"top",18,key3,"Req. Level 18 and Third Boss",false,0));
@@ -188,6 +203,11 @@ public GamePanel() {
 	skyRealm.addTeleporter(new Teleporter(200,0,skyRealmBoss,"top",5000,null,"Boss Lv.5000",false,0));
 	stormRealm.addArmorPlatform(new ArmorPlatform(new Armor("storm armor",150000,false),4500,350,600));
 	skyRealmBoss.addArmorPlatform(new ArmorPlatform(new Armor("ultra sky armor",300000,false),8000,350,600));
+	grassCorruption.addArmorPlatform(new ArmorPlatform(new Armor("corrupted armor",500000,false),30000,350,600));
+	grassCorruption.addTeleporter(new Teleporter(200,0,oceanCorruption,"top",33333,null,"Corruption Lv.33333",false,0));
+	oceanCorruption.addTeleporter(new Teleporter(200,0,ironCorruption,"top",40000,null,"Corruption Lv.40000",false,0));
+	ironCorruption.addTeleporter(new Teleporter(200,0,lavaCorruption,"top",50000,null,"Corruption Lv.50000",false,0));
+	lavaCorruption.addTeleporter(new Teleporter(200,0,corruptionBoss,"top",75000,null,"Corruption King Lv.75000",false,0));
 	void1.addTeleporter(new Teleporter(200,0,void3,"top",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(495,350,void4,"right",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(0,350,void2,"left",7500,null,"Void",false,0));
@@ -228,13 +248,13 @@ public GamePanel() {
 	portalWorld.addTeleporter(new Teleporter(495,450,void1,"right",7500,skyKey,"Void Labyrinth Lv.7500",false,0));
 	portalWorld.addTeleporter(new Teleporter(495,350,grassCorruption,"right",25000,voidKey,"The Corruption Lv.25000",false,0));
 	currentWorld=world1;
-	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,false));
-	weapons.add(new Sword("weak gun",4,5,false,true,5000,true));
-	weapons.add(new Sword("omega sword",15,25,false,true,20000,false));
-	weapons.add(new Sword("alpha blade",20,25,false,true,25000,false));
-	weapons.add(new Sword("lava sword",80,100,false,true,60000,false));
-	weapons.add(new Sword("???",500,500,false,true,999999,false));
-	weapons.add(new Sword("portal blade",123456,123456,false,true,25000000,false));
+	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,"sword"));
+	weapons.add(new Sword("weak gun",4,5,false,true,5000,"gun"));
+	weapons.add(new Sword("omega sword",15,25,false,true,20000,"sword"));
+	weapons.add(new Sword("alpha blade",20,25,false,true,25000,"sword"));
+	weapons.add(new Sword("lava sword",80,100,false,true,60000,"sword"));
+	weapons.add(new Sword("???",500,500,false,true,999999,"sword"));
+	weapons.add(new Sword("portal blade",123456,123456,false,true,25000000,"sword"));
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -321,12 +341,12 @@ public void actionPerformed(ActionEvent arg0) {
 				}
 			}
 			if(player.level>=currentWorld.checkTeleport(player).requirement && player.prestiges>=currentWorld.checkTeleport(player).prestigeRequired && (hasKey || currentWorld.checkTeleport(player).requiredKey==null)) {
-			World newWorld=currentWorld.checkTeleport(player).teleportTo;
-			currentWorld.isActive=false;
-			newWorld.isActive=true;
-			currentWorld=newWorld;
-			player.x=250;
-			player.y=600;
+				World newWorld=currentWorld.checkTeleport(player).teleportTo;
+				currentWorld.isActive=false;
+				newWorld.isActive=true;
+				currentWorld=newWorld;
+				player.x=250;
+				player.y=600;
 			}
 		}
 		if(currentWorld.checkHealingTile(player)!=null) {
@@ -334,6 +354,26 @@ public void actionPerformed(ActionEvent arg0) {
 		}
 		if(currentWorld.checkArmorPlatform(player)!=null) {
 			currentWorld.checkArmorPlatform(player).giveArmor(player);
+		}
+		int minDamage=0;
+		int maxDamage=0;
+		boolean isLaser=false;
+		for(Item item:player.items) {
+			if(item instanceof Sword && item.isActive==true) {
+				minDamage=((Sword) item).minDamage;
+				maxDamage=((Sword) item).maxDamage;
+				if((((Sword) item).weaponType).equals("laser")) {
+					isLaser=true;
+				}
+			}
+		}
+		if(isLaser && mousePressed) {
+			int x=mouseX;
+			int y=mouseY;
+			int xdiff=x-player.x;
+			int ydiff=y-player.y;
+			double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+			currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,10));
 		}
 	}else if(arg0.getSource().equals(shop)) {
 		setupShop();
@@ -356,8 +396,11 @@ public void actionPerformed(ActionEvent arg0) {
 			player.gold=0;
 			teleportBack();
 			player.items.clear();
-			player.items.add(new Sword("bronze sword",1,2,true,false,0,false));
-			player.items.add(new Sword("prestige sword 1",1,250,false,false,0,false));
+			player.items.add(new Sword("bronze sword",1,2,true,false,0,"sword"));
+			player.items.add(new Sword("prestige sword 1",1,250,false,false,0,"sword"));
+			if(player.prestiges>0) {
+				player.items.add(new Sword("prestige sword 2",1,2000,false,false,0,"sword"));
+			}
 			player.XPMultiplier*=1.5;
 			player.goldMultiplier*=1.5;
 			player.prestiges++;
@@ -464,7 +507,7 @@ public void createSave() {
 		}
 		if(item instanceof Sword) {
 			Sword sword=(Sword) item;
-			data+=(sword.name+"#"+sword.minDamage+"#"+sword.maxDamage+"#"+sword.isGun+"*");
+			data+=(sword.name+"#"+sword.minDamage+"#"+sword.maxDamage+"#"+sword.weaponType+"*");
 		}
 	}
 	try {
@@ -486,7 +529,7 @@ public void loadSave() {
 		player.maxHealth=(player.level*25)+75;
 		player.health=player.maxHealth;
 		player.XP=Integer.parseInt(firstSplit[1]);
-		player.gold=Integer.parseInt(firstSplit[2]);
+		player.gold=Long.parseLong(firstSplit[2]);
 		player.prestiges=Integer.parseInt(firstSplit[3]);
 		player.XPMultiplier=Math.pow(1.5, player.prestiges);
 		player.goldMultiplier=Math.pow(1.5, player.prestiges);
@@ -500,11 +543,7 @@ public void loadSave() {
 			}else if(thirdSplit.length==2) {
 				player.items.add(new Armor(thirdSplit[0],Integer.parseInt(thirdSplit[1]),false));
 			}else {
-				boolean isGun=false;
-				if(thirdSplit[3].equals("true")) {
-					isGun=true;
-				}
-				player.items.add(new Sword(thirdSplit[0],Integer.parseInt(thirdSplit[1]),Integer.parseInt(thirdSplit[2]),false,false,0,isGun));
+				player.items.add(new Sword(thirdSplit[0],Integer.parseInt(thirdSplit[1]),Integer.parseInt(thirdSplit[2]),false,false,0,thirdSplit[3]));
 			}
 		}
 	}catch(Exception e) {
@@ -566,7 +605,7 @@ public void keyPressed(KeyEvent arg0) {
 		player.right();
 	}
 }
-public ArrayList<Enemy> generateEnemies(int number, int damage, int XPboost, int health, boolean boss, Item reward, Item rareReward, Key keyReward, int goldReward, boolean hasGun, int gunType, int dropChance, String enemyName){
+public ArrayList<Enemy> generateEnemies(int number, int damage, double XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, long goldReward, boolean hasGun, int gunType, int dropChance, String enemyName){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
 		newEnemies.add(new Enemy((RPGgame.WIDTH-50)*rand.nextDouble(),100+(RPGgame.HEIGHT-250)*rand.nextDouble(),health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName));
@@ -581,43 +620,47 @@ public void keyTyped(KeyEvent arg0) {
 }
 @Override
 public void mouseClicked(MouseEvent arg0) {
-	boolean isGun=true;
+	String weaponType = "";
 	int minDamage=0;
 	int maxDamage=0;
 	for(Item item:player.items) {
 		if(item instanceof Sword && item.isActive==true) {
-			isGun=((Sword) item).isGun;
+			weaponType=((Sword) item).weaponType;
 			minDamage=((Sword) item).minDamage;
 			maxDamage=((Sword) item).maxDamage;
 		}
 	}
-	if(isGun==false) {
-	Enemy intersection=currentWorld.checkIntersection(player);
-	if(player.canAttack && intersection!=null) {
-		player.attack(intersection);
-		int random=rand.nextInt(intersection.dropChance);
-		Item reward;
-		if(random<intersection.dropChance-1) {
-			reward=intersection.reward;
-		}else {
-			reward=intersection.rareReward;
-		}
-		if(intersection.health<=0 && intersection.boss) {
-			if(player.items.contains(reward)==false) {
-			player.items.add(reward);
+	if(weaponType.equals("sword")) {
+		Enemy intersection=currentWorld.checkIntersection(player);
+		if(player.canAttack && intersection!=null) {
+			player.attack(intersection);
+			int random=rand.nextInt(intersection.dropChance);
+			Item reward;
+			if(random<intersection.dropChance-1) {
+				reward=intersection.reward;
+			}else {
+				reward=intersection.rareReward;
 			}
-			if(player.items.contains(intersection.keyReward)==false && intersection.keyReward!=null) {
-				player.items.add(intersection.keyReward);
+			if(intersection.health<=0 && intersection.boss) {
+				if(player.items.contains(reward)==false && reward!=null) {
+				player.items.add(reward);
+				}
+				if(player.items.contains(intersection.keyReward)==false && intersection.keyReward!=null) {
+					player.items.add(intersection.keyReward);
+				}
 			}
 		}
-	}
-	}else {
-	int x=arg0.getX();
-	int y=arg0.getY();
-	int xdiff=x-player.x;
-	int ydiff=y-player.y;
-	double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
-	currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage));
+	}else if(weaponType.equals("gun")){
+		int x=arg0.getX();
+		int y=arg0.getY();
+		int xdiff=x-player.x;
+		int ydiff=y-player.y;
+		double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+		currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,3));
+	}else if(weaponType.equals("exploder")) {
+		for (double theta = 0; theta < 2*Math.PI; theta+=Math.PI/20) {
+			currentWorld.projectiles.add(new Projectile(player.x,player.y,Math.cos(theta),Math.sin(theta),minDamage,maxDamage,10));
+		}
 	}
 }
 @Override
@@ -628,8 +671,12 @@ public void mouseExited(MouseEvent arg0) {
 }
 @Override
 public void mousePressed(MouseEvent arg0) {
+	mousePressed=true;
+	mouseX=arg0.getX();
+	mouseY=arg0.getY();
 }
 @Override
 public void mouseReleased(MouseEvent e) {
+	mousePressed=false;
 }
 }
