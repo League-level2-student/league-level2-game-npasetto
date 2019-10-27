@@ -61,13 +61,17 @@ public void draw(Graphics g) {
 	String textMaxXP;
 	if(player.XP<1000) {
 		textXP=((int) player.XP)+"";
-	}else {
+	}else if(player.XP<1000000){
 		textXP=((double) ((int) (player.XP/10)))/100+"K";
+	}else {
+		textXP=((double) ((int) (player.XP/10)))/100+"M";
 	}
 	if(player.level*20<1000) {
 		textMaxXP=((int) player.level*20)+"";
-	}else {
+	}else if(player.level*20<1000000){
 		textMaxXP=((double) ((int) (player.level*2)))/100+"K";
+	}else {
+		textMaxXP=((double) ((int) (player.level/500)))/100+"M";
 	}
 	String text="XP: "+textXP+"/"+textMaxXP;
 	g.drawString(text, 10, 40);
@@ -78,8 +82,10 @@ public void draw(Graphics g) {
 		textGold=((double) ((int) (player.gold/10)))/100+"K";
 	}else if(player.gold<1000000000){
 		textGold=((double) ((int) (player.gold/10000)))/100+"M";
-	}else {
+	}else if(player.gold<1000000000000L){
 		textGold=((double) ((int) (player.gold/10000000)))/100+"B";
+	}else {
+		textGold=((double) ((int) (player.gold/10000000000L)))/100+"T";
 	}
 	g.drawString("Gold: "+textGold, 10, 60);
 	g.drawString("Prestiges: "+player.prestiges, 10, 80);

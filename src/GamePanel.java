@@ -80,6 +80,8 @@ World oceanCorruption;
 World ironCorruption;
 World lavaCorruption;
 World corruptionBoss;
+World chaos;
+World chaosBoss;
 Key key1;
 Key key2;
 Key key3;
@@ -141,6 +143,7 @@ public GamePanel() {
 	oceanCorruption=new World(generateEnemies(10,200000,175000000,150000000,false,null,null,null,500000000,false,0,10,"corrupted ocean monster"),new Color(255,255,0),player,false);
 	ironCorruption=new World(generateEnemies(10,250000,250000000,225000000,false,null,null,null,750000000,false,0,10,"corrupted iron monster"),new Color(255,255,0),player,false);
 	lavaCorruption=new World(generateEnemies(10,300000,750000000,750000000,false,null,null,null,2147483647,false,0,10,"corrupted lava monster"),new Color(255,255,0),player,false);
+	chaos=new World(generateEnemies(10,3000000,3000000000D,3000000000D,false,null,null,null,10000000000L,false,0,10,"chaos monster"),new Color(255,255,0),player,false);
 	corruptionBoss=new World(generateEnemies(1,1000000,5000000000D,5000000000D,true,new Sword("corrupted gun",30000000,50000000,false,false,0,"gun"),new Sword("corrupted exploder",20000000,40000000,false,false,0,"exploder"),corruptedKey,12000000000L,false,0,4,"corruption king"),new Color(255,0,255),player,false);
 	skyRealmBoss=new World(generateEnemies(1,30000,15000000,7500000,true,new Sword("sky blade",0,1000000,false,false,0,"sword"),new Sword("sky gun",600000,800000,false,false,0,"gun"),skyKey,50000000,false,0,6,"sky overlord"),new Color(255,0,255),player,false);
 	void1=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
@@ -166,6 +169,7 @@ public GamePanel() {
 	arenaBoss3=new World(generateEnemies(1,3500,50000,20000,true,new Sword("omicron blade",500,1200,false,false,0,"sword"),new Sword("omicron gun",800,1200,false,false,0,"gun"),null,100000,false,0,10,"omicron giant"),new Color(255,0,255),player,false);
 	arenaFinalBoss=new World(generateEnemies(1,6000,1000000,999000,true,ultimateKey,new Sword("ultimate sword",50000,150000,false,false,0,"sword"),null,3000000,false,0,10,"arena king"),new Color(255,0,255),player,false);
 	superboss1=new World(generateEnemies(1,500,5000,2000,true,new Sword("volcano gun",0,120,false,false,0,"gun"),new Sword("volcano blade",100,200,false,false,0,"sword"),key6,7500,false,0,10,"volcano giant"),new Color(255,0,255),player,false);
+	chaosBoss=new World(generateEnemies(1,5000000,25000000000D,20000000000D,true,new Sword("chaos laser",0,50000000,false,false,0,"laser"),new Sword("chaos megalaser",0,25000000,false,false,0,"megalaser"),key6,7500,false,0,6,"volcano giant"),new Color(255,0,255),player,false);
 	portalWorld=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,0,1,""),new Color(255,0,255),player,false);
 	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity laser",0,4000000,false,false,0,"laser"), null,null,2147483647,false,0,3,"INFINITY"),new Color(255,255,255),player,false);
 	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null,"Second Boss",false,0));
@@ -208,6 +212,7 @@ public GamePanel() {
 	oceanCorruption.addTeleporter(new Teleporter(200,0,ironCorruption,"top",40000,null,"Corruption Lv.40000",false,0));
 	ironCorruption.addTeleporter(new Teleporter(200,0,lavaCorruption,"top",50000,null,"Corruption Lv.50000",false,0));
 	lavaCorruption.addTeleporter(new Teleporter(200,0,corruptionBoss,"top",75000,null,"Corruption King Lv.75000",false,0));
+	chaos.addArmorPlatform(new ArmorPlatform(new Armor("chaos armor",10000000,false),444444,350,600));
 	void1.addTeleporter(new Teleporter(200,0,void3,"top",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(495,350,void4,"right",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(0,350,void2,"left",7500,null,"Void",false,0));
@@ -243,10 +248,12 @@ public GamePanel() {
 	arenaBoss2.addTeleporter(new Teleporter(495,350,arena2,"right",300,darknessKey,"Req. Lv.300 & Darkness Key",false,0));
 	arenaBoss2.addTeleporter(new Teleporter(250,715,arena1,"bottom",0,null,"Go Back",false,0));
 	arenaBoss3.addTeleporter(new Teleporter(250,715,arena2,"bottom",0,null,"Go Back",false,0));
-	arenaBoss3.addTeleporter(new Teleporter(495,350,arenaFinalBoss,"right",450,null,"Final Boss",false,0));
+	arenaBoss3.addTeleporter(new Teleporter(495,350,arenaFinalBoss,"right",450,null,"Final Arena Boss",false,0));
 	portalWorld.addTeleporter(new Teleporter(495,550,skyRealm,"right",2000,null,"Sky Realm Lv.2000",false,0));
 	portalWorld.addTeleporter(new Teleporter(495,450,void1,"right",7500,skyKey,"Void Labyrinth Lv.7500",false,0));
-	portalWorld.addTeleporter(new Teleporter(495,350,grassCorruption,"right",25000,voidKey,"The Corruption Lv.25000",false,0));
+	portalWorld.addTeleporter(new Teleporter(495,350,grassCorruption,"right",25000,voidKey,"Corruption Lv.25000",false,0));
+	portalWorld.addTeleporter(new Teleporter(495,250,chaos,"right",400000,corruptedKey,"The Chaos Lv.400000 Prestige 1",false,1));
+	chaos.addTeleporter(new Teleporter(495,350,chaosBoss,"right",500000,null,"Chaos Overlord Lv.500000 Prestige 2",false,2));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,"sword"));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,"gun"));
@@ -255,6 +262,7 @@ public GamePanel() {
 	weapons.add(new Sword("lava sword",80,100,false,true,60000,"sword"));
 	weapons.add(new Sword("???",500,500,false,true,999999,"sword"));
 	weapons.add(new Sword("portal blade",123456,123456,false,true,25000000,"sword"));
+	weapons.add(new Sword("ultra chaos gun",0,300000000,false,true,1500000000000L,"gun"));
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -357,23 +365,32 @@ public void actionPerformed(ActionEvent arg0) {
 		}
 		int minDamage=0;
 		int maxDamage=0;
-		boolean isLaser=false;
+		String weaponType="";
 		for(Item item:player.items) {
 			if(item instanceof Sword && item.isActive==true) {
 				minDamage=((Sword) item).minDamage;
 				maxDamage=((Sword) item).maxDamage;
-				if((((Sword) item).weaponType).equals("laser")) {
-					isLaser=true;
-				}
+				weaponType=((Sword) item).weaponType;
 			}
 		}
-		if(isLaser && mousePressed) {
-			int x=mouseX;
-			int y=mouseY;
-			int xdiff=x-player.x;
-			int ydiff=y-player.y;
-			double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
-			currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,10));
+		if(mousePressed) {
+			if(weaponType.equals("laser")) {
+				int x=mouseX;
+				int y=mouseY;
+				int xdiff=x-player.x;
+				int ydiff=y-player.y;
+				double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+				currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,10));
+			}else if(weaponType.equals("megalaser")) {
+				int x=mouseX;
+				int y=mouseY;
+				int xdiff=x-player.x;
+				int ydiff=y-player.y;
+				double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+				for (int i = 0; i < 5; i++) {
+					currentWorld.projectiles.add(new Projectile(player.x+rand.nextDouble()*50,player.y+rand.nextDouble()*50,xdiff/distance,ydiff/distance,minDamage,maxDamage,10));
+				}
+			}
 		}
 	}else if(arg0.getSource().equals(shop)) {
 		setupShop();
@@ -400,6 +417,9 @@ public void actionPerformed(ActionEvent arg0) {
 			player.items.add(new Sword("prestige sword 1",1,250,false,false,0,"sword"));
 			if(player.prestiges>0) {
 				player.items.add(new Sword("prestige sword 2",1,2000,false,false,0,"sword"));
+			}
+			if(player.prestiges>1) {
+				player.items.add(new Sword("prestige sword 3",1,25000,false,false,0,"sword"));
 			}
 			player.XPMultiplier*=1.5;
 			player.goldMultiplier*=1.5;

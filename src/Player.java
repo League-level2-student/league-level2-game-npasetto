@@ -20,13 +20,13 @@ Rectangle collisionBox;
 boolean canAttack=true;
 Timer attackTimer;
 Timer regenerateTimer;
-int level=1;
+long level=1;
 long XP=0;
 long gold=0;
 double XPMultiplier=1;
 double goldMultiplier=1;
 int prestiges=0;
-int levelRequired=1000;
+long levelRequired=1000;
 ArrayList<Item> items;
 Random rand=new Random();
 Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
@@ -96,13 +96,13 @@ public void attack(Enemy enemy) {
 	enemy.health=enemy.health-(rand.nextInt(maxDamage-minDamage+1)+minDamage);
 	if(enemy.health<=0) {
 		enemy.isAngry=false;
-		gainXP((int) (enemy.XPboost*XPMultiplier));
-		gold+=(int) (enemy.goldReward*goldMultiplier);
+		gainXP((long) (enemy.XPboost*XPMultiplier));
+		gold+=(long) (enemy.goldReward*goldMultiplier);
 	}
 	//canAttack=false; Makes the game much harder
 	attackTimer.start();
 }
-public void gainXP(int XPboost) {
+public void gainXP(long XPboost) {
 	XP+=XPboost;
 	while(XP>=level*20) {
 		XP-=level*20;

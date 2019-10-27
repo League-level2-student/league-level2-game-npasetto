@@ -3,9 +3,9 @@ public class Sword extends Item{
 	int minDamage;
 	int maxDamage;
 	boolean isShop;
-	int cost;
+	long cost;
 	String weaponType;
-	Sword(String name, int minDamage, int maxDamage, boolean isActive, boolean isShop, int cost, String weaponType) {
+	Sword(String name, int minDamage, int maxDamage, boolean isActive, boolean isShop, long cost, String weaponType) {
 		super(name,isActive);
 		this.minDamage=minDamage;
 		this.maxDamage=maxDamage;
