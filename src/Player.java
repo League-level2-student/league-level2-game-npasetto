@@ -104,14 +104,17 @@ public void attack(Enemy enemy) {
 }
 public void gainXP(long XPboost) {
 	XP+=XPboost;
+	System.out.println("Level: "+level+" -- XP: "+XP);
 	while(XP>=level*20) {
 		XP-=level*20;
 		level++;
 		maxHealth=maxHealth+25;
 	}
+	//System.out.println("Level: "+level+" -- XP: "+XP);
 }
 void update() {
 	collisionBox.setBounds(x, y, 50,50);
+			
 }
 @Override
 public void actionPerformed(ActionEvent arg0) {

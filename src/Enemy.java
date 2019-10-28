@@ -20,7 +20,7 @@ boolean boss;
 Rectangle collisionBox;
 Timer spawnTimer;
 boolean isActive=true;
-double XPboost;
+long XPboost;
 long goldReward;
 Item reward;
 Key keyReward;
@@ -32,7 +32,7 @@ boolean canShoot=false;
 int gunType;
 int dropChance;
 String name;
-public Enemy(double spawnX, double spawnY, double maxHealth, int damage, double XPboost, long goldReward, boolean boss, Item reward, Item rareReward, Key keyReward, boolean hasGun, int gunType, int dropChance, String name) {
+public Enemy(double spawnX, double spawnY, double maxHealth, int damage, long XPboost, long goldReward, boolean boss, Item reward, Item rareReward, Key keyReward, boolean hasGun, int gunType, int dropChance, String name) {
 	this.spawnX=spawnX;
 	this.spawnY=spawnY;
 	this.maxHealth=maxHealth;

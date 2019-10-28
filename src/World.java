@@ -64,7 +64,7 @@ public void draw(Graphics g) {
 	}else if(player.XP<1000000){
 		textXP=((double) ((int) (player.XP/10)))/100+"K";
 	}else {
-		textXP=((double) ((int) (player.XP/10)))/100+"M";
+		textXP=((double) ((int) (player.XP/10000)))/100+"M";
 	}
 	if(player.level*20<1000) {
 		textMaxXP=((int) player.level*20)+"";
@@ -93,17 +93,17 @@ public void draw(Graphics g) {
 public void update() {
 	for (Enemy enemy : enemies) {
 		if(enemy.isAngry) {
-		double xdiff=player.x-enemy.x;
-		double ydiff=player.y-enemy.y;
-		double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
-		enemy.x=enemy.x+xdiff/distance;
-		enemy.y=enemy.y+ydiff/distance;
-		if(enemy.isActive && enemy.hasGun && enemy.canShoot) {
-		double speedx=xdiff/distance;
-		double speedy=ydiff/distance;
-		enemy.timer=0;
-		enemy.canShoot=false;
-		enemyShots.add(new EnemyProjectile(enemy.x,enemy.y,speedx,speedy,enemy.damage,enemy.gunType,true));
+			double xdiff=player.x-enemy.x;
+			double ydiff=player.y-enemy.y;
+			double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+			enemy.x=enemy.x+xdiff/distance;
+			enemy.y=enemy.y+ydiff/distance;
+			if(enemy.isActive && enemy.hasGun && enemy.canShoot) {
+			double speedx=xdiff/distance;
+			double speedy=ydiff/distance;
+			enemy.timer=0;
+			enemy.canShoot=false;
+			enemyShots.add(new EnemyProjectile(enemy.x,enemy.y,speedx,speedy,enemy.damage,enemy.gunType,true));
 		}
 		}
 		if(enemy.isActive) {
@@ -139,7 +139,8 @@ public void update() {
 			Enemy intersection=checkProjectile(projectiles.get(i));
 			intersection.health-=rand.nextInt(projectiles.get(i).maxDamage-projectiles.get(i).minDamage+1)+projectiles.get(i).minDamage;
 			intersection.isAngry=true;
-			if(intersection.health<=0) {
+			if(intersection.health<=0 && intersection.isActive==true) {
+				intersection.isActive=false;
 				if(intersection.boss) {
 				Item reward;
 				int random=rand.nextInt(intersection.dropChance);
@@ -155,8 +156,8 @@ public void update() {
 					player.items.add(intersection.keyReward);
 				}
 				}
-				player.gainXP((int) (intersection.XPboost*player.XPMultiplier));
-				player.gold+=(int) (intersection.goldReward*player.goldMultiplier);
+				player.gainXP((long) (intersection.XPboost*player.XPMultiplier));
+				player.gold+=(long) (intersection.goldReward*player.goldMultiplier);
 			}
 			projectiles.remove(i);
 		}
