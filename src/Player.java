@@ -13,8 +13,8 @@ public class Player implements ActionListener {
 int x;
 int y;
 double maxHealth;
-int minDamage;
-int maxDamage;
+long minDamage;
+long maxDamage;
 double health;
 Rectangle collisionBox;
 boolean canAttack=true;
@@ -29,7 +29,7 @@ int prestiges=0;
 long levelRequired=1000;
 ArrayList<Item> items;
 Random rand=new Random();
-Player(int x, int y, int maxHealth, int minDamage, int maxDamage){
+Player(int x, int y, int maxHealth, long minDamage, long maxDamage){
 	this.x=x;
 	this.y=y;
 	this.maxHealth=maxHealth;
@@ -93,7 +93,7 @@ void right() {
 	}
 }
 public void attack(Enemy enemy) {
-	enemy.health=enemy.health-(rand.nextInt(maxDamage-minDamage+1)+minDamage);
+	enemy.health=enemy.health-(rand.nextDouble()*maxDamage+minDamage);
 	if(enemy.health<=0) {
 		enemy.isAngry=false;
 		gainXP((long) (enemy.XPboost*XPMultiplier));

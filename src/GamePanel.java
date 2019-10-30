@@ -83,6 +83,7 @@ World corruptionBoss;
 World chaos;
 World chaosBoss;
 World glitchWorld;
+World glitch2;
 Key key1;
 Key key2;
 Key key3;
@@ -111,6 +112,8 @@ JFrame shopWindow;
 JFrame frame;
 JFrame menuFrame;
 ArrayList<Sword> weapons=new ArrayList<Sword>();
+ArrayList<Enemy> glitchEnemies;
+ArrayList<Enemy> glitchEnemies2;
 public GamePanel() {
 	frameDraw=new Timer(1000/100, this);
 	frameDraw.start();
@@ -147,6 +150,12 @@ public GamePanel() {
 	ironCorruption=new World(generateEnemies(10,250000,250000000,225000000,false,null,null,null,750000000,false,0,10,"corrupted iron monster"),new Color(255,255,0),player,false);
 	lavaCorruption=new World(generateEnemies(10,300000,750000000,750000000,false,null,null,null,2147483647,false,0,10,"corrupted lava monster"),new Color(255,255,0),player,false);
 	chaos=new World(generateEnemies(10,3000000,3000000000L,3000000000D,false,null,null,null,10000000000L,false,0,10,"chaos monster"),new Color(255,255,0),player,false);
+	glitchEnemies=generateEnemies(5,5000000,8000000000L,7500000000D,false,null,new Sword("glitch gun",800000000,800000000,false,false,0,"gun"),null,20000000000L,false,0,10,"glitch monster");
+	glitchEnemies.addAll(generateEnemies(5,5000000,12000000000L,10000000000D,false,null,new Sword("glitch laser",100000000,100000000,false,false,0,"laser"),null,30000000000L,false,0,10,"glitch giant"));
+	glitchWorld=new World(glitchEnemies,new Color(255,255,0),player,false);
+	glitchEnemies2=generateEnemies(5,5000000,20000000000L,20000000000D,false,null,new Sword("glitch blade",3000000000L,5000000000L,false,false,0,"sword"),null,25000000000L,false,0,10,"glitch titan");
+	glitchEnemies2.addAll(generateEnemies(5,5000000,30000000000L,30000000000D,false,null,new Sword("glitch exploder",700000000,700000000,false,false,0,"exploder"),null,40000000000L,false,0,10,"glitch king"));
+	glitch2=new World(glitchEnemies2,new Color(255,255,0),player,false);
 	corruptionBoss=new World(generateEnemies(1,1000000,5000000000L,5000000000D,true,new Sword("corrupted gun",30000000,50000000,false,false,0,"gun"),new Sword("corrupted exploder",20000000,40000000,false,false,0,"exploder"),corruptedKey,12000000000L,false,0,4,"corruption king"),new Color(255,0,255),player,false);
 	skyRealmBoss=new World(generateEnemies(1,30000,15000000,7500000,true,new Sword("sky blade",0,1000000,false,false,0,"sword"),new Sword("sky gun",600000,800000,false,false,0,"gun"),skyKey,50000000,false,0,6,"sky overlord"),new Color(255,0,255),player,false);
 	void1=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
@@ -256,8 +265,9 @@ public GamePanel() {
 	portalWorld.addTeleporter(new Teleporter(495,450,void1,"right",7500,skyKey,"Void Labyrinth Lv.7500",false,0));
 	portalWorld.addTeleporter(new Teleporter(495,350,grassCorruption,"right",25000,voidKey,"Corruption Lv.25000",false,0));
 	portalWorld.addTeleporter(new Teleporter(495,250,chaos,"right",400000,corruptedKey,"The Chaos Lv.400000 Prestige 1",false,1));
-	portalWorld.addTeleporter(new Teleporter(495,250,chaos,"right",400000,corruptedKey,"The Chaos Lv.400000 Prestige 1",false,1));
+	portalWorld.addTeleporter(new Teleporter(495,150,glitchWorld,"right",600000,chaosKey,"Glitch World Lv.600000 Prestige 3",false,3));
 	chaos.addTeleporter(new Teleporter(495,350,chaosBoss,"right",500000,null,"Chaos Overlord Lv.500000 Prestige 2",false,2));
+	glitchWorld.addTeleporter(new Teleporter(495,350,glitch2,"right",750000,null,"Glitch World 2 Lv.750000",false,3));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,"sword"));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,"gun"));
@@ -367,8 +377,8 @@ public void actionPerformed(ActionEvent arg0) {
 		if(currentWorld.checkArmorPlatform(player)!=null) {
 			currentWorld.checkArmorPlatform(player).giveArmor(player);
 		}
-		int minDamage=0;
-		int maxDamage=0;
+		long minDamage=0;
+		long maxDamage=0;
 		String weaponType="";
 		for(Item item:player.items) {
 			if(item instanceof Sword && item.isActive==true) {
@@ -645,8 +655,8 @@ public void keyTyped(KeyEvent arg0) {
 @Override
 public void mouseClicked(MouseEvent arg0) {
 	String weaponType = "";
-	int minDamage=0;
-	int maxDamage=0;
+	long minDamage=0;
+	long maxDamage=0;
 	for(Item item:player.items) {
 		if(item instanceof Sword && item.isActive==true) {
 			weaponType=((Sword) item).weaponType;

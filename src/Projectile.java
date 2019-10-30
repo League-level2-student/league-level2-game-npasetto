@@ -8,12 +8,12 @@ double x;
 double y;
 double speedX;
 double speedY;
-int minDamage;
-int maxDamage;
+long minDamage;
+long maxDamage;
 int totalSpeed;
 Rectangle collisionBox;
 Random rand=new Random();
-Projectile(double x, double y, double speedX, double speedY, int minDamage, int maxDamage, int totalSpeed){
+Projectile(double x, double y, double speedX, double speedY, long minDamage, long maxDamage, int totalSpeed){
 	this.x=x;
 	this.y=y;
 	this.speedX=speedX;

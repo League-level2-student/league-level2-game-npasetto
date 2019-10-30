@@ -137,11 +137,10 @@ public void update() {
 			projectiles.remove(i);
 		}else if(checkProjectile(projectiles.get(i))!=null) {
 			Enemy intersection=checkProjectile(projectiles.get(i));
-			intersection.health-=rand.nextInt(projectiles.get(i).maxDamage-projectiles.get(i).minDamage+1)+projectiles.get(i).minDamage;
+			intersection.health-=rand.nextDouble()*projectiles.get(i).maxDamage+projectiles.get(i).minDamage;
 			intersection.isAngry=true;
 			if(intersection.health<=0 && intersection.isActive==true) {
 				intersection.isActive=false;
-				if(intersection.boss) {
 				Item reward;
 				int random=rand.nextInt(intersection.dropChance);
 				if(random<intersection.dropChance-1) {
@@ -149,12 +148,11 @@ public void update() {
 				}else {
 					reward=intersection.rareReward;
 				}
-				if(player.items.contains(reward)==false) {
+				if(player.items.contains(reward)==false && reward!=null) {
 					player.items.add(reward);
 				}
 				if(player.items.contains(intersection.keyReward)==false && intersection.keyReward!=null) {
 					player.items.add(intersection.keyReward);
-				}
 				}
 				player.gainXP((long) (intersection.XPboost*player.XPMultiplier));
 				player.gold+=(long) (intersection.goldReward*player.goldMultiplier);
