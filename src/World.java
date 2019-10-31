@@ -56,7 +56,7 @@ public void draw(Graphics g) {
 		e.draw(g);
 	}
 	g.setColor(new Color(0,0,0));
-	g.drawString("Level: "+player.level, 10, 20);
+	g.drawString("Level: "+player.level, 10, 40);
 	String textXP;
 	String textMaxXP;
 	if(player.XP<1000) {
@@ -74,7 +74,7 @@ public void draw(Graphics g) {
 		textMaxXP=((double) ((int) (player.level/500)))/100+"M";
 	}
 	String text="XP: "+textXP+"/"+textMaxXP;
-	g.drawString(text, 10, 40);
+	g.drawString(text, 10, 60);
 	String textGold;
 	if(player.gold<1000) {
 		textGold=((int) player.gold)+"";
@@ -87,8 +87,8 @@ public void draw(Graphics g) {
 	}else {
 		textGold=((double) ((int) (player.gold/10000000000L)))/100+"T";
 	}
-	g.drawString("Gold: "+textGold, 10, 60);
-	g.drawString("Prestiges: "+player.prestiges, 10, 80);
+	g.drawString("Gold: "+textGold, 10, 80);
+	g.drawString("Prestiges: "+player.prestiges, 10, 100);
 }
 public void update() {
 	for (Enemy enemy : enemies) {
@@ -148,10 +148,26 @@ public void update() {
 				}else {
 					reward=intersection.rareReward;
 				}
-				if(player.items.contains(reward)==false && reward!=null) {
+				boolean contains=false;
+				if(reward!=null) {
+					for (Item item : player.items) {
+						if(reward.name.equals(item.name)) {
+							contains=true;
+						}
+					}
+				}
+				if(contains==false && reward!=null) {
 					player.items.add(reward);
 				}
-				if(player.items.contains(intersection.keyReward)==false && intersection.keyReward!=null) {
+				contains=false;
+				if(intersection.keyReward!=null) {
+					for (Item item : player.items) {
+						if(intersection.keyReward.name.equals(item.name)) {
+							contains=true;
+						}
+					}
+				}
+				if(contains==false && intersection.keyReward!=null) {
 					player.items.add(intersection.keyReward);
 				}
 				player.gainXP((long) (intersection.XPboost*player.XPMultiplier));

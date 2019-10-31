@@ -16,8 +16,14 @@ ArmorPlatform(Armor giveArmor, int requiredLevel, int x, int y){
 	collisionBox=new Rectangle(x,y,50,50);
 }
 void giveArmor(Player player) {
-	if(player.items.contains(giveArmor)==false && player.level>=requiredLevel) {
-	player.items.add(giveArmor);
+	boolean contains=false;
+	for (Item item : player.items) {
+		if(item.name.equals(giveArmor.name)) {
+			contains=true;
+		}
+	}
+	if(contains==false && player.level>=requiredLevel) {
+		player.items.add(giveArmor);
 	}
 }
 void draw(Graphics g) {

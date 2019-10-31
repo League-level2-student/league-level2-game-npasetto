@@ -84,6 +84,8 @@ World chaos;
 World chaosBoss;
 World glitchWorld;
 World glitch2;
+World glitch3;
+World glitchBoss;
 Key key1;
 Key key2;
 Key key3;
@@ -100,6 +102,7 @@ Key voidKey;
 Key infinityKey;
 Key corruptedKey;
 Key chaosKey;
+Key glitchKey;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
@@ -107,6 +110,7 @@ JButton prestige=new JButton();
 JButton menu=new JButton();
 JButton save=new JButton();
 JButton load=new JButton();
+JButton resetSave=new JButton();
 JFrame inventoryWindow;
 JFrame shopWindow;
 JFrame frame;
@@ -114,9 +118,8 @@ JFrame menuFrame;
 ArrayList<Sword> weapons=new ArrayList<Sword>();
 ArrayList<Enemy> glitchEnemies;
 ArrayList<Enemy> glitchEnemies2;
+ArrayList<Enemy> glitchEnemies3;
 public GamePanel() {
-	frameDraw=new Timer(1000/100, this);
-	frameDraw.start();
 	titleFont=new Font("Arial",Font.PLAIN,48);
 	textFont=new Font("Arial",Font.PLAIN,12);
 	key1=new Key("Forest Key",false);
@@ -135,6 +138,7 @@ public GamePanel() {
 	corruptedKey=new Key("Corrupted Key",false);
 	infinityKey=new Key("Infinity Key",false);
 	chaosKey=new Key("Chaos Key",false);
+	glitchKey=new Key("Glitch Key",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0,10,"grass monster"),new Color(255,255,0),player,true);
 	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,"sword"),new Sword("forest blade",2,6,false,false,0,"sword"),key1,120,false,0,10,"grass titan"), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0,10,"ocean monster"),new Color(255,255,0),player,false);
@@ -154,8 +158,12 @@ public GamePanel() {
 	glitchEnemies.addAll(generateEnemies(5,5000000,12000000000L,10000000000D,false,null,new Sword("glitch laser",100000000,100000000,false,false,0,"laser"),null,30000000000L,false,0,10,"glitch giant"));
 	glitchWorld=new World(glitchEnemies,new Color(255,255,0),player,false);
 	glitchEnemies2=generateEnemies(5,5000000,20000000000L,20000000000D,false,null,new Sword("glitch blade",3000000000L,5000000000L,false,false,0,"sword"),null,25000000000L,false,0,10,"glitch titan");
-	glitchEnemies2.addAll(generateEnemies(5,5000000,30000000000L,30000000000D,false,null,new Sword("glitch exploder",700000000,700000000,false,false,0,"exploder"),null,40000000000L,false,0,10,"glitch king"));
+	glitchEnemies2.addAll(generateEnemies(5,5000000,30000000000L,30000000000D,false,null,new Sword("glitch exploder",700000000,700000000,false,false,0,"exploder"),null,40000000000L,false,0,10,"glitch lord"));
 	glitch2=new World(glitchEnemies2,new Color(255,255,0),player,false);
+	glitchEnemies3=generateEnemies(5,5000000,60000000000L,60000000000D,false,null,new Sword("glitch megalaser",250000000,250000000,false,false,0,"megalaser"),null,25000000000L,false,0,10,"glitch king");
+	glitchEnemies3.addAll(generateEnemies(5,5000000,100000000000L,100000000000D,false,null,new Sword("virus blade",20000000000L,30000000000L,false,false,0,"sword"),null,40000000000L,false,0,10,"glitch overlord"));
+	glitch3=new World(glitchEnemies3,new Color(255,255,0),player,false);
+	glitchBoss=new World(generateEnemies(1,10000000,5000000000000L,5000000000000D,true,new Sword("virus laser",1500000000,25000000000L,false,false,0,"laser"),new Sword("virus exploder",2147483647,2147483647,false,false,0,"exploder"),glitchKey,2000000000000L,false,0,4,"virus king"),new Color(255,0,255),player,false);
 	corruptionBoss=new World(generateEnemies(1,1000000,5000000000L,5000000000D,true,new Sword("corrupted gun",30000000,50000000,false,false,0,"gun"),new Sword("corrupted exploder",20000000,40000000,false,false,0,"exploder"),corruptedKey,12000000000L,false,0,4,"corruption king"),new Color(255,0,255),player,false);
 	skyRealmBoss=new World(generateEnemies(1,30000,15000000,7500000,true,new Sword("sky blade",0,1000000,false,false,0,"sword"),new Sword("sky gun",600000,800000,false,false,0,"gun"),skyKey,50000000,false,0,6,"sky overlord"),new Color(255,0,255),player,false);
 	void1=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
@@ -268,6 +276,8 @@ public GamePanel() {
 	portalWorld.addTeleporter(new Teleporter(495,150,glitchWorld,"right",600000,chaosKey,"Glitch World Lv.600000 Prestige 3",false,3));
 	chaos.addTeleporter(new Teleporter(495,350,chaosBoss,"right",500000,null,"Chaos Overlord Lv.500000 Prestige 2",false,2));
 	glitchWorld.addTeleporter(new Teleporter(495,350,glitch2,"right",750000,null,"Glitch World 2 Lv.750000",false,3));
+	glitchWorld.addTeleporter(new Teleporter(0,350,glitch3,"left",1400000,null,"Glitch World 3 Lv.1400000",false,3));
+	glitchWorld.addTeleporter(new Teleporter(200,0,glitchBoss,"top",2500000,null,"Glitch Boss Lv.2500000",false,3));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,"sword"));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,"gun"));
@@ -277,6 +287,8 @@ public GamePanel() {
 	weapons.add(new Sword("???",500,500,false,true,999999,"sword"));
 	weapons.add(new Sword("portal blade",123456,123456,false,true,25000000,"sword"));
 	weapons.add(new Sword("ultra chaos gun",0,300000000,false,true,1500000000000L,"gun"));
+	frameDraw=new Timer(1000/100, this);
+	frameDraw.start();
 }
 @Override
 public void paintComponent(Graphics g) {
@@ -451,6 +463,8 @@ public void actionPerformed(ActionEvent arg0) {
 		createSave();
 	}else if(arg0.getSource().equals(load)){
 		loadSave();
+	}else if(arg0.getSource().equals(resetSave)) {
+		resetSave();
 	}else {
 		JButton source=(JButton) arg0.getSource();
 		String[] damages=source.getText().split("  ");
@@ -496,6 +510,15 @@ public void actionPerformed(ActionEvent arg0) {
 	}
 	repaint();
 }
+public void resetSave() {
+	try {
+		FileOutputStream out=new FileOutputStream("./src/SaveData.txt");
+		out.write("".getBytes());
+		out.close();
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+}
 public void setupMenu() {
 	menuFrame=new JFrame();
 	menuFrame.setVisible(true);
@@ -506,6 +529,7 @@ public void setupMenu() {
 	menuPanel.add(prestige);
 	menuPanel.add(save);
 	menuPanel.add(load);
+	menuPanel.add(resetSave);
 	menuFrame.add(menuPanel);
 	menuFrame.pack();
 }
@@ -545,7 +569,7 @@ public void createSave() {
 		}
 	}
 	try {
-		FileOutputStream out=new FileOutputStream("C:/Users/npase/git/league-level2-game4-npasetto/src/SaveData.txt");
+		FileOutputStream out=new FileOutputStream("./src/SaveData.txt");
 		out.write(data.getBytes());
 		out.close();
 	}catch(Exception e) {
@@ -553,31 +577,33 @@ public void createSave() {
 	}
 }
 public void loadSave() {
-	File file=new File("C:/Users/npase/git/league-level2-game4-npasetto/src/SaveData.txt");
+	File file=new File("./src/SaveData.txt");
 	try {
 		BufferedReader br=new BufferedReader(new FileReader(file));
 		String data=br.readLine();
 		br.close();
-		String[] firstSplit=data.split("~");
-		player.level=Integer.parseInt(firstSplit[0]);
-		player.maxHealth=(player.level*25)+75;
-		player.health=player.maxHealth;
-		player.XP=Integer.parseInt(firstSplit[1]);
-		player.gold=Long.parseLong(firstSplit[2]);
-		player.prestiges=Integer.parseInt(firstSplit[3]);
-		player.XPMultiplier=Math.pow(1.5, player.prestiges);
-		player.goldMultiplier=Math.pow(1.5, player.prestiges);
-		player.levelRequired=(int) (1000*Math.pow(10, player.prestiges));
-		player.items.clear();
-		String[] secondSplit=firstSplit[4].split("\\*");
-		for (String string : secondSplit) {
-			String[] thirdSplit=string.split("#");
-			if(thirdSplit.length==1) {
-				player.items.add(new Key(thirdSplit[0],false));
-			}else if(thirdSplit.length==2) {
-				player.items.add(new Armor(thirdSplit[0],Integer.parseInt(thirdSplit[1]),false));
-			}else {
-				player.items.add(new Sword(thirdSplit[0],Integer.parseInt(thirdSplit[1]),Integer.parseInt(thirdSplit[2]),false,false,0,thirdSplit[3]));
+		if(data!=null) {
+			String[] firstSplit=data.split("~");
+			player.level=Long.parseLong(firstSplit[0]);
+			player.maxHealth=(player.level*25)+75;
+			player.health=player.maxHealth;
+			player.XP=Long.parseLong(firstSplit[1]);
+			player.gold=Long.parseLong(firstSplit[2]);
+			player.prestiges=Integer.parseInt(firstSplit[3]);
+			player.XPMultiplier=Math.pow(1.5, player.prestiges);
+			player.goldMultiplier=Math.pow(1.5, player.prestiges);
+			player.levelRequired=(int) (1000*Math.pow(10, player.prestiges));
+			player.items.clear();
+			String[] secondSplit=firstSplit[4].split("\\*");
+			for (String string : secondSplit) {
+				String[] thirdSplit=string.split("#");
+				if(thirdSplit.length==1) {
+					player.items.add(new Key(thirdSplit[0],false));
+				}else if(thirdSplit.length==2) {
+					player.items.add(new Armor(thirdSplit[0],Long.parseLong(thirdSplit[1]),false));
+				}else {
+					player.items.add(new Sword(thirdSplit[0],Long.parseLong(thirdSplit[1]),Long.parseLong(thirdSplit[2]),false,false,0,thirdSplit[3]));
+				}
 			}
 		}
 	}catch(Exception e) {
@@ -624,6 +650,10 @@ public void keyPressed(KeyEvent arg0) {
 		load.addActionListener(this);
 		load.addKeyListener(this);
 		load.addMouseListener(this);
+		resetSave.setText("Reset Save");
+		resetSave.addActionListener(this);
+		resetSave.addKeyListener(this);
+		resetSave.addMouseListener(this);
 		this.add(menu);
 	}
 	if(arg0.getKeyCode()==KeyEvent.VK_UP) {
@@ -675,11 +705,27 @@ public void mouseClicked(MouseEvent arg0) {
 			}else {
 				reward=intersection.rareReward;
 			}
-			if(intersection.health<=0 && intersection.boss) {
-				if(player.items.contains(reward)==false && reward!=null) {
-				player.items.add(reward);
+			if(intersection.health<=0 && intersection.isActive) {
+				boolean contains=false;
+				if(reward!=null) {
+					for (Item item : player.items) {
+						if(reward.name.equals(item.name)) {
+							contains=true;
+						}
+					}
 				}
-				if(player.items.contains(intersection.keyReward)==false && intersection.keyReward!=null) {
+				if(contains==false && reward!=null) {
+					player.items.add(reward);
+				}
+				contains=false;
+				if(intersection.keyReward!=null) {
+					for (Item item : player.items) {
+						if(intersection.keyReward.name.equals(item.name)) {
+							contains=true;
+						}
+					}
+				}
+				if(contains==false && intersection.keyReward!=null) {
 					player.items.add(intersection.keyReward);
 				}
 			}
