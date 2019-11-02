@@ -86,6 +86,17 @@ World glitchWorld;
 World glitch2;
 World glitch3;
 World glitchBoss;
+World infinityTower;
+World infinity2;
+World secretTower;
+World infinity3;
+World infinity4;
+World infinity5;
+World secretTower2;
+World secretTower3;
+World secretTower4;
+World secretTower5;
+World towerBoss;
 Key key1;
 Key key2;
 Key key3;
@@ -103,6 +114,12 @@ Key infinityKey;
 Key corruptedKey;
 Key chaosKey;
 Key glitchKey;
+Key secretTowerKey;
+Key secretTowerKey2;
+Key secretTowerKey3;
+Key secretTowerKey4;
+Key secretTowerKey5;
+Key towerKey;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
@@ -139,6 +156,12 @@ public GamePanel() {
 	infinityKey=new Key("Infinity Key",false);
 	chaosKey=new Key("Chaos Key",false);
 	glitchKey=new Key("Glitch Key",false);
+	secretTowerKey=new Key("Secret Tower Key",false);
+	secretTowerKey2=new Key("Ice Tower Key",false);
+	secretTowerKey3=new Key("Fire Tower Key",false);
+	secretTowerKey4=new Key("Earth Tower Key",false);
+	secretTowerKey5=new Key("Water Tower Key",false);
+	towerKey=new Key("Final Tower Key",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0,10,"grass monster"),new Color(255,255,0),player,true);
 	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,"sword"),new Sword("forest blade",2,6,false,false,0,"sword"),key1,120,false,0,10,"grass titan"), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0,10,"ocean monster"),new Color(255,255,0),player,false);
@@ -163,7 +186,18 @@ public GamePanel() {
 	glitchEnemies3=generateEnemies(5,5000000,60000000000L,60000000000D,false,null,new Sword("glitch megalaser",250000000,250000000,false,false,0,"megalaser"),null,25000000000L,false,0,10,"glitch king");
 	glitchEnemies3.addAll(generateEnemies(5,5000000,100000000000L,100000000000D,false,null,new Sword("virus blade",20000000000L,30000000000L,false,false,0,"sword"),null,40000000000L,false,0,10,"glitch overlord"));
 	glitch3=new World(glitchEnemies3,new Color(255,255,0),player,false);
-	glitchBoss=new World(generateEnemies(1,10000000,5000000000000L,5000000000000D,true,new Sword("virus laser",1500000000,25000000000L,false,false,0,"laser"),new Sword("virus exploder",2147483647,2147483647,false,false,0,"exploder"),glitchKey,2000000000000L,false,0,4,"virus king"),new Color(255,0,255),player,false);
+	infinityTower=new World(generateEnemies(10,30000000,200000000000L,250000000000D,false,null,new Sword("tower splitter",600000000,750000000,false,false,0,"splitter"),null,300000000000L,false,0,30,"tower monster"),new Color(255,255,0),player,false);
+	infinity2=new World(generateEnemies(15,40000000,400000000000L,600000000000D,false,null,new Sword("tower slicer",10000000000L,10000000000L,false,false,0,"slicer"),null,500000000000L,false,0,30,"tower giant"),new Color(255,255,0),player,false);
+	infinity3=new World(generateEnemies(20,50000000,750000000000L,1200000000000D,false,null,new Sword("tower laser",10000000000L,15000000000L,false,false,0,"laser"),null,987654321098L,false,0,30,"tower titan"),new Color(255,255,0),player,false);
+	infinity4=new World(generateEnemies(20,60000000,1500000000000L,2000000000000D,false,null,new Sword("tower invisigun",100000000000L,300000000000L,false,false,0,"invisigun"),null,1000000000000L,false,0,30,"tower lord"),new Color(255,255,0),player,false);
+	infinity5=new World(generateEnemies(20,60000000,7000000000000L,10000000000000D,false,null,new Sword("tower dual slicer",100000000000L,300000000000L,false,false,0,"dual slicer"),null,5000000000000L,false,0,30,"tower king"),new Color(255,255,0),player,false);
+	secretTower=new World(generateEnemies(50,100000000,0,1,false,null,secretTowerKey,null,0,false,0,300,"???"),new Color(255,255,0),player,false);
+	secretTower2=new World(generateEnemies(1,100000000,0,100000000000000L,true,null,secretTowerKey2,null,0,false,0,3,"ice king"),new Color(255,255,0),player,false);
+	secretTower3=new World(generateEnemies(1,100000000,0,150000000000000L,true,null,secretTowerKey3,null,0,false,0,1,"fire king"),new Color(255,255,0),player,false);
+	secretTower4=new World(generateEnemies(1,100000000,0,200000000000000L,true,null,secretTowerKey4,null,0,false,0,3,"earth king"),new Color(255,255,0),player,false);
+	secretTower5=new World(generateEnemies(1,100000000,0,250000000000000L,true,null,secretTowerKey5,null,0,false,0,3,"water king"),new Color(255,255,0),player,false);
+	towerBoss=new World(generateEnemies(1,100000000,150000000000000L,999000000000000D,true,new Sword("tower quad slicer",150000000000L,350000000000L,false,false,0,"quad slicer"),new Sword("tower invisislicer",100000000000L,100000000000L,false,false,0,"invisislicer"),towerKey,500000000000000L,false,0,4,"elemental overlord"),new Color(255,0,255),player,false);
+	glitchBoss=new World(generateEnemies(1,10000000,5000000000000L,5000000000000D,true,new Sword("virus laser",1500000000,2500000000L,false,false,0,"laser"),new Sword("virus exploder",2147483647,2147483647,false,false,0,"exploder"),glitchKey,2000000000000L,false,0,4,"virus king"),new Color(255,0,255),player,false);
 	corruptionBoss=new World(generateEnemies(1,1000000,5000000000L,5000000000D,true,new Sword("corrupted gun",30000000,50000000,false,false,0,"gun"),new Sword("corrupted exploder",20000000,40000000,false,false,0,"exploder"),corruptedKey,12000000000L,false,0,4,"corruption king"),new Color(255,0,255),player,false);
 	skyRealmBoss=new World(generateEnemies(1,30000,15000000,7500000,true,new Sword("sky blade",0,1000000,false,false,0,"sword"),new Sword("sky gun",600000,800000,false,false,0,"gun"),skyKey,50000000,false,0,6,"sky overlord"),new Color(255,0,255),player,false);
 	void1=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,0,6,"void king"),new Color(255,0,255),player,false);
@@ -233,6 +267,7 @@ public GamePanel() {
 	ironCorruption.addTeleporter(new Teleporter(200,0,lavaCorruption,"top",50000,null,"Corruption Lv.50000",false,0));
 	lavaCorruption.addTeleporter(new Teleporter(200,0,corruptionBoss,"top",75000,null,"Corruption King Lv.75000",false,0));
 	chaos.addArmorPlatform(new ArmorPlatform(new Armor("chaos armor",10000000,false),444444,350,600));
+	infinityTower.addArmorPlatform(new ArmorPlatform(new Armor("tower armor",100000000,false),6500000,350,600));
 	void1.addTeleporter(new Teleporter(200,0,void3,"top",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(495,350,void4,"right",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(0,350,void2,"left",7500,null,"Void",false,0));
@@ -274,10 +309,21 @@ public GamePanel() {
 	portalWorld.addTeleporter(new Teleporter(495,350,grassCorruption,"right",25000,voidKey,"Corruption Lv.25000",false,0));
 	portalWorld.addTeleporter(new Teleporter(495,250,chaos,"right",400000,corruptedKey,"The Chaos Lv.400000 Prestige 1",false,1));
 	portalWorld.addTeleporter(new Teleporter(495,150,glitchWorld,"right",600000,chaosKey,"Glitch World Lv.600000 Prestige 3",false,3));
+	portalWorld.addTeleporter(new Teleporter(0,550,infinityTower,"left",5000000,glitchKey,"Infinity Tower Lv.5000000 Prestige 4",false,4));
 	chaos.addTeleporter(new Teleporter(495,350,chaosBoss,"right",500000,null,"Chaos Overlord Lv.500000 Prestige 2",false,2));
 	glitchWorld.addTeleporter(new Teleporter(495,350,glitch2,"right",750000,null,"Glitch World 2 Lv.750000",false,3));
 	glitchWorld.addTeleporter(new Teleporter(0,350,glitch3,"left",1400000,null,"Glitch World 3 Lv.1400000",false,3));
 	glitchWorld.addTeleporter(new Teleporter(200,0,glitchBoss,"top",2500000,null,"Glitch Boss Lv.2500000",false,3));
+	infinityTower.addTeleporter(new Teleporter(200,0,infinity2,"top",8000000,null,"Floor 2 Lv.8000000",false,4));
+	infinityTower.addTeleporter(new Teleporter(495,200,secretTower,"right",9000000,null,"",true,4));
+	infinity2.addTeleporter(new Teleporter(200,0,infinity3,"top",10000000,secretTowerKey,"Floor 3 Lv.10000000 Req.Secret Tower Key",false,4));
+	infinity2.addTeleporter(new Teleporter(0,550,secretTower2,"left",20000000,secretTowerKey,"",true,4));
+	infinity3.addTeleporter(new Teleporter(200,0,infinity4,"top",12500000,null,"Floor 4 Lv.12500000",false,4));
+	infinity3.addTeleporter(new Teleporter(250,715,secretTower3,"bottom",20000000,secretTowerKey2,"",true,4));
+	infinity4.addTeleporter(new Teleporter(200,0,infinity5,"top",15000000,null,"Floor 5 Lv.15000000",false,4));
+	infinity4.addTeleporter(new Teleporter(495,715,secretTower4,"bottom",20000000,secretTowerKey3,"",true,4));
+	infinity5.addTeleporter(new Teleporter(495,0,secretTower5,"top",20000000,secretTowerKey4,"",false,4));
+	infinity5.addTeleporter(new Teleporter(200,0,towerBoss,"top",30000000,secretTowerKey5,"Top Floor Lv.30000000 Req.Elemental Keys",false,4));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,"sword"));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,"gun"));
@@ -287,6 +333,7 @@ public GamePanel() {
 	weapons.add(new Sword("???",500,500,false,true,999999,"sword"));
 	weapons.add(new Sword("portal blade",123456,123456,false,true,25000000,"sword"));
 	weapons.add(new Sword("ultra chaos gun",0,300000000,false,true,1500000000000L,"gun"));
+	weapons.add(new Sword("secret exploder",75000000000L,125000000000L,false,true,5000000000000000L,"exploder"));
 	frameDraw=new Timer(1000/100, this);
 	frameDraw.start();
 }
@@ -325,13 +372,43 @@ void setupGui() {
 		itemButton.addActionListener(this);
 		if(item instanceof Sword) {
 			Sword swordItem=(Sword) item;
-			itemButton.setText(swordItem.name+"  "+swordItem.minDamage+"-"+swordItem.maxDamage);
+			String minDamageText;
+			String maxDamageText;
+			if(swordItem.minDamage<1000) {
+				minDamageText=((int) swordItem.minDamage)+"";
+			}else if(swordItem.minDamage<1000000){
+				minDamageText=((double) ((int) (swordItem.minDamage/10)))/100+"K";
+			}else if(swordItem.minDamage<1000000000){
+				minDamageText=((double) ((int) (swordItem.minDamage/10000)))/100+"M";
+			}else {
+				minDamageText=((double) ((int) (swordItem.minDamage/10000000)))/100+"B";
+			}
+			if(swordItem.maxDamage<1000) {
+				maxDamageText=((int) swordItem.maxDamage)+"";
+			}else if(swordItem.maxDamage<1000000){
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10)))/100+"K";
+			}else if(swordItem.maxDamage<1000000000){
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10000)))/100+"M";
+			}else {
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000)))/100+"B";
+			}
+			itemButton.setText(swordItem.name+"  "+minDamageText+"-"+maxDamageText);
 			if (swordItem.isActive) {
 				itemButton.setBackground(new Color(0,255,0));
 			}
 		}else if(item instanceof Armor) {
 			Armor armorItem=(Armor) item;
-			itemButton.setText(armorItem.name+"  "+armorItem.bonusHealth);
+			String bonusHealthText;
+			if(armorItem.bonusHealth<1000) {
+				bonusHealthText=((int) armorItem.bonusHealth)+"";
+			}else if(armorItem.bonusHealth<1000000){
+				bonusHealthText=((double) ((int) (armorItem.bonusHealth/10)))/100+"K";
+			}else if(armorItem.bonusHealth<1000000000){
+				bonusHealthText=((double) ((int) (armorItem.bonusHealth/10000)))/100+"M";
+			}else {
+				bonusHealthText=((double) ((int) (armorItem.bonusHealth/10000000)))/100+"B";
+			}
+			itemButton.setText(armorItem.name+"  "+bonusHealthText);
 			if(armorItem.isActive) {
 				itemButton.setBackground(new Color(0,255,0));
 			}
@@ -406,7 +483,7 @@ public void actionPerformed(ActionEvent arg0) {
 				int xdiff=x-player.x;
 				int ydiff=y-player.y;
 				double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
-				currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,10));
+				currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,10,"default",0));
 			}else if(weaponType.equals("megalaser")) {
 				int x=mouseX;
 				int y=mouseY;
@@ -414,8 +491,24 @@ public void actionPerformed(ActionEvent arg0) {
 				int ydiff=y-player.y;
 				double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
 				for (int i = 0; i < 5; i++) {
-					currentWorld.projectiles.add(new Projectile(player.x+rand.nextDouble()*50,player.y+rand.nextDouble()*50,xdiff/distance,ydiff/distance,minDamage,maxDamage,10));
+					currentWorld.projectiles.add(new Projectile(player.x+rand.nextDouble()*50,player.y+rand.nextDouble()*50,xdiff/distance,ydiff/distance,minDamage,maxDamage,10,"default",0));
 				}
+			}else if(weaponType.equals("slicer")) {
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,10,"default",0));
+				currentWorld.slicerAngle+=Math.PI/30;
+			}else if(weaponType.equals("dual slicer")) {
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,10,"default",0));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+Math.PI),Math.sin(currentWorld.slicerAngle+Math.PI),minDamage,maxDamage,10,"default",0));
+				currentWorld.slicerAngle+=Math.PI/30;
+			}else if(weaponType.equals("quad slicer")) {
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,10,"default",0));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+Math.PI/2),Math.sin(currentWorld.slicerAngle+Math.PI/2),minDamage,maxDamage,10,"default",0));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+Math.PI),Math.sin(currentWorld.slicerAngle+Math.PI),minDamage,maxDamage,10,"default",0));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+3*Math.PI/2),Math.sin(currentWorld.slicerAngle+3*Math.PI/2),minDamage,maxDamage,10,"default",0));
+				currentWorld.slicerAngle+=Math.PI/30;
+			}else if(weaponType.equals("invisislicer")) {
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,3,"invisigun",0));
+				currentWorld.slicerAngle+=Math.PI/30;
 			}
 		}
 	}else if(arg0.getSource().equals(shop)) {
@@ -426,8 +519,16 @@ public void actionPerformed(ActionEvent arg0) {
 		String name=textSplit[0];
 		for(Sword weapon : weapons) {
 			if(weapon.name.equals(name) && weapon.cost<=player.gold) {
-				player.gold-=weapon.cost;
-				player.items.add(weapon);
+				boolean contains=false;
+				for(Item item:player.items) {
+					if(weapon.name.equals(item.name)) {
+						contains=true;
+					}
+				}
+				if(contains==false) {
+					player.gold-=weapon.cost;
+					player.items.add(weapon);
+				}
 			}
 		}
 		shopWindow.removeAll();
@@ -446,6 +547,12 @@ public void actionPerformed(ActionEvent arg0) {
 			}
 			if(player.prestiges>1) {
 				player.items.add(new Sword("prestige sword 3",1,25000,false,false,0,"sword"));
+			}
+			if(player.prestiges>2) {
+				player.items.add(new Sword("prestige sword 4",1,500000,false,false,0,"sword"));
+			}
+			if(player.prestiges>3) {
+				player.items.add(new Sword("the final prestige",1,2147483647,false,false,0,"slicer"));
 			}
 			player.XPMultiplier*=1.5;
 			player.goldMultiplier*=1.5;
@@ -545,7 +652,41 @@ public void setupShop() {
 		shopButton.setPreferredSize(new Dimension(200,50));
 		shopButton.setForeground(new Color(0,0,0));
 		shopButton.addActionListener(this);
-		shopButton.setText(weapon.name+"  "+weapon.minDamage+"-"+weapon.maxDamage+" "+weapon.cost+" Gold");
+		String minDamageText;
+		String maxDamageText;
+		String costText;
+		if(weapon.minDamage<1000) {
+			minDamageText=((int) weapon.minDamage)+"";
+		}else if(weapon.minDamage<1000000){
+			minDamageText=((double) ((int) (weapon.minDamage/10)))/100+"K";
+		}else if(weapon.minDamage<1000000000){
+			minDamageText=((double) ((int) (weapon.minDamage/10000)))/100+"M";
+		}else {
+			minDamageText=((double) ((int) (weapon.minDamage/10000000)))/100+"B";
+		}
+		if(weapon.maxDamage<1000) {
+			maxDamageText=((int) weapon.maxDamage)+"";
+		}else if(weapon.maxDamage<1000000){
+			maxDamageText=((double) ((int) (weapon.maxDamage/10)))/100+"K";
+		}else if(weapon.maxDamage<1000000000){
+			maxDamageText=((double) ((int) (weapon.maxDamage/10000)))/100+"M";
+		}else {
+			maxDamageText=((double) ((int) (weapon.maxDamage/10000000)))/100+"B";
+		}
+		if(weapon.cost<1000) {
+			costText=((int) weapon.cost)+"";
+		}else if(weapon.cost<1000000){
+			costText=((double) ((int) (weapon.cost/10)))/100+"K";
+		}else if(weapon.cost<1000000000){
+			costText=((double) ((int) (weapon.cost/10000)))/100+"M";
+		}else if(weapon.cost<1000000000000L){
+			costText=((double) ((int) (weapon.cost/10000000)))/100+"B";
+		}else if(weapon.cost<1000000000000000L) {
+			costText=((double) ((int) (weapon.cost/10000000000L)))/100+"T";
+		}else {
+			costText=((double) ((int) (weapon.cost/10000000000000L)))/100+"Qd";
+		}
+		shopButton.setText(weapon.name+"  "+minDamageText+"-"+maxDamageText+" "+costText+" Gold");
 		if(player.items.contains(weapon)) {
 			shopButton.setBackground(new Color(0,255,0));
 		}
@@ -730,16 +871,22 @@ public void mouseClicked(MouseEvent arg0) {
 				}
 			}
 		}
-	}else if(weaponType.equals("gun")){
+	}else if(weaponType.equals("gun") || weaponType.equals("splitter") || weaponType.equals("invisigun")){
 		int x=arg0.getX();
 		int y=arg0.getY();
 		int xdiff=x-player.x;
 		int ydiff=y-player.y;
 		double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
-		currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,3));
+		if(weaponType.equals("gun")) {
+			currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,3,"default",0));
+		}else if(weaponType.equals("splitter")) {
+			currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,3,"splitter",5));
+		}else if(weaponType.equals("invisigun")) {
+			currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,3,"invisigun",0));
+		}
 	}else if(weaponType.equals("exploder")) {
 		for (double theta = 0; theta < 2*Math.PI; theta+=Math.PI/20) {
-			currentWorld.projectiles.add(new Projectile(player.x,player.y,Math.cos(theta),Math.sin(theta),minDamage,maxDamage,10));
+			currentWorld.projectiles.add(new Projectile(player.x,player.y,Math.cos(theta),Math.sin(theta),minDamage,maxDamage,10,"default",0));
 		}
 	}
 }

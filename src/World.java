@@ -19,6 +19,7 @@ Timer enemyAttack;
 Player player;
 boolean isActive;
 Random rand=new Random();
+double slicerAngle=0;
 public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boolean isActive) {
 	this.enemies=enemies;
 	this.backgroundColor=backgroundColor;
@@ -84,8 +85,10 @@ public void draw(Graphics g) {
 		textGold=((double) ((int) (player.gold/10000)))/100+"M";
 	}else if(player.gold<1000000000000L){
 		textGold=((double) ((int) (player.gold/10000000)))/100+"B";
-	}else {
+	}else if(player.gold<1000000000000000L){
 		textGold=((double) ((int) (player.gold/10000000000L)))/100+"T";
+	}else {
+		textGold=((double) ((int) (player.gold/10000000000000L)))/100+"Qd";
 	}
 	g.drawString("Gold: "+textGold, 10, 80);
 	g.drawString("Prestiges: "+player.prestiges, 10, 100);
@@ -139,7 +142,7 @@ public void update() {
 			Enemy intersection=checkProjectile(projectiles.get(i));
 			intersection.health-=rand.nextDouble()*projectiles.get(i).maxDamage+projectiles.get(i).minDamage;
 			intersection.isAngry=true;
-			if(intersection.health<=0 && intersection.isActive==true) {
+			if(intersection.health<=0) {
 				intersection.isActive=false;
 				Item reward;
 				int random=rand.nextInt(intersection.dropChance);
@@ -173,7 +176,17 @@ public void update() {
 				player.gainXP((long) (intersection.XPboost*player.XPMultiplier));
 				player.gold+=(long) (intersection.goldReward*player.goldMultiplier);
 			}
-			projectiles.remove(i);
+			Projectile shot=projectiles.get(i);
+			double x=shot.x;
+			double y=shot.y;
+			if(shot.projectileType.equals("splitter") && shot.splitterCount>0) {
+				for(int j=0; j<3; j++) {
+					projectiles.add(new Projectile(x+(rand.nextDouble()-0.5)*20,y+(rand.nextDouble()-0.5)*20,(rand.nextDouble()-0.5)*10,(rand.nextDouble()-0.5)*10,shot.minDamage,shot.maxDamage,1,"splitter",shot.splitterCount-1));
+				}
+			}
+			if(shot.projectileType.equals("invisigun")==false) {
+				projectiles.remove(i);
+			}
 		}
 	}
 }

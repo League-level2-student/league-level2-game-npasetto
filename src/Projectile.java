@@ -13,7 +13,9 @@ long maxDamage;
 int totalSpeed;
 Rectangle collisionBox;
 Random rand=new Random();
-Projectile(double x, double y, double speedX, double speedY, long minDamage, long maxDamage, int totalSpeed){
+String projectileType;
+int splitterCount;
+Projectile(double x, double y, double speedX, double speedY, long minDamage, long maxDamage, int totalSpeed, String projectileType, int splitterCount){
 	this.x=x;
 	this.y=y;
 	this.speedX=speedX;
@@ -21,6 +23,8 @@ Projectile(double x, double y, double speedX, double speedY, long minDamage, lon
 	this.minDamage=minDamage;
 	this.maxDamage=maxDamage;
 	this.totalSpeed=totalSpeed;
+	this.projectileType=projectileType;
+	this.splitterCount=splitterCount;
 	collisionBox=new Rectangle((int) x,(int) y,5,5);
 }
 void move() {
