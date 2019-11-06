@@ -15,6 +15,8 @@ int height;
 String description;
 boolean isSecret;
 int prestigeRequired;
+int teleportX;
+int teleportY;
 public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Item requiredKey, String description, boolean isSecret, int prestigeRequired) {
 	this.x=x;
 	this.y=y;
@@ -33,6 +35,29 @@ public Teleporter(int x, int y, World teleportTo, String wallSide, int requireme
 		width=5;
 	}
 	collisionBox=new Rectangle(x,y,width,height);
+	teleportX=350;
+	teleportY=600;
+}
+public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Item requiredKey, String description, boolean isSecret, int prestigeRequired, int teleportX, int teleportY) {
+	this.x=x;
+	this.y=y;
+	this.teleportTo=teleportTo;
+	this.wallSide=wallSide;
+	this.requirement=requirement;
+	this.requiredKey=requiredKey;
+	this.description=description;
+	this.isSecret=isSecret;
+	this.prestigeRequired=prestigeRequired;
+	if(wallSide.equals("top") || wallSide.equals("bottom")) {
+		width=25;
+		height=5;
+	}else {
+		height=25;
+		width=5;
+	}
+	collisionBox=new Rectangle(x,y,width,height);
+	this.teleportX=teleportX;
+	this.teleportY=teleportY;
 }
 public void draw(Graphics g) {
 	if(isSecret==false) {

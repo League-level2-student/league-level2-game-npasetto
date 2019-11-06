@@ -97,6 +97,13 @@ World secretTower3;
 World secretTower4;
 World secretTower5;
 World towerBoss;
+World end1;
+World end2;
+World end3;
+World endBoss1;
+World end4;
+World secretEnd1;
+World endMiniBoss1;
 Key key1;
 Key key2;
 Key key3;
@@ -120,6 +127,9 @@ Key secretTowerKey3;
 Key secretTowerKey4;
 Key secretTowerKey5;
 Key towerKey;
+Key solarKey;
+Key unknownKey;
+Key guardianKey;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
@@ -136,6 +146,10 @@ ArrayList<Sword> weapons=new ArrayList<Sword>();
 ArrayList<Enemy> glitchEnemies;
 ArrayList<Enemy> glitchEnemies2;
 ArrayList<Enemy> glitchEnemies3;
+ArrayList<Enemy> endEnemies;
+ArrayList<Enemy> endEnemies2;
+ArrayList<Enemy> endEnemies3;
+ArrayList<Enemy> secretEnemies1;
 public GamePanel() {
 	titleFont=new Font("Arial",Font.PLAIN,48);
 	textFont=new Font("Arial",Font.PLAIN,12);
@@ -162,6 +176,9 @@ public GamePanel() {
 	secretTowerKey4=new Key("Earth Tower Key",false);
 	secretTowerKey5=new Key("Water Tower Key",false);
 	towerKey=new Key("Final Tower Key",false);
+	solarKey=new Key("Solar Key",false);
+	unknownKey=new Key("Unknown Key",false);
+	guardianKey=new Key("Guardian Key",false);
 	world1=new World(generateEnemies(10,20,20,15,false,null,null,null,25,false,0,10,"grass monster"),new Color(255,255,0),player,true);
 	bossWorld1=new World(generateEnemies(1,40,100,45,true,new Sword("grass sword",2,3,false,false,0,"sword"),new Sword("forest blade",2,6,false,false,0,"sword"),key1,120,false,0,10,"grass titan"), new Color(255,0,255),player,false);
 	world2=new World(generateEnemies(10,40,50,30,false,null,null,null,70,false,0,10,"ocean monster"),new Color(255,255,0),player,false);
@@ -186,6 +203,9 @@ public GamePanel() {
 	glitchEnemies3=generateEnemies(5,5000000,60000000000L,60000000000D,false,null,new Sword("glitch megalaser",250000000,250000000,false,false,0,"megalaser"),null,25000000000L,false,0,10,"glitch king");
 	glitchEnemies3.addAll(generateEnemies(5,5000000,100000000000L,100000000000D,false,null,new Sword("virus blade",20000000000L,30000000000L,false,false,0,"sword"),null,40000000000L,false,0,10,"glitch overlord"));
 	glitch3=new World(glitchEnemies3,new Color(255,255,0),player,false);
+	secretEnemies1=generateEnemies(30,1,0,1000000000000000D,false,null,null,null,0,false,0,10,"unknown guardian");
+	secretEnemies1.addAll(generateEnemies(1,1,0,1,false,null,null,unknownKey,0,false,0,10,"unknown key"));
+	secretEnd1=new World(secretEnemies1,new Color(255,255,0),player,false);
 	infinityTower=new World(generateEnemies(10,30000000,200000000000L,250000000000D,false,null,new Sword("tower splitter",600000000,750000000,false,false,0,"splitter"),null,300000000000L,false,0,30,"tower monster"),new Color(255,255,0),player,false);
 	infinity2=new World(generateEnemies(15,40000000,400000000000L,600000000000D,false,null,new Sword("tower slicer",10000000000L,10000000000L,false,false,0,"slicer"),null,500000000000L,false,0,30,"tower giant"),new Color(255,255,0),player,false);
 	infinity3=new World(generateEnemies(20,50000000,750000000000L,1200000000000D,false,null,new Sword("tower laser",10000000000L,15000000000L,false,false,0,"laser"),null,987654321098L,false,0,30,"tower titan"),new Color(255,255,0),player,false);
@@ -196,6 +216,18 @@ public GamePanel() {
 	secretTower3=new World(generateEnemies(1,100000000,0,150000000000000L,true,null,secretTowerKey3,null,0,false,0,1,"fire king"),new Color(255,255,0),player,false);
 	secretTower4=new World(generateEnemies(1,100000000,0,200000000000000L,true,null,secretTowerKey4,null,0,false,0,3,"earth king"),new Color(255,255,0),player,false);
 	secretTower5=new World(generateEnemies(1,100000000,0,250000000000000L,true,null,secretTowerKey5,null,0,false,0,3,"water king"),new Color(255,255,0),player,false);
+	endEnemies=generateEnemies(10,250000000,10000000000000L,50000000000000D,false,null,null,null,10000000000000L,false,0,10,"end monster");
+	endEnemies.addAll(generateEnemies(3,400000000,40000000000000L,200000000000000D,false,null,new Sword("end striker",40000000000L,60000000000L,false,false,0,"splitter laser"),null,50000000000000L,false,0,1,"end titan"));
+	end1=new World(endEnemies,new Color(255,255,0),player,false);
+	endEnemies2=generateEnemies(10,300000000,15000000000000L,80000000000000D,false,null,null,null,15000000000000L,false,0,10,"end giant");
+	endEnemies2.addAll(generateEnemies(2,500000000,60000000000000L,300000000000000D,false,null,new Sword("end invisilaser",100000000000L,100000000000L,false,false,0,"invisilaser"),null,80000000000000L,false,0,1,"end lord"));
+	end2=new World(endEnemies2,new Color(255,255,0),player,false);
+	endEnemies3=generateEnemies(10,400000000,20000000000000L,120000000000000D,false,null,null,null,15000000000000L,false,0,10,"end king");
+	endEnemies3.addAll(generateEnemies(1,600000000,80000000000000L,420000000000000D,false,null,new Sword("end destroyer",60000000000L,70000000000L,false,false,0,"quad invisislicer"),null,111000000000000L,false,0,1,"end overlord"));
+	end3=new World(endEnemies3,new Color(255,255,0),player,false);
+	end4=new World(generateEnemies(10,1000000000,200000000000000L,500000000000000D,false,null,null,null,75000000000000L,false,0,10,"crystal titan"),new Color(255,255,0),player,false);
+	endMiniBoss1=new World(generateEnemies(1,1000000000,1200000000000000L,12000000000000000D,true,new Sword("unknown striker",200000000000L,250000000000L,false,false,0,"splitter laser"),new Sword("hyper lunaris",300000000000L,400000000000L,false,false,0,"quad invisislicer"),guardianKey,1500000000000000L,false,0,4,"powerful unknown guardian"),new Color(255,0,255),player,false);
+	endBoss1=new World(generateEnemies(1,100000000,1000000000000000L,10000000000000000D,true,new Sword("solaris",150000000000L,200000000000L,false,false,0,"splitter slicer"),new Sword("lunaris",150000000000L,200000000000L,false,false,0,"dual invisislicer"),solarKey,1000000000000000L,true,1,2,"SOLARIS"),new Color(255,0,255),player,false);
 	towerBoss=new World(generateEnemies(1,100000000,150000000000000L,999000000000000D,true,new Sword("tower quad slicer",150000000000L,350000000000L,false,false,0,"quad slicer"),new Sword("tower invisislicer",100000000000L,100000000000L,false,false,0,"invisislicer"),towerKey,500000000000000L,false,0,4,"elemental overlord"),new Color(255,0,255),player,false);
 	glitchBoss=new World(generateEnemies(1,10000000,5000000000000L,5000000000000D,true,new Sword("virus laser",1500000000,2500000000L,false,false,0,"laser"),new Sword("virus exploder",2147483647,2147483647,false,false,0,"exploder"),glitchKey,2000000000000L,false,0,4,"virus king"),new Color(255,0,255),player,false);
 	corruptionBoss=new World(generateEnemies(1,1000000,5000000000L,5000000000D,true,new Sword("corrupted gun",30000000,50000000,false,false,0,"gun"),new Sword("corrupted exploder",20000000,40000000,false,false,0,"exploder"),corruptedKey,12000000000L,false,0,4,"corruption king"),new Color(255,0,255),player,false);
@@ -268,6 +300,9 @@ public GamePanel() {
 	lavaCorruption.addTeleporter(new Teleporter(200,0,corruptionBoss,"top",75000,null,"Corruption King Lv.75000",false,0));
 	chaos.addArmorPlatform(new ArmorPlatform(new Armor("chaos armor",10000000,false),444444,350,600));
 	infinityTower.addArmorPlatform(new ArmorPlatform(new Armor("tower armor",100000000,false),6500000,350,600));
+	infinityTower.addArmorPlatform(new ArmorPlatform(new Armor("elite tower armor",250000000,false),20000000,100,600));
+	end1.addArmorPlatform(new ArmorPlatform(new Armor("end armor",1500000000,false),60000000,350,600));
+	end4.addArmorPlatform(new ArmorPlatform(new Armor("crystal armor",3500000000L,false),155555555,350,600));
 	void1.addTeleporter(new Teleporter(200,0,void3,"top",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(495,350,void4,"right",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(0,350,void2,"left",7500,null,"Void",false,0));
@@ -304,12 +339,14 @@ public GamePanel() {
 	arenaBoss2.addTeleporter(new Teleporter(250,715,arena1,"bottom",0,null,"Go Back",false,0));
 	arenaBoss3.addTeleporter(new Teleporter(250,715,arena2,"bottom",0,null,"Go Back",false,0));
 	arenaBoss3.addTeleporter(new Teleporter(495,350,arenaFinalBoss,"right",450,null,"Final Arena Boss",false,0));
-	portalWorld.addTeleporter(new Teleporter(495,550,skyRealm,"right",2000,null,"Sky Realm Lv.2000",false,0));
-	portalWorld.addTeleporter(new Teleporter(495,450,void1,"right",7500,skyKey,"Void Labyrinth Lv.7500",false,0));
-	portalWorld.addTeleporter(new Teleporter(495,350,grassCorruption,"right",25000,voidKey,"Corruption Lv.25000",false,0));
-	portalWorld.addTeleporter(new Teleporter(495,250,chaos,"right",400000,corruptedKey,"The Chaos Lv.400000 Prestige 1",false,1));
-	portalWorld.addTeleporter(new Teleporter(495,150,glitchWorld,"right",600000,chaosKey,"Glitch World Lv.600000 Prestige 3",false,3));
-	portalWorld.addTeleporter(new Teleporter(0,550,infinityTower,"left",5000000,glitchKey,"Infinity Tower Lv.5000000 Prestige 4",false,4));
+	portalWorld.addTeleporter(new Teleporter(495,550,skyRealm,"right",2000,null,"Sky Realm Lv.2K",false,0));
+	portalWorld.addTeleporter(new Teleporter(495,450,void1,"right",7500,skyKey,"Void Labyrinth Lv.7.5K",false,0));
+	portalWorld.addTeleporter(new Teleporter(495,350,grassCorruption,"right",25000,voidKey,"Corruption Lv.25K",false,0));
+	portalWorld.addTeleporter(new Teleporter(495,250,chaos,"right",400000,corruptedKey,"The Chaos Lv.400K Prestige 1",false,1));
+	portalWorld.addTeleporter(new Teleporter(495,150,glitchWorld,"right",600000,chaosKey,"Glitch World Lv.600K Prestige 3",false,3));
+	portalWorld.addTeleporter(new Teleporter(0,550,infinityTower,"left",5000000,glitchKey,"Infinity Tower Lv.5M Prestige 4",false,4));
+	portalWorld.addTeleporter(new Teleporter(0,450,end1,"left",50000000,glitchKey,"End Part 1 Lv.50M Prestige 5",false,5));
+	portalWorld.addTeleporter(new Teleporter(0,350,end4,"left",150000000,solarKey,"End Part 2 Lv.150M Prestige 5",false,5));
 	chaos.addTeleporter(new Teleporter(495,350,chaosBoss,"right",500000,null,"Chaos Overlord Lv.500000 Prestige 2",false,2));
 	glitchWorld.addTeleporter(new Teleporter(495,350,glitch2,"right",750000,null,"Glitch World 2 Lv.750000",false,3));
 	glitchWorld.addTeleporter(new Teleporter(0,350,glitch3,"left",1400000,null,"Glitch World 3 Lv.1400000",false,3));
@@ -324,6 +361,11 @@ public GamePanel() {
 	infinity4.addTeleporter(new Teleporter(495,715,secretTower4,"bottom",20000000,secretTowerKey3,"",true,4));
 	infinity5.addTeleporter(new Teleporter(495,0,secretTower5,"top",20000000,secretTowerKey4,"",false,4));
 	infinity5.addTeleporter(new Teleporter(200,0,towerBoss,"top",30000000,secretTowerKey5,"Top Floor Lv.30000000 Req.Elemental Keys",false,4));
+	end1.addTeleporter(new Teleporter(495,350,end2,"right",75000000,null,"Lv.75M",false,5));
+	end1.addTeleporter(new Teleporter(0,350,end3,"left",100000000,null,"Lv.100M",false,5));
+	end1.addTeleporter(new Teleporter(200,0,endBoss1,"top",125000000,null,"ENDBOSS Lv.125M",false,5));
+	end4.addTeleporter(new Teleporter(0,0,secretEnd1,"top",156789999,null,"",true,5));
+	end4.addTeleporter(new Teleporter(0,350,endMiniBoss1,"left",180000000,null,"Miniboss Lv.180M Req.Unknown Key",false,5));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,"sword"));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,"gun"));
@@ -334,6 +376,7 @@ public GamePanel() {
 	weapons.add(new Sword("portal blade",123456,123456,false,true,25000000,"sword"));
 	weapons.add(new Sword("ultra chaos gun",0,300000000,false,true,1500000000000L,"gun"));
 	weapons.add(new Sword("secret exploder",75000000000L,125000000000L,false,true,5000000000000000L,"exploder"));
+	weapons.add(new Sword("hyper solaris",200000000000L,300000000000L,false,true,300000000000000000L,"splitter slicer"));
 	frameDraw=new Timer(1000/100, this);
 	frameDraw.start();
 }
@@ -362,8 +405,8 @@ void setupGui() {
 	inventoryWindow=new JFrame();
 	inventoryWindow.setVisible(true);
 	JPanel inventoryPanel=new JPanel();
-	inventoryPanel.setLayout(new GridLayout(5,10));
-	inventoryWindow.setSize(new Dimension(150+player.items.size()*30,250));
+	inventoryPanel.setLayout(new GridLayout(20,10));
+	inventoryWindow.setSize(new Dimension(150+player.items.size()*15,1000));
 	for (Item item : player.items) {
 		JButton itemButton=new JButton();
 		itemButton.setBackground(new Color(0,0,0));
@@ -508,6 +551,43 @@ public void actionPerformed(ActionEvent arg0) {
 				currentWorld.slicerAngle+=Math.PI/30;
 			}else if(weaponType.equals("invisislicer")) {
 				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,3,"invisigun",0));
+				currentWorld.slicerAngle+=Math.PI/30;
+			}else if(weaponType.equals("splitter laser")) {
+				int x=mouseX;
+				int y=mouseY;
+				int xdiff=x-player.x;
+				int ydiff=y-player.y;
+				double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+				currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,10,"splitter",3));
+			}else if(weaponType.equals("invisilaser")) {
+				int x=mouseX;
+				int y=mouseY;
+				int xdiff=x-player.x;
+				int ydiff=y-player.y;
+				double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
+				currentWorld.projectiles.add(new Projectile(player.x,player.y,xdiff/distance,ydiff/distance,minDamage,maxDamage,3,"invisigun",3));
+			}else if(weaponType.equals("dual invisislicer")) {
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,3,"invisigun",0));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+Math.PI),Math.sin(currentWorld.slicerAngle+Math.PI),minDamage,maxDamage,3,"invisigun",0));
+				currentWorld.slicerAngle+=Math.PI/30;
+			}else if(weaponType.equals("quad invisislicer")) {
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,3,"invisigun",0));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+Math.PI/2),Math.sin(currentWorld.slicerAngle+Math.PI/2),minDamage,maxDamage,3,"invisigun",0));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+Math.PI),Math.sin(currentWorld.slicerAngle+Math.PI),minDamage,maxDamage,3,"invisigun",0));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+3*Math.PI/2),Math.sin(currentWorld.slicerAngle+3*Math.PI/2),minDamage,maxDamage,3,"invisigun",0));
+				currentWorld.slicerAngle+=Math.PI/30;
+			}else if(weaponType.equals("splitter slicer")) {
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,10,"splitter",3));
+				currentWorld.slicerAngle+=Math.PI/30;
+			}else if(weaponType.equals("dual splitter slicer")) {
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,10,"splitter",3));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+Math.PI),Math.sin(currentWorld.slicerAngle+Math.PI),minDamage,maxDamage,10,"splitter",3));
+				currentWorld.slicerAngle+=Math.PI/30;
+			}else if(weaponType.equals("quad splitter slicer")) {
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle),Math.sin(currentWorld.slicerAngle),minDamage,maxDamage,10,"splitter",3));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+Math.PI/2),Math.sin(currentWorld.slicerAngle+Math.PI/2),minDamage,maxDamage,10,"splitter",3));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+Math.PI),Math.sin(currentWorld.slicerAngle+Math.PI),minDamage,maxDamage,10,"splitter",3));
+				currentWorld.projectiles.add(new Projectile(player.x+25,player.y+25,Math.cos(currentWorld.slicerAngle+3*Math.PI/2),Math.sin(currentWorld.slicerAngle+3*Math.PI/2),minDamage,maxDamage,10,"splitter",3));
 				currentWorld.slicerAngle+=Math.PI/30;
 			}
 		}

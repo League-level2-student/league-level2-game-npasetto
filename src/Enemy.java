@@ -35,6 +35,7 @@ String name;
 public Enemy(double spawnX, double spawnY, double maxHealth, int damage, long XPboost, long goldReward, boolean boss, Item reward, Item rareReward, Key keyReward, boolean hasGun, int gunType, int dropChance, String name) {
 	this.spawnX=spawnX;
 	this.spawnY=spawnY;
+	collisionBox=new Rectangle((int) spawnX,(int) spawnY,30,30);
 	this.maxHealth=maxHealth;
 	this.damage=damage;
 	this.XPboost=XPboost;
@@ -50,7 +51,6 @@ public Enemy(double spawnX, double spawnY, double maxHealth, int damage, long XP
 	health=maxHealth;
 	x=spawnX;
 	y=spawnY;
-	collisionBox=new Rectangle();
 	spawnTimer=new Timer(5000,this);
 }
 public void draw(Graphics g) {
@@ -71,8 +71,10 @@ public void draw(Graphics g) {
 		healthText=((double) ((int) (health/10000)))/100+"M";
 	}else if(health<1000000000000L){
 		healthText=((double) ((int) (health/10000000)))/100+"B";
-	}else {
+	}else if(health<1000000000000000L){
 		healthText=((double) ((int) (health/10000000000L)))/100+"T";
+	}else {
+		healthText=((double) ((int) (health/10000000000000L)))/100+"Qd";
 	}
 	if(maxHealth<1000) {
 		maxHealthText=((int) maxHealth)+"";
@@ -82,8 +84,10 @@ public void draw(Graphics g) {
 		maxHealthText=((double) ((int) (maxHealth/10000)))/100+"M";
 	}else if(maxHealth<1000000000000L){
 		maxHealthText=((double) ((int) (maxHealth/10000000)))/100+"B";
-	}else {
+	}else if(maxHealth<1000000000000000L){
 		maxHealthText=((double) ((int) (maxHealth/10000000000L)))/100+"T";
+	}else {
+		maxHealthText=((double) ((int) (maxHealth/10000000000000L)))/100+"Qd";
 	}
 	String text=name+" "+healthText+"/"+maxHealthText;
 	int textLength=g.getFontMetrics().stringWidth(text);

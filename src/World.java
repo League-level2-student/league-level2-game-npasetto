@@ -1,4 +1,5 @@
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +37,7 @@ public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boo
 public void draw(Graphics g) {
 	g.setColor(backgroundColor);
 	g.fillRect(0, 0, RPGgame.WIDTH, RPGgame.HEIGHT);
+	g.setColor(new Color(0,0,0));
 	for (Enemy enemy : enemies) {
 		if(enemy.isActive) {
 			enemy.draw(g);
@@ -64,15 +66,19 @@ public void draw(Graphics g) {
 		textXP=((int) player.XP)+"";
 	}else if(player.XP<1000000){
 		textXP=((double) ((int) (player.XP/10)))/100+"K";
-	}else {
+	}else if(player.XP<1000000000){
 		textXP=((double) ((int) (player.XP/10000)))/100+"M";
+	}else {
+		textXP=((double) ((int) (player.XP/10000000)))/100+"B";
 	}
 	if(player.level*20<1000) {
 		textMaxXP=((int) player.level*20)+"";
 	}else if(player.level*20<1000000){
 		textMaxXP=((double) ((int) (player.level*2)))/100+"K";
-	}else {
+	}else if(player.level*20<1000000000){
 		textMaxXP=((double) ((int) (player.level/500)))/100+"M";
+	}else {
+		textMaxXP=((double) ((int) (player.level/500000)))/100+"B";
 	}
 	String text="XP: "+textXP+"/"+textMaxXP;
 	g.drawString(text, 10, 60);
