@@ -1,6 +1,7 @@
 import java.awt.Color;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ Player player;
 boolean isActive;
 Random rand=new Random();
 double slicerAngle=0;
+boolean[][] walls=new boolean[10][10];
 public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boolean isActive) {
 	this.enemies=enemies;
 	this.backgroundColor=backgroundColor;
@@ -33,11 +35,38 @@ public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boo
 	platforms=new ArrayList<ArmorPlatform>();
 	projectiles=new ArrayList<Projectile>();
 	enemyShots=new ArrayList<EnemyProjectile>();
+	for (int i = 0; i < walls.length; i++) {
+		for (int j = 0; j < walls[i].length; j++) {
+			walls[i][j]=rand.nextBoolean();
+		}
+	}
+}
+public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boolean isActive,boolean[][] walls) {
+	this.enemies=enemies;
+	this.backgroundColor=backgroundColor;
+	this.player=player;
+	this.isActive=isActive;
+	this.walls=walls;
+	enemyAttack=new Timer(1000,this);
+	enemyAttack.start();
+	teleporters=new ArrayList<Teleporter>();
+	tiles=new ArrayList<HealingTile>();
+	platforms=new ArrayList<ArmorPlatform>();
+	projectiles=new ArrayList<Projectile>();
+	enemyShots=new ArrayList<EnemyProjectile>();
+	
 }
 public void draw(Graphics g) {
 	g.setColor(backgroundColor);
 	g.fillRect(0, 0, RPGgame.WIDTH, RPGgame.HEIGHT);
 	g.setColor(new Color(0,0,0));
+	for (int i = 0; i < walls.length; i++) {
+		for (int j = 0; j < walls[i].length; j++) {
+			if(walls[i][j]) {
+				g.fillRect(j*RPGgame.WIDTH/10, i*RPGgame.HEIGHT/10, RPGgame.WIDTH/10, RPGgame.HEIGHT/10);
+			}
+		}
+	}
 	for (Enemy enemy : enemies) {
 		if(enemy.isActive) {
 			enemy.draw(g);
@@ -107,6 +136,17 @@ public void update() {
 			double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
 			enemy.x=enemy.x+xdiff/distance;
 			enemy.y=enemy.y+ydiff/distance;
+			for (int i = 0; i < walls.length; i++) {
+				for (int j = 0; j < walls[i].length; j++) {
+					if(walls[i][j]) {
+						Rectangle wallBox=new Rectangle(j*RPGgame.WIDTH/10,i*RPGgame.HEIGHT/10,RPGgame.WIDTH/10,RPGgame.HEIGHT/10);
+						if(enemy.collisionBox.intersects(wallBox)) {
+							enemy.x=enemy.x+Math.signum(xdiff);
+							enemy.y=enemy.y+Math.signum(ydiff);
+						}
+					}
+				}
+			} 
 			if(enemy.isActive && enemy.hasGun && enemy.canShoot) {
 			double speedx=xdiff/distance;
 			double speedy=ydiff/distance;
