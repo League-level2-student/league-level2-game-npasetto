@@ -34,8 +34,10 @@ void draw(Graphics g) {
 		bonusHealthText=giveArmor.bonusHealth+"";
 	}else if(giveArmor.bonusHealth<1000000){
 		bonusHealthText=((double) ((int) (giveArmor.bonusHealth/10)))/100+"K";
-	}else {
+	}else if(giveArmor.bonusHealth<1000000000){
 		bonusHealthText=((double) ((int) (giveArmor.bonusHealth/10000)))/100+"M";
+	}else {
+		bonusHealthText=((double) ((int) (giveArmor.bonusHealth/10000000)))/100+"B";
 	}
 	String text=giveArmor.name+" Level: "+requiredLevel+" Health: "+bonusHealthText;
 	int textLength=g.getFontMetrics().stringWidth(text);

@@ -18,6 +18,8 @@ int prestigeRequired;
 int teleportX;
 int teleportY;
 public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Item requiredKey, String description, boolean isSecret, int prestigeRequired) {
+	teleportX=250;
+	teleportY=600;
 	this.x=x;
 	this.y=y;
 	this.teleportTo=teleportTo;
@@ -35,8 +37,6 @@ public Teleporter(int x, int y, World teleportTo, String wallSide, int requireme
 		width=5;
 	}
 	collisionBox=new Rectangle(x,y,width,height);
-	teleportX=350;
-	teleportY=600;
 }
 public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Item requiredKey, String description, boolean isSecret, int prestigeRequired, int teleportX, int teleportY) {
 	this.x=x;

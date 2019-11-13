@@ -78,23 +78,27 @@ void draw(Graphics g) {
 }
 void up() {
 	if(y>0) {
-		y=y-5;
+		y-=2;
 	}
+	update();
 }
 void down() {
 	if(y<RPGgame.HEIGHT-50) {
-		y=y+5;
+		y+=2;
 	}
+	update();
 }
 void left() {
 	if(x>0) {
-		x=x-5;
+		x-=2;
 	}
+	update();
 }
 void right() {
 	if(x<RPGgame.WIDTH-50) {
-		x=x+5;
+		x+=2;
 	}
+	update();
 }
 public void attack(Enemy enemy) {
 	enemy.health=enemy.health-(rand.nextDouble()*maxDamage+minDamage);

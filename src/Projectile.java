@@ -15,6 +15,7 @@ Rectangle collisionBox;
 Random rand=new Random();
 String projectileType;
 int splitterCount;
+int exploderTimer=0;
 Projectile(double x, double y, double speedX, double speedY, long minDamage, long maxDamage, int totalSpeed, String projectileType, int splitterCount){
 	this.x=x;
 	this.y=y;
@@ -28,6 +29,9 @@ Projectile(double x, double y, double speedX, double speedY, long minDamage, lon
 	collisionBox=new Rectangle((int) x,(int) y,5,5);
 }
 void move() {
+	if(projectileType.equals("exploder") || projectileType.equals("triple split") || projectileType.equals("double split") || projectileType.equals("split")) {
+		exploderTimer+=1;
+	}
 	x+=speedX*totalSpeed;
 	y+=speedY*totalSpeed;
 	collisionBox.setBounds((int) x, (int) y, 5, 5);

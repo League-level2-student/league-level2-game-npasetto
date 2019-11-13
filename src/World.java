@@ -37,7 +37,7 @@ public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boo
 	enemyShots=new ArrayList<EnemyProjectile>();
 	for (int i = 0; i < walls.length; i++) {
 		for (int j = 0; j < walls[i].length; j++) {
-			walls[i][j]=rand.nextBoolean();
+			walls[i][j]=false;
 		}
 	}
 }
@@ -88,7 +88,13 @@ public void draw(Graphics g) {
 		e.draw(g);
 	}
 	g.setColor(new Color(0,0,0));
-	g.drawString("Level: "+player.level, 10, 40);
+	String levelText;
+	if(player.level<1000000000) {
+		levelText=((int) player.level)+"";
+	}else {
+		levelText=((double) ((int) (player.level/100000)))/10000+"B";
+	}
+	g.drawString("Level: "+levelText, 10, 40);
 	String textXP;
 	String textMaxXP;
 	if(player.XP<1000) {
@@ -122,8 +128,10 @@ public void draw(Graphics g) {
 		textGold=((double) ((int) (player.gold/10000000)))/100+"B";
 	}else if(player.gold<1000000000000000L){
 		textGold=((double) ((int) (player.gold/10000000000L)))/100+"T";
-	}else {
+	}else if(player.gold<1000000000000000000L){
 		textGold=((double) ((int) (player.gold/10000000000000L)))/100+"Qd";
+	}else {
+		textGold=((double) ((int) (player.gold/10000000000000000L)))/100+"Qn";
 	}
 	g.drawString("Gold: "+textGold, 10, 80);
 	g.drawString("Prestiges: "+player.prestiges, 10, 100);
@@ -131,28 +139,45 @@ public void draw(Graphics g) {
 public void update() {
 	for (Enemy enemy : enemies) {
 		if(enemy.isAngry) {
-			double xdiff=player.x-enemy.x;
-			double ydiff=player.y-enemy.y;
+			double xdiff=player.x+10-enemy.x;
+			double ydiff=player.y+10-enemy.y;
 			double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
 			enemy.x=enemy.x+xdiff/distance;
 			enemy.y=enemy.y+ydiff/distance;
+			enemy.updateCollisionBox();
 			for (int i = 0; i < walls.length; i++) {
 				for (int j = 0; j < walls[i].length; j++) {
 					if(walls[i][j]) {
 						Rectangle wallBox=new Rectangle(j*RPGgame.WIDTH/10,i*RPGgame.HEIGHT/10,RPGgame.WIDTH/10,RPGgame.HEIGHT/10);
 						if(enemy.collisionBox.intersects(wallBox)) {
-							enemy.x=enemy.x+Math.signum(xdiff);
-							enemy.y=enemy.y+Math.signum(ydiff);
+							enemy.x=enemy.x-xdiff/distance;
+							enemy.y=enemy.y-ydiff/distance;
+							enemy.updateCollisionBox();
+							if(enemy.collisionBox.intersects(wallBox)) {
+								enemy.x=enemy.x-xdiff/distance;
+								enemy.y=enemy.y-ydiff/distance;
+								enemy.updateCollisionBox();
+							}
 						}
+						
 					}
 				}
 			} 
-			if(enemy.isActive && enemy.hasGun && enemy.canShoot) {
-			double speedx=xdiff/distance;
-			double speedy=ydiff/distance;
-			enemy.timer=0;
-			enemy.canShoot=false;
-			enemyShots.add(new EnemyProjectile(enemy.x,enemy.y,speedx,speedy,enemy.damage,enemy.gunType,true));
+			if(enemy.isActive && enemy.hasGun) {
+			if(enemy.gunType.equals("slicer") || enemy.gunType.equals("slicer split")) {
+				enemyShots.add(new EnemyProjectile(enemy.x+15,enemy.y+15,Math.cos(enemy.slicerAngle),Math.sin(enemy.slicerAngle),enemy.damage,enemy.gunType,true));
+				enemy.slicerAngle+=Math.PI/40;
+			}else if(enemy.canShoot){
+				double speedx=xdiff/distance;
+				double speedy=ydiff/distance;
+				enemy.timer=0;
+				enemy.canShoot=false;
+				enemyShots.add(new EnemyProjectile(enemy.x+15,enemy.y+15,speedx,speedy,enemy.damage,enemy.gunType,true));
+			}else if(enemy.gunType.equals("dual slicer")) {
+				enemyShots.add(new EnemyProjectile(enemy.x+15,enemy.y+15,Math.cos(enemy.slicerAngle),Math.sin(enemy.slicerAngle),enemy.damage,enemy.gunType,true));
+				enemyShots.add(new EnemyProjectile(enemy.x+15,enemy.y+15,Math.cos(enemy.slicerAngle+Math.PI),Math.sin(enemy.slicerAngle+Math.PI),enemy.damage,enemy.gunType,true));
+				enemy.slicerAngle+=Math.PI/40;
+			}
 		}
 		}
 		if(enemy.isActive) {
@@ -167,22 +192,71 @@ public void update() {
 	}
 	for (int i = enemyShots.size()-1; i >= 0; i--) {
 		enemyShots.get(i).move();
-		if(enemyShots.get(i).checkWalls()) {
+		boolean touchingWall=false;
+		for (int j = 0; j < walls.length; j++) {
+			for (int k = 0; k < walls[j].length; k++) {
+				if(walls[j][k]) {
+					Rectangle wallBox=new Rectangle(k*RPGgame.WIDTH/10,j*RPGgame.HEIGHT/10,RPGgame.WIDTH/10,RPGgame.HEIGHT/10);
+					if(enemyShots.get(i).collisionBox.intersects(wallBox)) {
+						touchingWall=true;
+					}
+				}
+			}
+		}
+		if(enemyShots.get(i).checkWalls() || touchingWall) {
 			enemyShots.remove(i);
 		}else if(checkEnemyProjectile(enemyShots.get(i))) {
 			player.health-=enemyShots.get(i).damage;
 			enemyShots.remove(i);
-		}else if(enemyShots.get(i).type>0 && (enemyShots.get(i).timer>=30 || enemyShots.get(i).isStarting)) {
-			System.out.println("Split");
-			for (int j = 0; j < 8; j++) {
-				enemyShots.add(new EnemyProjectile(enemyShots.get(i).x,enemyShots.get(i).y,rand.nextDouble()*10-5,rand.nextDouble()*10-5,enemyShots.get(i).damage,enemyShots.get(i).type-1,false));
+		}else if((enemyShots.get(i).type.equals("split") || enemyShots.get(i).type.equals("double split") || enemyShots.get(i).type.equals("slicer split") || enemyShots.get(i).type.equals("triple split"))  && (enemyShots.get(i).timer>=30 || enemyShots.get(i).isStarting)) {
+			if(enemyShots.get(i).type.equals("split")) {
+				for (int j = 0; j < 8; j++) {
+					enemyShots.add(new EnemyProjectile(enemyShots.get(i).x,enemyShots.get(i).y,rand.nextDouble()*10-5,rand.nextDouble()*10-5,enemyShots.get(i).damage,"normal",false));
+				}
+				enemyShots.remove(i);
+			}else if(enemyShots.get(i).type.equals("double split")) {
+				for (int j = 0; j < 8; j++) {
+					enemyShots.add(new EnemyProjectile(enemyShots.get(i).x,enemyShots.get(i).y,rand.nextDouble()*10-5,rand.nextDouble()*10-5,enemyShots.get(i).damage,"split",false));
+				}
+				enemyShots.remove(i);
+			}else if(enemyShots.get(i).type.equals("slicer split") && enemyShots.get(i).timer>=30) {
+				for (int j = 0; j < 8; j++) {
+					enemyShots.add(new EnemyProjectile(enemyShots.get(i).x,enemyShots.get(i).y,rand.nextDouble()*10-5,rand.nextDouble()*10-5,enemyShots.get(i).damage,"normal",false));
+				}
+				enemyShots.remove(i);
+			}else if(enemyShots.get(i).type.equals("triple split")) {
+				for (int j = 0; j < 8; j++) {
+					enemyShots.add(new EnemyProjectile(enemyShots.get(i).x,enemyShots.get(i).y,rand.nextDouble()*10-5,rand.nextDouble()*10-5,enemyShots.get(i).damage,"double split",false));
+				}
+				enemyShots.remove(i);
 			}
-			enemyShots.remove(i);
 		}
 	}
 	for (int i = projectiles.size()-1; i >= 0; i--) {
 		projectiles.get(i).move();
-		if(projectiles.get(i).checkWalls()) {
+		boolean touchingWall=false;
+		for (int j = 0; j < walls.length; j++) {
+			for (int k = 0; k < walls[j].length; k++) {
+				if(walls[j][k]) {
+					Rectangle wallBox=new Rectangle(k*RPGgame.WIDTH/10,j*RPGgame.HEIGHT/10,RPGgame.WIDTH/10,RPGgame.HEIGHT/10);
+					if(projectiles.get(i).collisionBox.intersects(wallBox)) {
+						touchingWall=true;
+					}
+				}
+			}
+		}
+		if((projectiles.get(i).projectileType.equals("exploder") || projectiles.get(i).projectileType.equals("triple split") || projectiles.get(i).projectileType.equals("double split") || projectiles.get(i).projectileType.equals("split")) && projectiles.get(i).exploderTimer>=30) {
+			for (double angle = 0; angle<2*Math.PI; angle+=Math.PI/15) {
+				if(projectiles.get(i).projectileType.equals("exploder")) {
+					projectiles.add(new Projectile(projectiles.get(i).x,projectiles.get(i).y,Math.cos(angle),Math.sin(angle),projectiles.get(i).minDamage,projectiles.get(i).maxDamage,10,"default",0));
+				}else if(projectiles.get(i).projectileType.equals("triple split")) {
+					projectiles.add(new Projectile(projectiles.get(i).x,projectiles.get(i).y,Math.cos(angle),Math.sin(angle),projectiles.get(i).minDamage,projectiles.get(i).maxDamage,10,"double split",0));
+				}else if(projectiles.get(i).projectileType.equals("double split")) {
+					projectiles.add(new Projectile(projectiles.get(i).x,projectiles.get(i).y,Math.cos(angle),Math.sin(angle),projectiles.get(i).minDamage,projectiles.get(i).maxDamage,10,"exploder",0));
+				}
+			}
+			projectiles.remove(i);
+		}else if(projectiles.get(i).checkWalls() || touchingWall) {
 			projectiles.remove(i);
 		}else if(checkProjectile(projectiles.get(i))!=null) {
 			Enemy intersection=checkProjectile(projectiles.get(i));
@@ -221,6 +295,9 @@ public void update() {
 				}
 				player.gainXP((long) (intersection.XPboost*player.XPMultiplier));
 				player.gold+=(long) (intersection.goldReward*player.goldMultiplier);
+				if(player.gold<0) {
+					player.gold=Long.MAX_VALUE;
+				}
 			}
 			Projectile shot=projectiles.get(i);
 			double x=shot.x;
@@ -295,6 +372,9 @@ public void addArmorPlatform(ArmorPlatform a) {
 @Override
 public void actionPerformed(ActionEvent e) {
 	if(checkIntersection(player)!=null && isActive) {
+		if(checkIntersection(player).infiniteDamage) {
+			player.health=0;
+		}
 		checkIntersection(player).attack(player);
 	}
 	

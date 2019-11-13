@@ -7,12 +7,12 @@ double x;
 double y;
 double speedX;
 double speedY;
-int damage;
+long damage;
 Rectangle collisionBox;
-int type;
+String type;
 int timer=0;
 boolean isStarting;
-EnemyProjectile(double x, double y, double speedX, double speedY, int damage, int type, boolean isStarting){
+EnemyProjectile(double x, double y, double speedX, double speedY, long damage, String type, boolean isStarting){
 	this.x=x;
 	this.y=y;
 	this.speedX=speedX;
@@ -23,7 +23,7 @@ EnemyProjectile(double x, double y, double speedX, double speedY, int damage, in
 	collisionBox=new Rectangle((int) x,(int) y,5,5);
 }
 void move() {
-	if(type>0) {
+	if(type.equals("split") || type.equals("double split") || type.equals("slicer split") || type.equals("triple split")) {
 		timer++;
 	}
 	x+=speedX*3;
