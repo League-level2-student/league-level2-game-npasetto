@@ -119,7 +119,7 @@ public void updateCollisionBox() {
 	collisionBox.setBounds((int) x, (int) y, 30, 30);
 }
 public void attack(Player player) {
-	player.health=player.health-damage;
+	player.health=player.health-damage/player.defenseMultiplier;
 }
 @Override
 public void actionPerformed(ActionEvent arg0) {

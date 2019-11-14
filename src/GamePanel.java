@@ -170,10 +170,12 @@ JButton menu=new JButton();
 JButton save=new JButton();
 JButton load=new JButton();
 JButton resetSave=new JButton();
+JButton potionShop=new JButton("Potion Shop");
 JFrame inventoryWindow;
 JFrame shopWindow;
 JFrame frame;
 JFrame menuFrame;
+JFrame potionShopWindow;
 ArrayList<Sword> weapons=new ArrayList<Sword>();
 ArrayList<Enemy> glitchEnemies;
 ArrayList<Enemy> glitchEnemies2;
@@ -616,6 +618,9 @@ void setupGui() {
 			if(keyItem.isActive) {
 				itemButton.setBackground(new Color(0,255,0));
 			}
+		}else if(item instanceof Potion) {
+			Potion potionItem=(Potion) item;
+			itemButton.setText(potionItem.potionType+" potion");
 		}
 		inventoryPanel.add(itemButton);
 	}
@@ -636,6 +641,9 @@ public void actionPerformed(ActionEvent arg0) {
 		setupGui();
 	}else if(arg0.getSource().equals(frameDraw)){
 		player.update();
+		if(player.confusionTimer>0) {
+			player.confusionTimer--;
+		}
 		if(upPressed) {
 			player.up();
 			for (int i = 0; i < currentWorld.walls.length; i++) {
@@ -703,6 +711,9 @@ public void actionPerformed(ActionEvent arg0) {
 		if(player.health<=0) {
 			teleportBack();
 			player.health=player.maxHealth;
+			player.speed=2;
+			player.strengthMultiplier=1;
+			player.defenseMultiplier=1;
 		}
 		currentWorld.update();
 		if(currentWorld.checkTeleport(player)!=null) {
@@ -848,6 +859,36 @@ public void actionPerformed(ActionEvent arg0) {
 		}
 		shopWindow.removeAll();
 		shopWindow.dispose();
+	}else if(frame.equals(potionShopWindow)){
+		JButton source=(JButton) arg0.getSource();
+		if(source.getText().equals("healing potion 500K Gold")) {
+			if(player.gold>=500000) {
+				player.items.add(new Potion("0",false,"healing"));
+				player.gold-=500000;
+			}
+		}else if(source.getText().equals("speed potion 100M Gold")) {
+			if(player.gold>=100000000) {
+				player.items.add(new Potion("0",false,"speed"));
+				player.gold-=100000000;
+			}
+		}else if(source.getText().equals("confusion potion 100Qd Gold")) {
+			if(player.gold>=100000000000000000L) {
+				player.items.add(new Potion("0",false,"confusion"));
+				player.gold-=100000000000000000L;
+			}
+		}else if(source.getText().equals("strength potion 10B Gold")) {
+			if(player.gold>=25000000000L) {
+				player.items.add(new Potion("0",false,"strength"));
+				player.gold-=25000000000L;
+			}
+		}else if(source.getText().equals("defense potion 25T Gold")) {
+			if(player.gold>=10000000000000L) {
+				player.items.add(new Potion("0",false,"defense"));
+				player.gold-=10000000000000L;
+			}
+		}
+		potionShopWindow.removeAll();
+		potionShopWindow.dispose();
 	}else if(arg0.getSource().equals(prestige)){
 		if(player.level>=player.levelRequired) {
 			player.level=1;
@@ -887,6 +928,8 @@ public void actionPerformed(ActionEvent arg0) {
 		loadSave();
 	}else if(arg0.getSource().equals(resetSave)) {
 		resetSave();
+	}else if(arg0.getSource().equals(potionShop)){
+		setupPotionShop();
 	}else {
 		JButton source=(JButton) arg0.getSource();
 		String[] damages=source.getText().split("  ");
@@ -900,6 +943,8 @@ public void actionPerformed(ActionEvent arg0) {
 					type="armor";
 				}else if(item instanceof Key) {
 					type="key";
+				}else if(item instanceof Potion) {
+					type="potion";
 				}
 				for (int i = 0; i < player.items.size(); i++) {
 					if(player.items.get(i) instanceof Sword && type.equals("sword")) {
@@ -911,6 +956,8 @@ public void actionPerformed(ActionEvent arg0) {
 						}
 						player.items.get(i).isActive=false;
 					}else if(player.items.get(i) instanceof Key && type.equals("key")) {
+						player.items.get(i).isActive=false;
+					}else if(player.items.get(i) instanceof Potion && type.equals("potion")) {
 						player.items.get(i).isActive=false;
 					}
 					if(item.equals(player.items.get(i))) {
@@ -924,6 +971,25 @@ public void actionPerformed(ActionEvent arg0) {
 				}else if(type.equals("armor")) {
 					Armor armorItem=(Armor) item;
 					player.maxHealth+=armorItem.bonusHealth;
+				}else if(type.equals("potion")) {
+					Potion potionItem=(Potion) item;
+					switch(potionItem.potionType) {
+					case ("health"):
+						player.health=player.maxHealth;
+						break;
+					case ("speed"):
+						player.speed+=1;
+						break;
+					case ("confusion"):
+						player.confusionTimer=1500;
+						break;
+					case ("strength"):
+						player.strengthMultiplier=1.5;
+						break;
+					case ("defense"):
+						player.defenseMultiplier=100;
+						break;
+					}
 				}
 			}
 		}
@@ -931,6 +997,39 @@ public void actionPerformed(ActionEvent arg0) {
 		inventoryWindow.dispose();
 	}
 	repaint();
+}
+public void setupPotionShop() {
+	potionShopWindow=new JFrame();
+	potionShopWindow.setVisible(true);
+	JPanel potionShopPanel=new JPanel();
+	potionShopPanel.setLayout(new GridLayout(5,10));
+	potionShopWindow.setSize(new Dimension(750,250));
+	JButton healingShopButton=new JButton("healing potion 500K Gold");
+	healingShopButton.setBackground(new Color(255,0,0));
+	healingShopButton.setForeground(new Color(0,0,0));
+	healingShopButton.addActionListener(this);
+	JButton speedShopButton=new JButton("speed potion 100M Gold");
+	speedShopButton.setBackground(new Color(255,0,0));
+	speedShopButton.setForeground(new Color(0,0,0));
+	speedShopButton.addActionListener(this);
+	JButton confusionShopButton=new JButton("confusion potion 100Qd Gold");
+	confusionShopButton.setBackground(new Color(255,0,0));
+	confusionShopButton.setForeground(new Color(0,0,0));
+	confusionShopButton.addActionListener(this);
+	JButton strengthShopButton=new JButton("strength potion 10B Gold");
+	strengthShopButton.setBackground(new Color(255,0,0));
+	strengthShopButton.setForeground(new Color(0,0,0));
+	strengthShopButton.addActionListener(this);
+	JButton defenseShopButton=new JButton("defense potion 25T Gold");
+	defenseShopButton.setBackground(new Color(255,0,0));
+	defenseShopButton.setForeground(new Color(0,0,0));
+	defenseShopButton.addActionListener(this);
+	potionShopPanel.add(healingShopButton);
+	potionShopPanel.add(speedShopButton);
+	potionShopPanel.add(confusionShopButton);
+	potionShopPanel.add(strengthShopButton);
+	potionShopPanel.add(defenseShopButton);
+	potionShopWindow.add(potionShopPanel);
 }
 public void resetSave() {
 	try {
@@ -952,6 +1051,7 @@ public void setupMenu() {
 	menuPanel.add(save);
 	menuPanel.add(load);
 	menuPanel.add(resetSave);
+	menuPanel.add(potionShop);
 	menuFrame.add(menuPanel);
 	menuFrame.pack();
 }
@@ -1116,6 +1216,9 @@ public void keyPressed(KeyEvent arg0) {
 		resetSave.addActionListener(this);
 		resetSave.addKeyListener(this);
 		resetSave.addMouseListener(this);
+		potionShop.addActionListener(this);
+		potionShop.addKeyListener(this);
+		potionShop.addMouseListener(this);
 		this.add(menu);
 	}
 	if(arg0.getKeyCode()==KeyEvent.VK_UP) {

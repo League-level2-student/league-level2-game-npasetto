@@ -184,7 +184,7 @@ public void update() {
 			double xdiff=player.x-enemy.x;
 			double ydiff=player.y-enemy.y;
 			double distance=Math.sqrt(xdiff*xdiff+ydiff*ydiff);
-			if(distance<50) {
+			if(distance<50 && player.confusionTimer==0) {
 				enemy.isAngry=true;
 			}
 		}
@@ -206,7 +206,8 @@ public void update() {
 		if(enemyShots.get(i).checkWalls() || touchingWall) {
 			enemyShots.remove(i);
 		}else if(checkEnemyProjectile(enemyShots.get(i))) {
-			player.health-=enemyShots.get(i).damage;
+			System.out.println(player.defenseMultiplier);
+			player.health-=enemyShots.get(i).damage/player.defenseMultiplier;
 			enemyShots.remove(i);
 		}else if((enemyShots.get(i).type.equals("split") || enemyShots.get(i).type.equals("double split") || enemyShots.get(i).type.equals("slicer split") || enemyShots.get(i).type.equals("triple split"))  && (enemyShots.get(i).timer>=30 || enemyShots.get(i).isStarting)) {
 			if(enemyShots.get(i).type.equals("split")) {
@@ -260,8 +261,10 @@ public void update() {
 			projectiles.remove(i);
 		}else if(checkProjectile(projectiles.get(i))!=null) {
 			Enemy intersection=checkProjectile(projectiles.get(i));
-			intersection.health-=rand.nextDouble()*projectiles.get(i).maxDamage+projectiles.get(i).minDamage;
-			intersection.isAngry=true;
+			intersection.health-=player.strengthMultiplier*(rand.nextDouble()*projectiles.get(i).maxDamage+projectiles.get(i).minDamage);
+			if(player.confusionTimer==0) {
+				intersection.isAngry=true;
+			}
 			if(intersection.health<=0) {
 				intersection.isActive=false;
 				Item reward;

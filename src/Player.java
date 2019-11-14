@@ -29,6 +29,10 @@ int prestiges=0;
 long levelRequired=1000;
 ArrayList<Item> items;
 Random rand=new Random();
+int speed=2;
+int confusionTimer=0;
+double strengthMultiplier=1;
+double defenseMultiplier=1;
 Player(int x, int y, int maxHealth, long minDamage, long maxDamage){
 	this.x=x;
 	this.y=y;
@@ -78,30 +82,30 @@ void draw(Graphics g) {
 }
 void up() {
 	if(y>0) {
-		y-=2;
+		y-=speed;
 	}
 	update();
 }
 void down() {
 	if(y<RPGgame.HEIGHT-50) {
-		y+=2;
+		y+=speed;
 	}
 	update();
 }
 void left() {
 	if(x>0) {
-		x-=2;
+		x-=speed;
 	}
 	update();
 }
 void right() {
 	if(x<RPGgame.WIDTH-50) {
-		x+=2;
+		x+=speed;
 	}
 	update();
 }
 public void attack(Enemy enemy) {
-	enemy.health=enemy.health-(rand.nextDouble()*maxDamage+minDamage);
+	enemy.health=enemy.health-strengthMultiplier*(rand.nextDouble()*maxDamage+minDamage);
 	if(enemy.health<=0) {
 		enemy.isAngry=false;
 		gainXP((long) (enemy.XPboost*XPMultiplier));
@@ -112,7 +116,7 @@ public void attack(Enemy enemy) {
 }
 public void gainXP(long XPboost) {
 	XP+=XPboost;
-	System.out.println("Level: "+level+" -- XP: "+XP);
+	//System.out.println("Level: "+level+" -- XP: "+XP);
 	while(XP>=level*20) {
 		XP-=level*20;
 		level++;
