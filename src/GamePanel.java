@@ -134,6 +134,7 @@ World endMaze3;
 World endMaze4;
 World endMaze5;
 World endMazeCheckpoint;
+World finalBoss;
 Key key1;
 Key key2;
 Key key3;
@@ -422,6 +423,7 @@ public GamePanel() {
 	endMaze3=new World(generateEnemies(20,0,0,1,false,null,null,null,0,false,"",2,"???",mazeWalls3,0,7,0,9,true,true,500),new Color(255,0,255),player,false,mazeWalls3);
 	endMaze4=new World(generateEnemies(1,0,0,1,false,null,null,secretMazeKey,0,false,"",2,"????",mazeWalls4,0,0,8,8,true,true,500),new Color(255,0,255),player,false,mazeWalls4);
 	endMaze5=new World(generateEnemies(1,60000000000L,90000000000000000L,850000000000000000L,false,null,null,secondMazeKey,0,true,"double split",2,"key guardian",mazeWalls5,1,1,9,9),new Color(255,0,255),player,false,mazeWalls5);
+	finalBoss=new World(generateEnemies(1,50000000000L,500000000000000000L,200000000000000000L,true,new Sword("the final laser",1000000000000000L,3000000000000000L,false,false,0,"laser"),null,null,500000000000000000L,true,"double split",6,"ssob lanif",random,0,7,0,9,false,true,5000,3),new Color(255,0,255),player,false);
 	endDrop1=new World(generateEnemies(1,0,0,1,true,null,new Sword("enhanced quasar destroyer",4000000000000L,7000000000000L,false,false,0,"triple split"),null,0,false,"",2,"chance 50%",random),new Color(255,0,255),player,false);
 	endDrop2=new World(generateEnemies(1,0,0,1,true,null,new Sword("echo laser",0,400000000000000L,false,false,0,"laser"),null,0,false,"",6,"chance 16.67%",random),new Color(255,0,255),player,false);
 	endDrop3=new World(generateEnemies(1,0,0,1,true,null,new Sword("enhanced echo laser",0,550000000000000L,false,false,0,"laser"),null,0,false,"",12,"chance 8.33%",random),new Color(255,0,255),player,false);
@@ -607,6 +609,7 @@ public GamePanel() {
 	endMaze3.addTeleporter(new Teleporter(195,665,endMaze4,"right",1500000000,null,"",false,5,250,650));
 	endMaze4.addTeleporter(new Teleporter(195,665,endMaze5,"right",1500000000,null,"",false,5,250,650));
 	endMaze5.addTeleporter(new Teleporter(400,15,endMazeCheckpoint,"right",1500000000,null,"",false,5,250,650));
+	endMazeCheckpoint.addTeleporter(new Teleporter(495,350,finalBoss,"right",2000000000,null,"FINAL B0SS",false,5,250,650));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,"sword"));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,"gun"));
@@ -1355,7 +1358,7 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 		}
 		int randomX=xstart+rand.nextInt(xend-xstart);
 		int randomY=ystart+rand.nextInt(yend-ystart);
-		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,false,false,5000));
+		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,false,false,5000,1));
 	}
 	return newEnemies;
 }
@@ -1384,7 +1387,7 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 		}
 		int randomX=xstart+rand.nextInt(xend-xstart);
 		int randomY=ystart+rand.nextInt(yend-ystart);
-		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,false,false,5000));
+		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,false,false,5000,1));
 	}
 	return newEnemies;
 }
@@ -1413,7 +1416,7 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 		}
 		int randomX=xstart+rand.nextInt(xend-xstart);
 		int randomY=ystart+rand.nextInt(yend-ystart);
-		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,isSecret,false,5000));
+		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,isSecret,false,5000,1));
 	}
 	return newEnemies;
 }
@@ -1442,7 +1445,7 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 		}
 		int randomX=xstart+rand.nextInt(xend-xstart);
 		int randomY=ystart+rand.nextInt(yend-ystart);
-		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,isSecret,infiniteDamage,5000));
+		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,isSecret,infiniteDamage,5000,1));
 	}
 	return newEnemies;
 }
@@ -1471,7 +1474,36 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 		}
 		int randomX=xstart+rand.nextInt(xend-xstart);
 		int randomY=ystart+rand.nextInt(yend-ystart);
-		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,isSecret,infiniteDamage,respawn));
+		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,isSecret,infiniteDamage,respawn,1));
+	}
+	return newEnemies;
+}
+public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, long goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax, boolean isSecret, boolean infiniteDamage, int respawn, int stages){
+	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
+	for (int i = 0; i < number; i++) {
+		int newi=rand.nextInt(imax-imin+1)+imin;
+		int newj=rand.nextInt(jmax-jmin+1)+jmin;
+		while(walls[newi][newj]) {
+			newi=rand.nextInt(imax-imin+1)+imin;
+			newj=rand.nextInt(jmax-jmin+1)+jmin;
+		}
+		int xstart=newj*RPGgame.WIDTH/10;
+		int ystart=newi*RPGgame.HEIGHT/10;
+		int xend=xstart+RPGgame.WIDTH/10-30;
+		int yend=ystart+RPGgame.HEIGHT/10-30;
+		if(newj<jmax) {
+			if(walls[newi][newj+1]==false) {
+				xend+=30;
+			}
+		}
+		if(newi<imax) {
+			if(walls[newi+1][newj]==false) {
+				yend+=30;
+			}
+		}
+		int randomX=xstart+rand.nextInt(xend-xstart);
+		int randomY=ystart+rand.nextInt(yend-ystart);
+		newEnemies.add(new Enemy(randomX,randomY,health,damage,XPboost,goldReward,boss,reward,rareReward,keyReward,hasGun,gunType,dropChance,enemyName,isSecret,infiniteDamage,respawn,stages));
 	}
 	return newEnemies;
 }
@@ -1527,6 +1559,10 @@ public void mouseClicked(MouseEvent arg0) {
 				}
 				if(contains==false && reward!=null) {
 					player.items.add(reward);
+				}
+				if(intersection.isDefeatable) {
+					currentWorld.enemies.remove(intersection);
+					currentWorld.enemiesDefeated++;
 				}
 				contains=false;
 				if(intersection.keyReward!=null) {

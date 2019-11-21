@@ -23,6 +23,7 @@ boolean isActive;
 Random rand=new Random();
 double slicerAngle=0;
 boolean[][] walls=new boolean[10][10];
+int enemiesDefeated=0;
 public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boolean isActive) {
 	this.enemies=enemies;
 	this.backgroundColor=backgroundColor;
@@ -137,7 +138,8 @@ public void draw(Graphics g) {
 	g.drawString("Prestiges: "+player.prestiges, 10, 100);
 }
 public void update() {
-	for (Enemy enemy : enemies) {
+	for (int j=0; j<enemies.size(); j++) {
+		Enemy enemy=enemies.get(j);
 		if(enemy.isAngry) {
 			double xdiff=player.x+10-enemy.x;
 			double ydiff=player.y+10-enemy.y;
@@ -146,9 +148,9 @@ public void update() {
 			enemy.y=enemy.y+ydiff/distance;
 			enemy.updateCollisionBox();
 			for (int i = 0; i < walls.length; i++) {
-				for (int j = 0; j < walls[i].length; j++) {
-					if(walls[i][j]) {
-						Rectangle wallBox=new Rectangle(j*RPGgame.WIDTH/10,i*RPGgame.HEIGHT/10,RPGgame.WIDTH/10,RPGgame.HEIGHT/10);
+				for (int k = 0; k < walls[i].length; k++) {
+					if(walls[i][k]) {
+						Rectangle wallBox=new Rectangle(k*RPGgame.WIDTH/10,i*RPGgame.HEIGHT/10,RPGgame.WIDTH/10,RPGgame.HEIGHT/10);
 						if(enemy.collisionBox.intersects(wallBox)) {
 							enemy.x=enemy.x-xdiff/distance;
 							enemy.y=enemy.y-ydiff/distance;
@@ -187,8 +189,26 @@ public void update() {
 			if(distance<50 && player.confusionTimer==0) {
 				enemy.isAngry=true;
 			}
+			if(enemy.stages>1 && enemy.health<=(enemy.maxHealth-(enemy.stageNum*(enemy.maxHealth/enemy.stages)))) {
+				enemy.stageNum++;
+				enemy.x=-100000;
+				enemy.y=-100000;
+				enemy.isAngry=false;
+				for (int i = 0; i < 8; i++) {
+					Enemy newEnemy=new Enemy(rand.nextInt(RPGgame.WIDTH),rand.nextInt(RPGgame.HEIGHT),(long) (enemy.maxHealth/30),(long) (enemy.damage/10),0,0,false,null,null,null,enemy.hasGun,enemy.gunType,1,enemy.name+" guardian",false,false,5000,1);
+					newEnemy.isDefeatable=true;
+					newEnemy.isAngry=true;
+					enemies.add(newEnemy);
+				}
+			}
 		}
 		enemy.update();
+	}
+	if(enemiesDefeated==8) {
+		enemiesDefeated=0;
+		enemies.get(0).x=250;
+		enemies.get(0).y=350;
+		enemies.get(0).isAngry=true;
 	}
 	for (int i = enemyShots.size()-1; i >= 0; i--) {
 		enemyShots.get(i).move();

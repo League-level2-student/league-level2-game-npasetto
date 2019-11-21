@@ -36,7 +36,10 @@ boolean isSecret;
 double slicerAngle=0;
 boolean infiniteDamage;
 int respawn;
-public Enemy(double spawnX, double spawnY, double maxHealth, long damage, long XPboost, long goldReward, boolean boss, Item reward, Item rareReward, Key keyReward, boolean hasGun,String gunType, int dropChance, String name, boolean isSecret, boolean infiniteDamage, int respawn) {
+int stages;
+int stageNum=1;
+boolean isDefeatable=false;
+public Enemy(double spawnX, double spawnY, double maxHealth, long damage, long XPboost, long goldReward, boolean boss, Item reward, Item rareReward, Key keyReward, boolean hasGun,String gunType, int dropChance, String name, boolean isSecret, boolean infiniteDamage, int respawn, int stages) {
 	this.spawnX=spawnX;
 	this.spawnY=spawnY;
 	collisionBox=new Rectangle((int) spawnX,(int) spawnY,30,30);
@@ -55,6 +58,7 @@ public Enemy(double spawnX, double spawnY, double maxHealth, long damage, long X
 	this.isSecret=isSecret;
 	this.infiniteDamage=infiniteDamage;
 	this.respawn=respawn;
+	this.stages=stages;
 	health=maxHealth;
 	x=spawnX;
 	y=spawnY;
