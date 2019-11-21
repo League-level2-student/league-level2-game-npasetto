@@ -1,5 +1,6 @@
 import java.awt.Color;
 
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -126,6 +127,13 @@ World endDrop1;
 World endDrop2;
 World endDrop3;
 World endDrop4;
+World mazeStart;
+World endMaze1;
+World endMaze2;
+World endMaze3;
+World endMaze4;
+World endMaze5;
+World endMazeCheckpoint;
 Key key1;
 Key key2;
 Key key3;
@@ -162,6 +170,10 @@ Key endSecretKey;
 Key asteriskKey;
 Key pulsarKey;
 Key quasarKey;
+Key firstMazeKey;
+Key secretMazeKey;
+Key secondMazeKey;
+Key mazeCheckpointKey;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
@@ -193,6 +205,11 @@ boolean[][] endWalls3=new boolean[10][10];
 boolean[][] endWalls4=new boolean[10][10];
 boolean[][] endWalls5=new boolean[10][10];
 boolean[][] endWalls6=new boolean[10][10];
+boolean[][] mazeWalls1=new boolean[10][10];
+boolean[][] mazeWalls2=new boolean[10][10];
+boolean[][] mazeWalls3=new boolean[10][10];
+boolean[][] mazeWalls4=new boolean[10][10];
+boolean[][] mazeWalls5=new boolean[10][10];
 public GamePanel() {
 	titleFont=new Font("Arial",Font.PLAIN,48);
 	textFont=new Font("Arial",Font.PLAIN,12);
@@ -232,6 +249,10 @@ public GamePanel() {
 	asteriskKey=new Key("Asterisk Key",false);
 	pulsarKey=new Key("Pulsar Key",false);
 	quasarKey=new Key("Quasar Key",false);
+	firstMazeKey=new Key("First Maze Key",false);
+	secretMazeKey=new Key("Secret Maze Key",false);
+	secondMazeKey=new Key("Second Maze Key",false);
+	mazeCheckpointKey=new Key("Maze Checkpoint Key",false);
 	for (int i = 0; i < random.length; i++) {
 		for (int j = 0; j < random[i].length; j++) {
 			random[i][j]=false;
@@ -288,6 +309,51 @@ public GamePanel() {
 				endWalls6[i][j]=false;
 			}else {
 				endWalls6[i][j]=false;
+			}
+		}
+	}
+	for (int i = 0; i < mazeWalls1.length; i++) {
+		for (int j = 0; j < mazeWalls1[i].length; j++) {
+			if((i==0 && j==0) || (i==1 && j!=1 && j!=6 && j!=9) || (i==2 && j==6) || (i==3 && j!=5 && j!=7 && j!=9) || (i==4 && (j==7 || j==8)) || (i==5 && j!=0 && j!=3 && j!=8) || (i==7 && j!=0 && j!=6 && j!=9) || (i==8 && j!=0 && j!=6 && j!=7 && j!=9) || (i==9 && (j==6 || j==7 || j==8))) {
+				mazeWalls1[i][j]=true;
+			}else {
+				mazeWalls1[i][j]=false;
+			}
+		}
+	}
+	for (int i = 0; i < mazeWalls2.length; i++) {
+		for (int j = 0; j < mazeWalls2[i].length; j++) {
+			if((i==0 && (j==1 || j==6)) || (i==1 && j!=0 && j!=2 && j!=5 && j!=7) || (i==2 && (j==1 || j==4 || j==7)) || (i==3 && (j==2 || j==4 || j==5 || j==7)) || (i==4 && j!=1 && j!=4 && j!=6 && j!=9) || (i==5 && (j==5 || j==8)) || (i==6 && j!=3 && j!=5 && j!=6 && j!=8 && j!=9) || (i==7 && (j==1 || j==3 || j==6 || j==9)) || (i==8 && j!=0 && j!=2 && j!=9)) {
+				mazeWalls2[i][j]=true;
+			}else {
+				mazeWalls2[i][j]=false;
+			}
+		}
+	}
+	for (int i = 0; i < mazeWalls3.length; i++) {
+		for (int j = 0; j < mazeWalls3[i].length; j++) {
+			if((i==0 && j>1 && j<6) || (i==1 && (j==1 || j==7 || j==8)) || (i==2 &&(j==3 || (j>4 && j<9))) || ((i==3 || i==5) && (j==0 || j==2)) || (i==4 && j!=1 && j!=3 && j!=9) || (i==6 && j!=1 && j!=2 && j!=9) || (i==7 && (j==2 || j==3)) || (i==8 && j!=0 && j!=2 && j!=4 && j!=9) || (i==9 && j==4)) {
+				mazeWalls3[i][j]=true;
+			}else {
+				mazeWalls3[i][j]=false;
+			}
+		}
+	}
+	for (int i = 0; i < mazeWalls4.length; i++) {
+		for (int j = 0; j < mazeWalls4[i].length; j++) {
+			if((i%2==0 && j%2==1) || (i==1 && j==6) || (i==2 && j==0) || (i==3 && j==7) || (i==4 && (j==2 || j==4)) || (i==5 && (j==0 || j==7)) || (i==6 && (j==4 || j==6)) || (i==8 && (j==0 || j==6)) || (i==9 && j==4)) {
+				mazeWalls4[i][j]=true;
+			}else {
+				mazeWalls4[i][j]=false;
+			}
+		}
+	}
+	for (int i = 0; i < mazeWalls5.length; i++) {
+		for (int j = 0; j < mazeWalls5[i].length; j++) {
+			if((i==0 && (j==1 || j==2 || j==7)) || (i==1 && (j>3 && j<9)) || (i==2 && (j==1 || j==2 || j==3 || j==6)) || (i==3 && j!=0 && j!=1 && j!=2 && j!=4 && j!=7) || (i==4 && (j==0 || j==1 || j==3 || j==8)) || (i==5 && (j==4 || j==6)) || (i==6 && j!=3 && j!=7) || (i==8 && j!=1)) {
+				mazeWalls5[i][j]=true;
+			}else {
+				mazeWalls5[i][j]=false;
 			}
 		}
 	}
@@ -349,6 +415,13 @@ public GamePanel() {
 	endEnemies5.addAll(generateEnemies(1,0,0,1,false,null,null,endSecretKey,0,false,"",20,"key",random));
 	secretEnd5=new World(endEnemies5,new Color(255,255,0),player,false,random);
 	endDropWorld=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,0,255),player,false);
+	mazeStart=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,0,255),player,false);
+	endMazeCheckpoint=new World(generateEnemies(1,0,0,1,false,null,null,mazeCheckpointKey,0,false,"",2,"checkpoint",random),new Color(255,0,255),player,false);
+	endMaze1=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",mazeWalls1),new Color(255,0,255),player,false,mazeWalls1);
+	endMaze2=new World(generateEnemies(1,60000000000L,60000000000000000L,600000000000000000L,false,null,null,firstMazeKey,0,true,"double split",2,"key guardian",mazeWalls2,5,5,4,4),new Color(255,0,255),player,false,mazeWalls2);
+	endMaze3=new World(generateEnemies(20,0,0,1,false,null,null,null,0,false,"",2,"???",mazeWalls3,0,7,0,9,true,true,500),new Color(255,0,255),player,false,mazeWalls3);
+	endMaze4=new World(generateEnemies(1,0,0,1,false,null,null,secretMazeKey,0,false,"",2,"????",mazeWalls4,0,0,8,8,true,true,500),new Color(255,0,255),player,false,mazeWalls4);
+	endMaze5=new World(generateEnemies(1,60000000000L,90000000000000000L,850000000000000000L,false,null,null,secondMazeKey,0,true,"double split",2,"key guardian",mazeWalls5,1,1,9,9),new Color(255,0,255),player,false,mazeWalls5);
 	endDrop1=new World(generateEnemies(1,0,0,1,true,null,new Sword("enhanced quasar destroyer",4000000000000L,7000000000000L,false,false,0,"triple split"),null,0,false,"",2,"chance 50%",random),new Color(255,0,255),player,false);
 	endDrop2=new World(generateEnemies(1,0,0,1,true,null,new Sword("echo laser",0,400000000000000L,false,false,0,"laser"),null,0,false,"",6,"chance 16.67%",random),new Color(255,0,255),player,false);
 	endDrop3=new World(generateEnemies(1,0,0,1,true,null,new Sword("enhanced echo laser",0,550000000000000L,false,false,0,"laser"),null,0,false,"",12,"chance 8.33%",random),new Color(255,0,255),player,false);
@@ -418,6 +491,7 @@ public GamePanel() {
 	world1.addTeleporter(new Teleporter(0,400,arena1,"left",110,key6,"Lv.110 Arena QT",false,0));
 	world1.addTeleporter(new Teleporter(495,450,portalWorld,"right",2000,ultimateKey,"Portal World Lv.2000",false,0));
 	world1.addHealingTile(new HealingTile(100,600));
+	mazeStart.addHealingTile(new HealingTile(100,600));
 	world1.addArmorPlatform(new ArmorPlatform(new Armor("grass armor",50,false),5,350,600));
 	skyRealm.addArmorPlatform(new ArmorPlatform(new Armor("sky armor",30000,false),2222,350,600));
 	skyRealm.addArmorPlatform(new ArmorPlatform(new Armor("wind armor",75000,false),3333,100,600));
@@ -437,6 +511,7 @@ public GamePanel() {
 	end1.addArmorPlatform(new ArmorPlatform(new Armor("end armor",1500000000,false),60000000,350,600));
 	end4.addArmorPlatform(new ArmorPlatform(new Armor("crystal armor",3500000000L,false),155555555,350,600));
 	end7.addArmorPlatform(new ArmorPlatform(new Armor("crimson armor",50000000000L,false),543210123,350,600));
+	mazeStart.addArmorPlatform(new ArmorPlatform(new Armor("maze armor",999000000000L,false),1543210123,350,600));
 	void1.addTeleporter(new Teleporter(200,0,void3,"top",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(495,350,void4,"right",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(0,350,void2,"left",7500,null,"Void",false,0));
@@ -482,6 +557,7 @@ public GamePanel() {
 	portalWorld.addTeleporter(new Teleporter(0,450,end1,"left",50000000,towerKey,"End Part 1 Lv.50M Prestige 5",false,5));
 	portalWorld.addTeleporter(new Teleporter(0,350,end4,"left",150000000,solarKey,"End Part 2 Lv.150M Prestige 5",false,5));
 	portalWorld.addTeleporter(new Teleporter(0,250,end7,"left",500000000,vortexKey,"End Part 3 Lv.500M Prestige 5",false,5));
+	portalWorld.addTeleporter(new Teleporter(0,150,mazeStart,"left",1500000000,quasarKey,"End Maze Lv.1.5B Prestige 5",false,5));
 	chaos.addTeleporter(new Teleporter(495,350,chaosBoss,"right",500000,null,"Chaos Overlord Lv.500000 Prestige 2",false,2));
 	glitchWorld.addTeleporter(new Teleporter(495,350,glitch2,"right",750000,null,"Glitch World 2 Lv.750000",false,3));
 	glitchWorld.addTeleporter(new Teleporter(0,350,glitch3,"left",1400000,null,"Glitch World 3 Lv.1400000",false,3));
@@ -518,6 +594,19 @@ public GamePanel() {
 	endDropWorld.addTeleporter(new Teleporter(495,450,endDrop2,"right",970000000,null,"Lv.970M",false,5));
 	endDropWorld.addTeleporter(new Teleporter(495,350,endDrop3,"right",1110000000,null,"Lv.1.11B",false,5));
 	endDropWorld.addTeleporter(new Teleporter(495,250,endDrop4,"right",1400000000,null,"Lv.1.4B",false,5));
+	mazeStart.addTeleporter(new Teleporter(495,350,endMaze1,"right",1500000000,null,"Start The Maze",false,5,250,650));
+	mazeStart.addTeleporter(new Teleporter(495,250,endMazeCheckpoint,"right",1500000000,null,"Maze Checkpoint Req.Maze Checkpoint Key",false,5,250,650));
+	endMaze1.addTeleporter(new Teleporter(495,300,endMaze2,"right",1500000000,null,"",false,5,250,650));
+	endMaze1.addTeleporter(new Teleporter(0,160,endMaze3,"left",1500000000,firstMazeKey,"Req.First Maze Key",false,5,250,650));
+	endMaze2.addTeleporter(new Teleporter(460,576,endMaze2,"top",1500000000,null,"",false,5,210,520));
+	endMaze2.addTeleporter(new Teleporter(110,504,endMaze2,"top",1500000000,null,"",false,5,0,220));
+	endMaze2.addTeleporter(new Teleporter(10,504,endMaze2,"top",1500000000,null,"",false,5,450,144));
+	endMaze2.addTeleporter(new Teleporter(10,0,endMaze2,"top",1500000000,null,"",false,5,200,288));
+	endMaze2.addTeleporter(new Teleporter(160,283,endMaze2,"bottom",1500000000,null,"",false,5,350,72));
+	endMaze2.addTeleporter(new Teleporter(360,571,endMaze2,"bottom",1500000000,null,"",false,5,400,150));
+	endMaze3.addTeleporter(new Teleporter(195,665,endMaze4,"right",1500000000,null,"",false,5,250,650));
+	endMaze4.addTeleporter(new Teleporter(195,665,endMaze5,"right",1500000000,null,"",false,5,250,650));
+	endMaze5.addTeleporter(new Teleporter(400,15,endMazeCheckpoint,"right",1500000000,null,"",false,5,250,650));
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,"sword"));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,"gun"));
@@ -620,7 +709,7 @@ void setupGui() {
 			}
 		}else if(item instanceof Potion) {
 			Potion potionItem=(Potion) item;
-			itemButton.setText(potionItem.potionType+" potion");
+			itemButton.setText(potionItem.name+"  potion");
 		}
 		inventoryPanel.add(itemButton);
 	}
@@ -863,27 +952,27 @@ public void actionPerformed(ActionEvent arg0) {
 		JButton source=(JButton) arg0.getSource();
 		if(source.getText().equals("healing potion 500K Gold")) {
 			if(player.gold>=500000) {
-				player.items.add(new Potion("0",false,"healing"));
+				player.items.add(new Potion("healing",false));
 				player.gold-=500000;
 			}
 		}else if(source.getText().equals("speed potion 100M Gold")) {
 			if(player.gold>=100000000) {
-				player.items.add(new Potion("0",false,"speed"));
+				player.items.add(new Potion("speed",false));
 				player.gold-=100000000;
 			}
 		}else if(source.getText().equals("confusion potion 100Qd Gold")) {
 			if(player.gold>=100000000000000000L) {
-				player.items.add(new Potion("0",false,"confusion"));
+				player.items.add(new Potion("confusion",false));
 				player.gold-=100000000000000000L;
 			}
 		}else if(source.getText().equals("strength potion 10B Gold")) {
 			if(player.gold>=25000000000L) {
-				player.items.add(new Potion("0",false,"strength"));
+				player.items.add(new Potion("strength",false));
 				player.gold-=25000000000L;
 			}
 		}else if(source.getText().equals("defense potion 25T Gold")) {
 			if(player.gold>=10000000000000L) {
-				player.items.add(new Potion("0",false,"defense"));
+				player.items.add(new Potion("defense",false));
 				player.gold-=10000000000000L;
 			}
 		}
@@ -934,16 +1023,16 @@ public void actionPerformed(ActionEvent arg0) {
 		JButton source=(JButton) arg0.getSource();
 		String[] damages=source.getText().split("  ");
 		String name=damages[0];
-		for (Item item : player.items) {
-			if(item.name.equals(name)) {
+		for (int j=player.items.size()-1; j>=0; j--) {
+			if(player.items.get(j).name.equals(name)) {
 				String type="";
-				if(item instanceof Sword) {
+				if(player.items.get(j) instanceof Sword) {
 					type="sword";
-				}else if(item instanceof Armor) {
+				}else if(player.items.get(j) instanceof Armor) {
 					type="armor";
-				}else if(item instanceof Key) {
+				}else if(player.items.get(j) instanceof Key) {
 					type="key";
-				}else if(item instanceof Potion) {
+				}else if(player.items.get(j) instanceof Potion) {
 					type="potion";
 				}
 				for (int i = 0; i < player.items.size(); i++) {
@@ -960,37 +1049,43 @@ public void actionPerformed(ActionEvent arg0) {
 					}else if(player.items.get(i) instanceof Potion && type.equals("potion")) {
 						player.items.get(i).isActive=false;
 					}
-					if(item.equals(player.items.get(i))) {
+					if(player.items.get(j).equals(player.items.get(i))) {
 						player.items.get(i).isActive=true;
 					}
 				}
 				if(type.equals("sword")) {
-					Sword swordItem=(Sword) item;
+					Sword swordItem=(Sword) player.items.get(j);
 					player.minDamage=swordItem.minDamage;
 					player.maxDamage=swordItem.maxDamage;
 				}else if(type.equals("armor")) {
-					Armor armorItem=(Armor) item;
+					Armor armorItem=(Armor) player.items.get(j);
 					player.maxHealth+=armorItem.bonusHealth;
 				}else if(type.equals("potion")) {
-					Potion potionItem=(Potion) item;
-					switch(potionItem.potionType) {
-					case ("health"):
+					Potion potionItem=(Potion) player.items.get(j);
+					switch(potionItem.name) {
+					case ("healing"):
 						player.health=player.maxHealth;
 						break;
 					case ("speed"):
 						player.speed+=1;
 						break;
 					case ("confusion"):
-						player.confusionTimer=1500;
+						player.confusionTimer+=500;
 						break;
 					case ("strength"):
-						player.strengthMultiplier=1.5;
+						if(player.strengthMultiplier<2) {
+							player.strengthMultiplier+=0.3;
+						}
 						break;
 					case ("defense"):
-						player.defenseMultiplier=100;
+						if(player.defenseMultiplier<2) {
+							player.defenseMultiplier+=0.3;
+						}
 						break;
 					}
+					player.items.remove(j);
 				}
+				break;
 			}
 		}
 		inventoryWindow.removeAll();
@@ -1155,6 +1250,7 @@ public void loadSave() {
 			player.XPMultiplier=Math.pow(1.5, player.prestiges);
 			player.goldMultiplier=Math.pow(1.5, player.prestiges);
 			player.levelRequired=(int) (1000*Math.pow(10, player.prestiges));
+			prestige.setText("Prestige: Level "+player.levelRequired);
 			player.items.clear();
 			String[] secondSplit=firstSplit[4].split("\\*");
 			for (String string : secondSplit) {

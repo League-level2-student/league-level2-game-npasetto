@@ -1,9 +1,7 @@
 
 public class Potion extends Item{
-	String potionType;
-	Potion(String name, boolean isActive, String potionType) {
+	Potion(String name, boolean isActive) {
 		super(name, isActive);
-		this.potionType=potionType;
 	}
 
 }
