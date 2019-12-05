@@ -1,6 +1,7 @@
 import java.awt.Color;
 
 
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -135,6 +136,34 @@ World endMaze4;
 World endMaze5;
 World endMazeCheckpoint;
 World finalBoss;
+World bonusWorld;
+World bonus1;
+World bonus2;
+World secretWorld5;
+World bonus3;
+World secretWorld6;
+World secretWorld7;
+World bonus4;
+World bonus5;
+World dungeon1;
+World dungeon2;
+World dungeon3;
+World dungeon4;
+World dungeon5;
+World dungeon6;
+World dungeon7;
+World dungeon8;
+World dimensional1;
+World dimensionalCheckpoint;
+World dimensional2;
+World dimensional3;
+World dimensionalCheckpoint2;
+World dimensional4;
+World dimensional5;
+World dimensional6;
+World dimensionalCheckpoint3;
+World dimensionalBoss;
+World dimension2start;
 Key key1;
 Key key2;
 Key key3;
@@ -175,6 +204,20 @@ Key firstMazeKey;
 Key secretMazeKey;
 Key secondMazeKey;
 Key mazeCheckpointKey;
+Key finalKey;
+Key eclipseKey;
+Key triKey;
+Key secretOceanKey;
+Key errorKey;
+Key secretSkyKey;
+Key secretVoidKey;
+Key unstableKey;
+Key prestigeKey;
+Key dimensionalCheckpointKey;
+Key dimensionalKey2;
+Key dimensionalKey3;
+Key interdimensionalKey;
+Key dimension2Key;
 JButton toSpawn=new JButton();
 JButton inventory=new JButton();
 JButton shop=new JButton();
@@ -254,6 +297,20 @@ public GamePanel() {
 	secretMazeKey=new Key("Secret Maze Key",false);
 	secondMazeKey=new Key("Second Maze Key",false);
 	mazeCheckpointKey=new Key("Maze Checkpoint Key",false);
+	finalKey=new Key("Final Boss Key",false);
+	eclipseKey=new Key("Eclipse Key",false);
+	triKey=new Key("TriKey",false);
+	secretOceanKey=new Key("Secret Ocean Key",false);
+	errorKey=new Key("Error Key",false);
+	secretSkyKey=new Key("Secret Sky Key",false);
+	secretVoidKey=new Key("Secret Void Key",false);
+	unstableKey=new Key("Unstable Key",false);
+	prestigeKey=new Key("Prestige Key",false);
+	dimensionalCheckpointKey=new Key("Dimensional Checkpoint Key",false);
+	dimensionalKey2=new Key("Second Checkpoint Key",false);
+	dimensionalKey3=new Key("Third Checkpoint Key",false);
+	interdimensionalKey=new Key("Interdimensional Key",false);
+	dimension2Key=new Key("Dimension II Key",false);
 	for (int i = 0; i < random.length; i++) {
 		for (int j = 0; j < random[i].length; j++) {
 			random[i][j]=false;
@@ -416,6 +473,17 @@ public GamePanel() {
 	endEnemies5.addAll(generateEnemies(1,0,0,1,false,null,null,endSecretKey,0,false,"",20,"key",random));
 	secretEnd5=new World(endEnemies5,new Color(255,255,0),player,false,random);
 	endDropWorld=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,0,255),player,false);
+	dimensional1=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,255,0),player,false);
+	dimensional2=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,255,0),player,false);
+	dimensional3=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,255,0),player,false);
+	dimensional4=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,255,0),player,false);
+	dimensional5=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,255,0),player,false);
+	dimensional6=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,255,0),player,false);
+	dimensionalCheckpoint=new World(generateEnemies(1,0,0,1,false,null,null,dimensionalCheckpointKey,0,false,"",2,"checkpoint",random),new Color(255,0,255),player,false);
+	dimensionalCheckpoint2=new World(generateEnemies(1,0,0,1,false,null,null,dimensionalKey2,0,false,"",2,"checkpoint",random),new Color(255,0,255),player,false);
+	dimensionalCheckpoint3=new World(generateEnemies(1,0,0,1,false,null,null,dimensionalKey3,0,false,"",2,"checkpoint",random),new Color(255,0,255),player,false);
+	dimensionalBoss=new World(generateEnemies(1,80000000000L,3000000000000000000L,50000000000000000000D,true,new Sword("interdimensional slicer",50000000000000000L,100000000000000000L,false,false,0,"slicer"),new Sword("interdimensional inferno",20000000000000000L,40000000000000000L,false,false,0,"quad invisislicer"),interdimensionalKey,3000000000000000000L,true,"double split",4,"interdimensional overlord",random,0,7,0,9,false,true,5000,3),new Color(255,0,255),player,false);
+	dimension2start=new World(generateEnemies(1,99999999999L,10000000000000000000D,200000000000000000000D,true,new Sword("dimensional blade",5000000000000000000L,5000000000000000000L,false,false,0,"sword"),null,dimension2Key,13000000000000000000D,true,"double split",4,"dimension II guardian",random,0,7,0,9,false,true,5000,4),new Color(255,0,255),player,false);
 	mazeStart=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",random),new Color(255,0,255),player,false);
 	endMazeCheckpoint=new World(generateEnemies(1,0,0,1,false,null,null,mazeCheckpointKey,0,false,"",2,"checkpoint",random),new Color(255,0,255),player,false);
 	endMaze1=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",2,"",mazeWalls1),new Color(255,0,255),player,false,mazeWalls1);
@@ -423,7 +491,12 @@ public GamePanel() {
 	endMaze3=new World(generateEnemies(20,0,0,1,false,null,null,null,0,false,"",2,"???",mazeWalls3,0,7,0,9,true,true,500),new Color(255,0,255),player,false,mazeWalls3);
 	endMaze4=new World(generateEnemies(1,0,0,1,false,null,null,secretMazeKey,0,false,"",2,"????",mazeWalls4,0,0,8,8,true,true,500),new Color(255,0,255),player,false,mazeWalls4);
 	endMaze5=new World(generateEnemies(1,60000000000L,90000000000000000L,850000000000000000L,false,null,null,secondMazeKey,0,true,"double split",2,"key guardian",mazeWalls5,1,1,9,9),new Color(255,0,255),player,false,mazeWalls5);
-	finalBoss=new World(generateEnemies(1,50000000000L,500000000000000000L,200000000000000000L,true,new Sword("the final laser",1000000000000000L,3000000000000000L,false,false,0,"laser"),null,null,500000000000000000L,true,"double split",6,"ssob lanif",random,0,7,0,9,false,true,5000,3),new Color(255,0,255),player,false);
+	finalBoss=new World(generateEnemies(1,50000000000L,500000000000000000L,2000000000000000000L,true,new Sword("the final laser",1000000000000000L,3000000000000000L,false,false,0,"laser"),new Sword("ssob lanif megalaser",0,3000000000000000L,false,false,0,"megalaser"),finalKey,500000000000000000L,true,"double split",6,"ssob lanif",random,0,7,0,9,false,true,5000,3),new Color(255,0,255),player,false);
+	bonus1=new World(generateEnemies(1,60000000000L,500000000000000000L,3500000000000000000L,true,new Sword("eclipse striker",300000000000000L,800000000000000L,false,false,0,"splitter laser"),null,eclipseKey,500000000000000000L,true,"double split",3,"ECLIPSE",random,0,7,0,9,false,true,5000,5),new Color(255,0,255),player,false);
+	bonus2=new World(generateEnemies(3,25000000000L,200000000000000000L,1500000000000000000L,true,null,new Sword("triboss striker",300000000000000L,1000000000000000L,false,false,0,"splitter laser"),triKey,200000000000000000L,true,"double split",3,"TRIBOSS",random,0,7,0,9,false,true,5000,5),new Color(255,0,255),player,false);
+	bonus3=new World(generateEnemies(1,65000000000L,750000000000000000L,6000000000000000000L,true,new Sword("error striker",700000000000000L,1000000000000000L,false,false,0,"splitter laser"),null,errorKey,800000000000000000L,true,"double split",10,"ERROR",random,0,7,0,9,false,true,5000,6),new Color(255,0,255),player,false);
+	bonus4=new World(generateEnemies(1,70000000000L,1000000000000000000L,7500000000000000000L,true,new Sword("unstable striker",700000000000000L,1500000000000000L,false,false,0,"splitter laser"),null,unstableKey,1100000000000000000L,true,"double split",10,"UNSTABLE",random,0,7,0,9,false,true,5000,6),new Color(255,0,255),player,false);
+	bonus5=new World(generateEnemies(1,75000000000L,1250000000000000000L,Long.MAX_VALUE,true,new Sword("prestige striker",1500000000000000L,1500000000000000L,false,false,0,"splitter laser"),null,prestigeKey,1500000000000000000L,true,"double split",10,"PRESTIGE",random,0,7,0,9,false,true,5000,8),new Color(255,0,255),player,false);
 	endDrop1=new World(generateEnemies(1,0,0,1,true,null,new Sword("enhanced quasar destroyer",4000000000000L,7000000000000L,false,false,0,"triple split"),null,0,false,"",2,"chance 50%",random),new Color(255,0,255),player,false);
 	endDrop2=new World(generateEnemies(1,0,0,1,true,null,new Sword("echo laser",0,400000000000000L,false,false,0,"laser"),null,0,false,"",6,"chance 16.67%",random),new Color(255,0,255),player,false);
 	endDrop3=new World(generateEnemies(1,0,0,1,true,null,new Sword("enhanced echo laser",0,550000000000000L,false,false,0,"laser"),null,0,false,"",12,"chance 8.33%",random),new Color(255,0,255),player,false);
@@ -455,6 +528,9 @@ public GamePanel() {
 	secretWorld2=new World(generateEnemies(1,2500,0,15000,true,destructionKey,new Sword("blade of destruction",700,900,false,false,0,"sword"),null,0,false,"",5,"THE DESTROYER",random),new Color(255,0,255),player,false);
 	secretWorld3=new World(generateEnemies(1,4000,0,30000,true,deathKey,new Sword("death sword",0,5000,false,false,0,"sword"),null,0,false,"",5,"Death",random),new Color(255,0,255),player,false);
 	secretWorld4=new World(generateEnemies(1,5000,0,60000,true,new Sword("chaos blade",5000,10000,false,false,0,"sword"),new Sword("chaos gun",20000,20000,false,false,0,"gun"),null,0,false,"",5,"Chaos",random),new Color(255,0,255),player,false);
+	secretWorld5=new World(generateEnemies(1,50000000000L,0,Long.MAX_VALUE,true,null,null,secretOceanKey,0,true,"double split",5,"???",random),new Color(255,0,255),player,false);
+	secretWorld6=new World(generateEnemies(1,65000000000L,0,Long.MAX_VALUE,true,null,null,secretSkyKey,0,true,"double split",5,"????",random),new Color(255,0,255),player,false);
+	secretWorld7=new World(generateEnemies(1,80000000000L,0,Long.MAX_VALUE,true,null,null,secretVoidKey,0,true,"double split",5,"?????",random),new Color(255,0,255),player,false);
 	bossWorld3=new World(generateEnemies(1,100,400,175,true,new Sword("super water blade",7,9,false,false,0,"sword"),new Sword("ocean gun",7,12,false,false,0,"gun"),key3,500,false,"",10,"ocean titan",random),new Color(255,0,255),player,false);
 	bossWorld4=new World(generateEnemies(1,160,750,300,true,new Sword("iron gun",6,10,false,false,0,"gun"),new Sword("steel sword",16,20,false,false,0,"sword"),key4,800,false,"",10,"steel giant",random),new Color(255,0,255),player,false);
 	bossWorld5=new World(generateEnemies(1,200,2000,500,true,new Sword("lava blade",30,40,false,false,0,"sword"),new Sword("lava broadsword",50,65,false,false,0,"sword"),key5,3000,true,"split",10,"lava titan",random),new Color(255,0,255),player,false);
@@ -465,11 +541,21 @@ public GamePanel() {
 	superboss1=new World(generateEnemies(1,500,5000,2000,true,new Sword("volcano gun",0,120,false,false,0,"gun"),new Sword("volcano blade",100,200,false,false,0,"sword"),key6,7500,false,"",10,"volcano giant",random),new Color(255,0,255),player,false);
 	chaosBoss=new World(generateEnemies(1,5000000,25000000000L,20000000000L,true,new Sword("chaos laser",0,50000000,false,false,0,"laser"),new Sword("chaos megalaser",0,25000000,false,false,0,"megalaser"),chaosKey,100000000000L,false,"",6,"chaos overlord",random),new Color(255,0,255),player,false);
 	portalWorld=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",random),new Color(255,0,255),player,false);
+	dungeon1=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",endWalls4),new Color(255,0,255),player,false,endWalls4);
+	dungeon2=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",endWalls4),new Color(255,0,255),player,false,endWalls4);
+	dungeon3=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",endWalls4),new Color(255,0,255),player,false,endWalls4);
+	dungeon4=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",endWalls4),new Color(255,0,255),player,false,endWalls4);
+	dungeon5=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",endWalls4),new Color(255,0,255),player,false,endWalls4);
+	dungeon6=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",endWalls4),new Color(255,0,255),player,false,endWalls4);
+	dungeon7=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",endWalls4),new Color(255,0,255),player,false,endWalls4);
+	dungeon8=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",endWalls4),new Color(255,0,255),player,false,endWalls4);
+	bonusWorld=new World(generateEnemies(0,0,0,0,false,null,null,null,0,false,"",1,"",random),new Color(255,0,255),player,false);
 	ultraboss1=new World(generateEnemies(1,1000000,2147483647,2147483647,true,new Sword("infinity laser",0,4000000,false,false,0,"laser"), null,null,2147483647,false,"",3,"INFINITY",random),new Color(255,255,255),player,false);
 	world2.addTeleporter(new Teleporter(495,350,bossWorld2,"right",0,null,"Second Boss",false,0));
 	world2.addTeleporter(new Teleporter(0,400,bossWorld3,"left",13,key2,"Third Boss Req. Second Boss",false,0));
 	world2.addTeleporter(new Teleporter(50,0,world3,"top",18,key3,"Req. Level 18 and Third Boss",false,0));
 	world2.addTeleporter(new Teleporter(350,715,secretWorld4,"bottom",450,deathKey,"",true,0));
+	world2.addTeleporter(new Teleporter(0,719,secretWorld5,"bottom",1000000,null,"",true,0));
 	world2.addArmorPlatform(new ArmorPlatform(new Armor("water armor",75,false),12,350,600));
 	world3.addArmorPlatform(new ArmorPlatform(new Armor("iron armor",250,false),24,350,600));
 	world3.addTeleporter(new Teleporter(100,0,bossWorld4,"top",0,null,"Fourth Boss",false,0));
@@ -500,6 +586,7 @@ public GamePanel() {
 	skyRealm.addTeleporter(new Teleporter(495,350,windRealm,"right",3000,null,"Wind Realm Lv.3000",false,0));
 	skyRealm.addTeleporter(new Teleporter(0,350,stormRealm,"left",4000,null,"Storm Realm Lv.4000",false,0));
 	skyRealm.addTeleporter(new Teleporter(200,0,skyRealmBoss,"top",5000,null,"Boss Lv.5000",false,0));
+	skyRealm.addTeleporter(new Teleporter(499,719,secretWorld6,"bottom",1000000,null,"",true,0));
 	stormRealm.addArmorPlatform(new ArmorPlatform(new Armor("storm armor",150000,false),4500,350,600));
 	skyRealmBoss.addArmorPlatform(new ArmorPlatform(new Armor("ultra sky armor",300000,false),8000,350,600));
 	grassCorruption.addArmorPlatform(new ArmorPlatform(new Armor("corrupted armor",500000,false),30000,350,600));
@@ -517,6 +604,7 @@ public GamePanel() {
 	void1.addTeleporter(new Teleporter(200,0,void3,"top",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(495,350,void4,"right",7500,null,"Void",false,0));
 	void1.addTeleporter(new Teleporter(0,350,void2,"left",7500,null,"Void",false,0));
+	void1.addTeleporter(new Teleporter(0,719,secretWorld7,"bottom",1000000,null,"",true,0));
 	void2.addTeleporter(new Teleporter(200,0,void1,"top",7500,null,"Void",false,0));
 	void2.addTeleporter(new Teleporter(495,350,void4,"right",7500,null,"Void",false,0));
 	void2.addTeleporter(new Teleporter(0,350,void3,"left",7500,null,"Void",false,0));
@@ -560,6 +648,13 @@ public GamePanel() {
 	portalWorld.addTeleporter(new Teleporter(0,350,end4,"left",150000000,solarKey,"End Part 2 Lv.150M Prestige 5",false,5));
 	portalWorld.addTeleporter(new Teleporter(0,250,end7,"left",500000000,vortexKey,"End Part 3 Lv.500M Prestige 5",false,5));
 	portalWorld.addTeleporter(new Teleporter(0,150,mazeStart,"left",1500000000,quasarKey,"End Maze Lv.1.5B Prestige 5",false,5));
+	portalWorld.addTeleporter(new Teleporter(200,0,bonusWorld,"top",2147483647,finalKey,"Bonus Lv.2.1474B Prestige 6",false,6));
+	portalWorld.addTeleporter(new Teleporter(250,715,dimensional1,"bottom",4000000000L,prestigeKey,"Interdimensional Lv.4B Req.Prestige Key",false,10,250,650));
+	bonusWorld.addTeleporter(new Teleporter(0,550,bonus1,"left",2147483647,key,"ECLIPSE Req.??? Prestige 6",false,6));
+	bonusWorld.addTeleporter(new Teleporter(0,450,bonus2,"left",2147483647,secretMazeKey,"TRIBOSS Req.Secret Maze Key Prestige 7",false,7));
+	bonusWorld.addTeleporter(new Teleporter(0,350,bonus3,"left",2147483647,secretOceanKey,"ERROR Req.Secret Ocean Key Prestige 8",false,8));
+	bonusWorld.addTeleporter(new Teleporter(0,250,bonus4,"left",2147483647,secretSkyKey,"UNSTABLE Req.Secret Sky Key Prestige 9",false,9));
+	bonusWorld.addTeleporter(new Teleporter(0,150,bonus5,"left",2147483647,secretVoidKey,"PRESTIGE Req.Secret Void Key Prestige 10",false,10));
 	chaos.addTeleporter(new Teleporter(495,350,chaosBoss,"right",500000,null,"Chaos Overlord Lv.500000 Prestige 2",false,2));
 	glitchWorld.addTeleporter(new Teleporter(495,350,glitch2,"right",750000,null,"Glitch World 2 Lv.750000",false,3));
 	glitchWorld.addTeleporter(new Teleporter(0,350,glitch3,"left",1400000,null,"Glitch World 3 Lv.1400000",false,3));
@@ -609,7 +704,72 @@ public GamePanel() {
 	endMaze3.addTeleporter(new Teleporter(195,665,endMaze4,"right",1500000000,null,"",false,5,250,650));
 	endMaze4.addTeleporter(new Teleporter(195,665,endMaze5,"right",1500000000,null,"",false,5,250,650));
 	endMaze5.addTeleporter(new Teleporter(400,15,endMazeCheckpoint,"right",1500000000,null,"",false,5,250,650));
-	endMazeCheckpoint.addTeleporter(new Teleporter(495,350,finalBoss,"right",2000000000,null,"FINAL B0SS",false,5,250,650));
+	endMazeCheckpoint.addTeleporter(new Teleporter(495,350,finalBoss,"right",2000000000,null,"FINAL B0SS Lv.2B",false,5,250,650));
+	world1.addTeleporter(new Teleporter(250,715,dungeon1,"bottom",117,null,"Dungeon Lv.117",false,0,200,650));
+	dimensional1.addTeleporter(new Teleporter(300,0,dimensionalCheckpoint,"top",0,null,"Checkpoint",false,0,250,650));
+	dimensional1.addTeleporter(new Teleporter(0,650,dimensionalCheckpoint,"left",0,dimensionalCheckpointKey,"Checkpoint Req.Dimensional Checkpoint Key",false,0,250,650));
+	dimensional1.addTeleporter(new Teleporter(495,650,dimensionalCheckpoint2,"right",0,dimensionalKey2,"Checkpoint Req.Second Checkpoint Key",false,0,250,650));
+	dimensionalCheckpoint.addTeleporter(new Teleporter(495,350,dimensional2,"right",5000000000L,dimensionalCheckpointKey,"Next Lv.5B",false,0,250,650));
+	dimensionalCheckpoint.addTeleporter(new Teleporter(0,350,dimensionalCheckpoint3,"left",0,dimensionalKey3,"Checkpoint Req.Third Checkpoint Key",false,0,250,650));
+	dimensional2.addTeleporter(new Teleporter(300,0,dimensional3,"top",0,null,"??????",false,0,250,650));
+	dimensional3.addTeleporter(new Teleporter(300,0,dimensionalCheckpoint2,"top",0,null,"Checkpoint",false,0,250,650));
+	dimensionalCheckpoint2.addTeleporter(new Teleporter(495,350,dimensional4,"right",6000000000L,dimensionalKey2,"Next Lv.6B",false,0,250,650));
+	dimensional4.addTeleporter(new Teleporter(300,0,dimensional5,"top",0,null,"Next",false,0,250,650));
+	dimensional5.addTeleporter(new Teleporter(300,0,dimensional6,"top",0,null,"Next",false,0,250,650));
+	dimensional6.addTeleporter(new Teleporter(300,0,dimensionalCheckpoint3,"top",0,null,"Checkpoint",false,0,250,650));
+	dimensionalCheckpoint3.addTeleporter(new Teleporter(495,350,dimensionalBoss,"right",7000000000L,dimensionalKey3,"Boss Lv.7B",false,0,250,650));
+	dimensionalBoss.addTeleporter(new Teleporter(200,0,dimension2start,"top",8500000000L,interdimensionalKey,"Dimension II Guardian Lv.8.5B",false,0,250,650));
+	dungeon1.addPickup(new Pickup(15,436,8,150));
+	dungeon1.addPickup(new Pickup(115,436,8,150));
+	dungeon1.addPickup(new Pickup(315,436,8,150));
+	dungeon1.addTeleporter(new Teleporter(310,715,dungeon2,"bottom",1173,null,"Dungeon Lv.1173 Prestige 1",false,1,200,650));
+	dungeon2.addPickup(new Pickup(215,125,75,1500));
+	dungeon2.addPickup(new Pickup(415,294,75,1500));
+	dungeon2.addPickup(new Pickup(15,643,75,1500));
+	dungeon2.addTeleporter(new Teleporter(310,715,dungeon3,"bottom",11736,null,"Dungeon Lv.11736 Prestige 2",false,2,200,650));
+	dungeon3.addPickup(new Pickup(215,168,500,12000));
+	dungeon3.addPickup(new Pickup(315,412,500,12000));
+	dungeon3.addPickup(new Pickup(15,613,500,12000));
+	dungeon3.addTeleporter(new Teleporter(310,715,dungeon4,"bottom",98765,null,"Dungeon Lv.98765 Prestige 3",false,3,200,650));
+	dungeon4.addPickup(new Pickup(215,168,3000,100000));
+	dungeon4.addPickup(new Pickup(315,412,3000,100000));
+	dungeon4.addPickup(new Pickup(15,613,3000,100000));
+	dungeon4.addTeleporter(new Teleporter(310,715,dungeon5,"bottom",666666,null,"Dungeon Lv.666666 Prestige 4",false,4,200,650));
+	dungeon5.addPickup(new Pickup(415,637,15000,700000));
+	dungeon5.addPickup(new Pickup(215,12,15000,700000));
+	dungeon5.addPickup(new Pickup(115,313,15000,700000));
+	dungeon5.addTeleporter(new Teleporter(310,715,dungeon6,"bottom",15000000,null,"Dungeon Lv.15M Prestige 5",false,5,200,650));
+	dungeon6.addPickup(new Pickup(315,15,300000,15000000));
+	dungeon6.addPickup(new Pickup(415,365,300000,15000000));
+	dungeon6.addPickup(new Pickup(215,523,300000,15000000));
+	dungeon6.addTeleporter(new Teleporter(310,715,dungeon7,"bottom",250000000,null,"Dungeon Lv.250M Prestige 7",false,7,200,650));
+	dungeon7.addPickup(new Pickup(415,15,3000000,250000000));
+	dungeon7.addPickup(new Pickup(15,365,3000000,250000000));
+	dungeon7.addPickup(new Pickup(15,523,3000000,250000000));
+	dungeon7.addTeleporter(new Teleporter(310,715,dungeon8,"bottom",3000000000L,null,"Dungeon Lv.3B Prestige 10",false,10,200,650));
+	dungeon8.addPickup(new Pickup(15,639,15000000,2147483647));
+	dungeon8.addPickup(new Pickup(215,567,15000000,2147483647));
+	dungeon8.addPickup(new Pickup(415,289,15000000,2147483647));
+	for(int y=0; y<=600; y+=50) {
+		dimensional1.addTrap(new Trap(0,y,30,30,1,470,"right",2*y));
+	}
+	for(int x=0; x<=400; x+=50) {
+		dimensional1.addTrap(new Trap(x,0,30,30,2,600/2,"down",2*x));
+	}
+	for(int y=0; y<=600; y+=100) {
+		dimensional2.addTrap(new Trap(0,y,40,40,5,92,"right",(int) y/6));
+	}
+	for(int y=0; y<=600; y+=100) {
+		dimensional3.addTrap(new Trap(0,y,40,40,7,460/7,"right",0));
+	}
+	for(int y=0; y<=600; y+=100) {
+		dimensional4.addTrap(new Trap(0,y,40,40,7,460/7,"right",y));
+	}
+	dimensional5.addTrap(new Trap(230,0,165,40,5,20,"down",0));
+	for(int y=0; y<=600; y+=100) {
+		dimensional6.addTrap(new Trap(0,y,40,40,5,42,"right",0));
+		dimensional6.addTrap(new Trap(460,y,40,40,5,42,"left",0));
+	}
 	currentWorld=world1;
 	weapons.add(new Sword("grass broadsword",2,5,false,true,1000,"sword"));
 	weapons.add(new Sword("weak gun",4,5,false,true,5000,"gun"));
@@ -670,8 +830,10 @@ void setupGui() {
 				minDamageText=((double) ((int) (swordItem.minDamage/10000)))/100+"M";
 			}else if(swordItem.minDamage<1000000000000L){
 				minDamageText=((double) ((int) (swordItem.minDamage/10000000)))/100+"B";
-			}else {
+			}else if(swordItem.minDamage<1000000000000000L){
 				minDamageText=((double) ((int) (swordItem.minDamage/10000000000L)))/100+"T";
+			}else {
+				minDamageText=((double) ((int) (swordItem.minDamage/10000000000000L)))/100+"Qd";
 			}
 			if(swordItem.maxDamage<1000) {
 				maxDamageText=((int) swordItem.maxDamage)+"";
@@ -681,8 +843,10 @@ void setupGui() {
 				maxDamageText=((double) ((int) (swordItem.maxDamage/10000)))/100+"M";
 			}else if(swordItem.maxDamage<1000000000000L){
 				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000)))/100+"B";
-			}else {
+			}else if(swordItem.maxDamage<1000000000000000L){
 				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000000L)))/100+"T";
+			}else {
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000000000L)))/100+"Qd";
 			}
 			itemButton.setText(swordItem.name+"  "+minDamageText+"-"+maxDamageText);
 			if (swordItem.isActive) {
@@ -839,6 +1003,12 @@ public void actionPerformed(ActionEvent arg0) {
 		if(currentWorld.checkArmorPlatform(player)!=null) {
 			currentWorld.checkArmorPlatform(player).giveArmor(player);
 		}
+		if(currentWorld.checkPickup(player)!=null) {
+			currentWorld.checkPickup(player).giveReward(player);
+		}
+		if(currentWorld.checkTrap(player)!=null) {
+			player.health-=player.maxHealth/30;
+		}
 		long minDamage=0;
 		long maxDamage=0;
 		String weaponType="";
@@ -982,7 +1152,7 @@ public void actionPerformed(ActionEvent arg0) {
 		potionShopWindow.removeAll();
 		potionShopWindow.dispose();
 	}else if(arg0.getSource().equals(prestige)){
-		if(player.level>=player.levelRequired) {
+		if(player.level>=player.levelRequired && player.prestiges<11) {
 			player.level=1;
 			player.XP=0;
 			player.gold=0;
@@ -1000,12 +1170,43 @@ public void actionPerformed(ActionEvent arg0) {
 				player.items.add(new Sword("prestige sword 4",1,500000,false,false,0,"sword"));
 			}
 			if(player.prestiges>3) {
-				player.items.add(new Sword("the final prestige",1,2147483647,false,false,0,"slicer"));
+				player.items.add(new Sword("the ultimate prestige",1,2147483647,false,false,0,"slicer"));
 			}
-			player.XPMultiplier*=1.5;
-			player.goldMultiplier*=1.5;
+			if(player.prestiges>4) {
+				player.items.add(new Sword("prestige laser",1,7500000000L,false,false,0,"laser"));
+			}
+			if(player.prestiges>5) {
+				player.items.add(new Sword("prestige megalaser",1,100000000000L,false,false,0,"megalaser"));
+			}
+			if(player.prestiges>6) {
+				player.items.add(new Sword("prestige striker",1,500000000000L,false,false,0,"splitter laser"));
+			}
+			if(player.prestiges>7) {
+				player.items.add(new Sword("prestige quad slicer",2147483647,8000000000000L,false,false,0,"quad slicer"));
+			}
+			if(player.prestiges>8) {
+				player.items.add(new Sword("PRESTIGIOUS",100000000000000L,200000000000000L,false,false,0,"invisilaser"));
+			}
+			if(player.prestiges>9) {
+				player.items.add(new Sword("circular prestiges",1000000000000000L,3000000000000000L,false,false,0,"circle"));
+			}
+			if(player.prestiges<5) {
+				player.XPMultiplier*=1.5;
+				player.goldMultiplier*=1.5;
+			}else if(player.prestiges<10){
+				player.XPMultiplier+=2.5;
+				player.goldMultiplier+=2.5;
+			}else {
+				player.XPMultiplier=player.prestiges*2.5+2.5;
+				player.goldMultiplier=player.prestiges*2.5+2.5;
+			}
 			player.prestiges++;
 			player.levelRequired*=10;
+			if(player.prestiges>4 && player.prestiges<10) {
+				player.levelRequired=Integer.MAX_VALUE;
+			}else if(player.prestiges>=10) {
+				player.levelRequired=10000000000L;
+			}
 			prestige.setText("Prestige: Level "+player.levelRequired);
 			player.minDamage=1;
 			player.maxDamage=2;
@@ -1158,7 +1359,7 @@ public void setupShop() {
 	shopWindow.setVisible(true);
 	JPanel shopPanel=new JPanel();
 	shopPanel.setLayout(new GridLayout(5,10));
-	shopWindow.setSize(new Dimension(750,250));
+	shopWindow.setSize(new Dimension(1000,250));
 	for (Sword weapon : weapons) {
 		JButton shopButton=new JButton();
 		shopButton.setBackground(new Color(255,0,0));
@@ -1188,7 +1389,7 @@ public void setupShop() {
 		}else if(weapon.maxDamage<1000000000000L){
 			maxDamageText=((double) ((int) (weapon.maxDamage/10000000)))/100+"B";
 		}else {
-			maxDamageText=((double) ((int) (weapon.maxDamage/10000000000L)))/100+"B";
+			maxDamageText=((double) ((int) (weapon.maxDamage/10000000000L)))/100+"T";
 		}
 		if(weapon.cost<1000) {
 			costText=((int) weapon.cost)+"";
@@ -1227,6 +1428,9 @@ public void createSave() {
 			Sword sword=(Sword) item;
 			data+=(sword.name+"#"+sword.minDamage+"#"+sword.maxDamage+"#"+sword.weaponType+"*");
 		}
+		if(item instanceof Potion) {
+			data+=(item.name+"_*");
+		}
 	}
 	try {
 		FileOutputStream out=new FileOutputStream("./src/SaveData.txt");
@@ -1247,19 +1451,33 @@ public void loadSave() {
 			player.level=Long.parseLong(firstSplit[0]);
 			player.maxHealth=(player.level*25)+75;
 			player.health=player.maxHealth;
-			player.XP=Long.parseLong(firstSplit[1]);
-			player.gold=Long.parseLong(firstSplit[2]);
+			player.XP=Double.parseDouble(firstSplit[1]);
+			player.gold=Double.parseDouble(firstSplit[2]);
 			player.prestiges=Integer.parseInt(firstSplit[3]);
-			player.XPMultiplier=Math.pow(1.5, player.prestiges);
-			player.goldMultiplier=Math.pow(1.5, player.prestiges);
-			player.levelRequired=(int) (1000*Math.pow(10, player.prestiges));
+			if(player.prestiges<6) {
+				player.XPMultiplier=Math.pow(1.5, player.prestiges);
+				player.goldMultiplier=Math.pow(1.5, player.prestiges);
+			}else {
+				player.XPMultiplier=7.59375+(player.prestiges-5)*2.5;
+			}
+			if(player.prestiges<5) {
+				player.levelRequired=(int) (1000*Math.pow(10, player.prestiges));
+			}else if(player.prestiges<10){
+				player.levelRequired=Integer.MAX_VALUE;
+			}else {
+				player.levelRequired=10000000000L;
+			}
 			prestige.setText("Prestige: Level "+player.levelRequired);
 			player.items.clear();
 			String[] secondSplit=firstSplit[4].split("\\*");
 			for (String string : secondSplit) {
 				String[] thirdSplit=string.split("#");
 				if(thirdSplit.length==1) {
-					player.items.add(new Key(thirdSplit[0],false));
+					if(thirdSplit[0].charAt(thirdSplit[0].length()-1)=='_') {
+						player.items.add(new Potion(thirdSplit[0].split("_")[0],false));
+					}else {
+						player.items.add(new Key(thirdSplit[0],false));
+					}
 				}else if(thirdSplit.length==2) {
 					player.items.add(new Armor(thirdSplit[0],Long.parseLong(thirdSplit[1]),false));
 				}else {
@@ -1333,7 +1551,7 @@ public void keyPressed(KeyEvent arg0) {
 		rightPressed=true;
 	}
 }
-public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, long goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls){
+public ArrayList<Enemy> generateEnemies(int number, long damage, double XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, double goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
 		int newi=rand.nextInt(8);
@@ -1362,7 +1580,7 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 	}
 	return newEnemies;
 }
-public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, long goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax){
+public ArrayList<Enemy> generateEnemies(int number, long damage, double XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, double goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
 		int newi=rand.nextInt(imax-imin+1)+imin;
@@ -1391,7 +1609,7 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 	}
 	return newEnemies;
 }
-public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, long goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax, boolean isSecret){
+public ArrayList<Enemy> generateEnemies(int number, long damage, double XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, double goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax, boolean isSecret){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
 		int newi=rand.nextInt(imax-imin+1)+imin;
@@ -1420,7 +1638,7 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 	}
 	return newEnemies;
 }
-public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, long goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax, boolean isSecret, boolean infiniteDamage){
+public ArrayList<Enemy> generateEnemies(int number, long damage, double XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, double goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax, boolean isSecret, boolean infiniteDamage){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
 		int newi=rand.nextInt(imax-imin+1)+imin;
@@ -1449,7 +1667,7 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 	}
 	return newEnemies;
 }
-public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, long goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax, boolean isSecret, boolean infiniteDamage, int respawn){
+public ArrayList<Enemy> generateEnemies(int number, long damage, double XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, double goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax, boolean isSecret, boolean infiniteDamage, int respawn){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
 		int newi=rand.nextInt(imax-imin+1)+imin;
@@ -1478,7 +1696,7 @@ public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, d
 	}
 	return newEnemies;
 }
-public ArrayList<Enemy> generateEnemies(int number, long damage, long XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, long goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax, boolean isSecret, boolean infiniteDamage, int respawn, int stages){
+public ArrayList<Enemy> generateEnemies(int number, long damage, double XPboost, double health, boolean boss, Item reward, Item rareReward, Key keyReward, double goldReward, boolean hasGun, String gunType, int dropChance, String enemyName,boolean[][] walls, int imin, int imax, int jmin, int jmax, boolean isSecret, boolean infiniteDamage, int respawn, int stages){
 	ArrayList<Enemy> newEnemies=new ArrayList<Enemy>();
 	for (int i = 0; i < number; i++) {
 		int newi=rand.nextInt(imax-imin+1)+imin;
@@ -1560,9 +1778,9 @@ public void mouseClicked(MouseEvent arg0) {
 				if(contains==false && reward!=null) {
 					player.items.add(reward);
 				}
-				if(intersection.isDefeatable) {
+				if(intersection.parent!=null) {
 					currentWorld.enemies.remove(intersection);
-					currentWorld.enemiesDefeated++;
+					intersection.parent.enemiesDefeated++;
 				}
 				contains=false;
 				if(intersection.keyReward!=null) {

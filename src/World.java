@@ -16,6 +16,9 @@ ArrayList<HealingTile> tiles;
 ArrayList<ArmorPlatform> platforms;
 ArrayList<Projectile> projectiles;
 ArrayList<EnemyProjectile> enemyShots;
+ArrayList<Pickup> pickups=new ArrayList<Pickup>();
+ArrayList<Trap> traps=new ArrayList<Trap>();
+ArrayList<Explosion> explosions=new ArrayList<Explosion>();
 Color backgroundColor;
 Timer enemyAttack;
 Player player;
@@ -23,7 +26,6 @@ boolean isActive;
 Random rand=new Random();
 double slicerAngle=0;
 boolean[][] walls=new boolean[10][10];
-int enemiesDefeated=0;
 public World(ArrayList<Enemy> enemies, Color backgroundColor, Player player, boolean isActive) {
 	this.enemies=enemies;
 	this.backgroundColor=backgroundColor;
@@ -88,12 +90,26 @@ public void draw(Graphics g) {
 	for(EnemyProjectile e:enemyShots) {
 		e.draw(g);
 	}
+	for(Trap t:traps) {
+		t.draw(g);
+	}
+	for(Pickup p:pickups) {
+		if(p.isActive) {
+			p.draw(g);
+		}
+	}
+	for(Explosion e:explosions) {
+		e.draw(g);
+	}
 	g.setColor(new Color(0,0,0));
 	String levelText;
 	if(player.level<1000000000) {
 		levelText=((int) player.level)+"";
 	}else {
 		levelText=((double) ((int) (player.level/100000)))/10000+"B";
+	}
+	if(player.prestiges<10) {
+		levelText+="/2.1474B";
 	}
 	g.drawString("Level: "+levelText, 10, 40);
 	String textXP;
@@ -135,7 +151,7 @@ public void draw(Graphics g) {
 		textGold=((double) ((int) (player.gold/10000000000000000L)))/100+"Qn";
 	}
 	g.drawString("Gold: "+textGold, 10, 80);
-	g.drawString("Prestiges: "+player.prestiges, 10, 100);
+	g.drawString("Prestiges: "+player.prestiges+"/11", 10, 100);
 }
 public void update() {
 	for (int j=0; j<enemies.size(); j++) {
@@ -195,21 +211,22 @@ public void update() {
 				enemy.y=-100000;
 				enemy.isAngry=false;
 				for (int i = 0; i < 8; i++) {
-					Enemy newEnemy=new Enemy(rand.nextInt(RPGgame.WIDTH),rand.nextInt(RPGgame.HEIGHT),(long) (enemy.maxHealth/30),(long) (enemy.damage/10),0,0,false,null,null,null,enemy.hasGun,enemy.gunType,1,enemy.name+" guardian",false,false,5000,1);
-					newEnemy.isDefeatable=true;
+					Enemy newEnemy=new Enemy(rand.nextInt(RPGgame.WIDTH),rand.nextInt(RPGgame.HEIGHT),(double) (enemy.maxHealth*enemy.stageNum/25),(long) (enemy.damage/3),0,0,false,null,null,null,enemy.hasGun,enemy.gunType,1,enemy.name+" guardian",false,false,5000,1);
+					newEnemy.parent=enemy;
 					newEnemy.isAngry=true;
 					enemies.add(newEnemy);
 				}
 			}
 		}
+		if(enemy.enemiesDefeated==8) {
+			enemy.enemiesDefeated=0;
+			enemy.x=250;
+			enemy.y=350;
+			enemy.isAngry=true;
+		}
 		enemy.update();
 	}
-	if(enemiesDefeated==8) {
-		enemiesDefeated=0;
-		enemies.get(0).x=250;
-		enemies.get(0).y=350;
-		enemies.get(0).isAngry=true;
-	}
+	
 	for (int i = enemyShots.size()-1; i >= 0; i--) {
 		enemyShots.get(i).move();
 		boolean touchingWall=false;
@@ -226,7 +243,6 @@ public void update() {
 		if(enemyShots.get(i).checkWalls() || touchingWall) {
 			enemyShots.remove(i);
 		}else if(checkEnemyProjectile(enemyShots.get(i))) {
-			System.out.println(player.defenseMultiplier);
 			player.health-=enemyShots.get(i).damage/player.defenseMultiplier;
 			enemyShots.remove(i);
 		}else if((enemyShots.get(i).type.equals("split") || enemyShots.get(i).type.equals("double split") || enemyShots.get(i).type.equals("slicer split") || enemyShots.get(i).type.equals("triple split"))  && (enemyShots.get(i).timer>=30 || enemyShots.get(i).isStarting)) {
@@ -281,45 +297,64 @@ public void update() {
 			projectiles.remove(i);
 		}else if(checkProjectile(projectiles.get(i))!=null) {
 			Enemy intersection=checkProjectile(projectiles.get(i));
-			intersection.health-=player.strengthMultiplier*(rand.nextDouble()*projectiles.get(i).maxDamage+projectiles.get(i).minDamage);
 			if(player.confusionTimer==0) {
 				intersection.isAngry=true;
 			}
-			if(intersection.health<=0) {
-				intersection.isActive=false;
-				Item reward;
-				int random=rand.nextInt(intersection.dropChance);
-				if(random<intersection.dropChance-1) {
-					reward=intersection.reward;
-				}else {
-					reward=intersection.rareReward;
-				}
-				boolean contains=false;
-				if(reward!=null) {
-					for (Item item : player.items) {
-						if(reward.name.equals(item.name)) {
-							contains=true;
+			if(checkProjectile(projectiles.get(i)).immune==false) {
+				double damage=player.strengthMultiplier*(rand.nextDouble()*projectiles.get(i).maxDamage+projectiles.get(i).minDamage);
+				intersection.health-=damage;
+				intersection.previousDamage=damage;
+				intersection.damageTimer.start();
+				if(intersection.health<=0) {
+					if(intersection.boss) {
+						for (int j = 0; j < 200; j++) {
+							addExplosion(new Explosion(intersection.x,intersection.y,(rand.nextDouble()-0.5)*20,(rand.nextDouble()-0.5)*20,rand.nextInt(6)+3,rand.nextInt(6)+3));
+						}
+					}else {
+						for (int j = 0; j < 20; j++) {
+							addExplosion(new Explosion(intersection.x,intersection.y,(rand.nextDouble()-0.5)*20,(rand.nextDouble()-0.5)*20,rand.nextInt(6)+3,rand.nextInt(6)+3));
 						}
 					}
-				}
-				if(contains==false && reward!=null) {
-					player.items.add(reward);
-				}
-				contains=false;
-				if(intersection.keyReward!=null) {
-					for (Item item : player.items) {
-						if(intersection.keyReward.name.equals(item.name)) {
-							contains=true;
+					intersection.isActive=false;
+					intersection.stageNum=1;
+					Item reward;
+					int random=rand.nextInt(intersection.dropChance);
+					if(random<intersection.dropChance-1) {
+						reward=intersection.reward;
+					}else {
+						reward=intersection.rareReward;
+					}
+					boolean contains=false;
+					if(reward!=null) {
+						for (Item item : player.items) {
+							if(reward.name.equals(item.name)) {
+								contains=true;
+							}
 						}
 					}
-				}
-				if(contains==false && intersection.keyReward!=null) {
-					player.items.add(intersection.keyReward);
-				}
-				player.gainXP((long) (intersection.XPboost*player.XPMultiplier));
-				player.gold+=(long) (intersection.goldReward*player.goldMultiplier);
-				if(player.gold<0) {
-					player.gold=Long.MAX_VALUE;
+					if(intersection.parent!=null) {
+						enemies.remove(intersection);
+						intersection.parent.enemiesDefeated++;
+					}
+					if(contains==false && reward!=null) {
+						player.items.add(reward);
+					}
+					contains=false;
+					if(intersection.keyReward!=null) {
+						for (Item item : player.items) {
+							if(intersection.keyReward.name.equals(item.name)) {
+								contains=true;
+							}
+						}
+					}
+					if(contains==false && intersection.keyReward!=null) {
+						player.items.add(intersection.keyReward);
+					}
+					player.gainXP((double) (intersection.XPboost*player.XPMultiplier));
+					player.gold+=(double) (intersection.goldReward*player.goldMultiplier);
+					if(player.gold<0) {
+						player.gold=Long.MAX_VALUE;
+					}
 				}
 			}
 			Projectile shot=projectiles.get(i);
@@ -333,6 +368,11 @@ public void update() {
 			if(shot.projectileType.equals("invisigun")==false) {
 				projectiles.remove(i);
 			}
+		}
+	}
+	for(int i=explosions.size()-1; i>=0; i--) {
+		if(explosions.get(i).checkWalls()) {
+			explosions.remove(i);
 		}
 	}
 }
@@ -382,7 +422,22 @@ public ArmorPlatform checkArmorPlatform(Player player) {
 	}
 	return null;
 }
-
+public Pickup checkPickup(Player player) {
+	for (int i = 0; i < pickups.size(); i++) {
+		if (pickups.get(i).collisionBox.intersects(player.collisionBox) && pickups.get(i).isActive){
+			return pickups.get(i);
+		}
+	}
+	return null;
+}
+public Trap checkTrap(Player player) {
+	for (int i = 0; i < traps.size(); i++) {
+		if (traps.get(i).collisionBox.intersects(player.collisionBox)){
+			return traps.get(i);
+		}
+	}
+	return null;
+}
 public void addTeleporter(Teleporter t) {
 	teleporters.add(t);
 }
@@ -391,6 +446,15 @@ public void addHealingTile(HealingTile h) {
 }
 public void addArmorPlatform(ArmorPlatform a) {
 	platforms.add(a);
+}
+public void addPickup(Pickup p) {
+	pickups.add(p);
+}
+public void addTrap(Trap t) {
+	traps.add(t);
+}
+public void addExplosion(Explosion e) {
+	explosions.add(e);
 }
 @Override
 public void actionPerformed(ActionEvent e) {

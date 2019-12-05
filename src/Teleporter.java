@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
 
 public class Teleporter {
 int x;
@@ -9,7 +10,7 @@ World teleportTo;
 Rectangle collisionBox;
 String wallSide;
 Item requiredKey;
-int requirement;
+long requirement;
 int width;
 int height;
 String description;
@@ -17,7 +18,8 @@ boolean isSecret;
 int prestigeRequired;
 int teleportX;
 int teleportY;
-public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Item requiredKey, String description, boolean isSecret, int prestigeRequired) {
+Random rand=new Random();
+public Teleporter(int x, int y, World teleportTo, String wallSide, long requirement, Item requiredKey, String description, boolean isSecret, int prestigeRequired) {
 	teleportX=250;
 	teleportY=600;
 	this.x=x;
@@ -38,7 +40,7 @@ public Teleporter(int x, int y, World teleportTo, String wallSide, int requireme
 	}
 	collisionBox=new Rectangle(x,y,width,height);
 }
-public Teleporter(int x, int y, World teleportTo, String wallSide, int requirement, Item requiredKey, String description, boolean isSecret, int prestigeRequired, int teleportX, int teleportY) {
+public Teleporter(int x, int y, World teleportTo, String wallSide, long requirement, Item requiredKey, String description, boolean isSecret, int prestigeRequired, int teleportX, int teleportY) {
 	this.x=x;
 	this.y=y;
 	this.teleportTo=teleportTo;
@@ -61,7 +63,7 @@ public Teleporter(int x, int y, World teleportTo, String wallSide, int requireme
 }
 public void draw(Graphics g) {
 	if(isSecret==false) {
-	g.setColor(new Color(0,0,127));
+	g.setColor(new Color(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256)));
 	g.fillRect(x, y, width, height);
 	int textLength=g.getFontMetrics().stringWidth(description);
 	g.setColor(new Color(0,0,0));

@@ -21,8 +21,8 @@ boolean canAttack=true;
 Timer attackTimer;
 Timer regenerateTimer;
 long level=1;
-long XP=0;
-long gold=0;
+double XP=0;
+double gold=0;
 double XPMultiplier=1;
 double goldMultiplier=1;
 int prestiges=0;
@@ -64,8 +64,10 @@ void draw(Graphics g) {
 		healthText=((double) ((int) (health/10)))/100+"K";
 	}else if(health<1000000000){
 		healthText=((double) ((int) (health/10000)))/100+"M";
-	}else {
+	}else if(health<1000000000000L){
 		healthText=((double) ((int) (health/10000000)))/100+"B";
+	}else {
+		healthText=((double) ((int) (health/10000000000L)))/100+"T";
 	}
 	if(maxHealth<1000) {
 		maxHealthText=((int) maxHealth)+"";
@@ -73,8 +75,10 @@ void draw(Graphics g) {
 		maxHealthText=((double) ((int) (maxHealth/10)))/100+"K";
 	}else if(maxHealth<1000000000){
 		maxHealthText=((double) ((int) (maxHealth/10000)))/100+"M";
-	}else {
+	}else if(maxHealth<1000000000000L){
 		maxHealthText=((double) ((int) (maxHealth/10000000)))/100+"B";
+	}else {
+		maxHealthText=((double) ((int) (maxHealth/10000000000L)))/100+"T";
 	}
 	String text=healthText+"/"+maxHealthText;
 	int textLength=g.getFontMetrics().stringWidth(text);
@@ -105,24 +109,28 @@ void right() {
 	update();
 }
 public void attack(Enemy enemy) {
-	enemy.health=enemy.health-strengthMultiplier*(rand.nextDouble()*maxDamage+minDamage);
+	double damage=strengthMultiplier*(rand.nextDouble()*maxDamage+minDamage);
+	enemy.health-=damage;
+	enemy.previousDamage=damage;
+	enemy.damageTimer.start();
 	if(enemy.health<=0) {
 		enemy.isAngry=false;
-		gainXP((long) (enemy.XPboost*XPMultiplier));
+		gainXP((double) (enemy.XPboost*XPMultiplier));
 		gold+=(long) (enemy.goldReward*goldMultiplier);
 	}
 	//canAttack=false; Makes the game much harder
 	attackTimer.start();
 }
-public void gainXP(long XPboost) {
+public void gainXP(double XPboost) {
 	XP+=XPboost;
-	//System.out.println("Level: "+level+" -- XP: "+XP);
-	while(XP>=level*20) {
-		XP-=level*20;
-		level++;
-		maxHealth=maxHealth+25;
+	double boost=20*level-10;
+	double levelBoost=Math.floor((-boost+Math.sqrt(boost*boost+40*XP))/20);
+	XP-=20*level*levelBoost+10*levelBoost*(levelBoost-1);
+	level+=levelBoost;
+	if(level>2147483647 && prestiges<10) {
+		level=2147483647;
 	}
-	//System.out.println("Level: "+level+" -- XP: "+XP);
+	maxHealth+=levelBoost*25;
 }
 void update() {
 	collisionBox.setBounds(x, y, 50,50);
