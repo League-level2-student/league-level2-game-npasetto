@@ -168,6 +168,8 @@ public void updateCollisionBox() {
 }
 public void attack(Player player) {
 	player.health=player.health-damage/player.defenseMultiplier;
+	player.previousDamage=damage/player.defenseMultiplier;
+	player.damageTimer.restart();
 }
 @Override
 public void actionPerformed(ActionEvent arg0) {

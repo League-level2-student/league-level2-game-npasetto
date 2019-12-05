@@ -18,7 +18,7 @@ long maxDamage;
 double health;
 Rectangle collisionBox;
 boolean canAttack=true;
-Timer attackTimer;
+Timer damageTimer;
 Timer regenerateTimer;
 long level=1;
 double XP=0;
@@ -33,6 +33,7 @@ int speed=2;
 int confusionTimer=0;
 double strengthMultiplier=1;
 double defenseMultiplier=1;
+double previousDamage=0;
 Player(int x, int y, int maxHealth, long minDamage, long maxDamage){
 	this.x=x;
 	this.y=y;
@@ -43,8 +44,7 @@ Player(int x, int y, int maxHealth, long minDamage, long maxDamage){
 	items=new ArrayList<Item>();
 	items.add(new Sword("bronze sword",1,2,true,false,0,"sword"));
 	collisionBox=new Rectangle();
-	attackTimer=new Timer(1000,this);
-	attackTimer.start();
+	damageTimer=new Timer(1000,this);
 	regenerateTimer=new Timer(759,this);
 	regenerateTimer.start();
 }
@@ -83,6 +83,27 @@ void draw(Graphics g) {
 	String text=healthText+"/"+maxHealthText;
 	int textLength=g.getFontMetrics().stringWidth(text);
 	g.drawString(text, x+25-textLength/2, y-20);
+	String damageText;
+	if(previousDamage<1000) {
+		damageText=((int) previousDamage)+"";
+	}else if(previousDamage<1000000){
+		damageText=((double) ((int) (previousDamage/10)))/100+"K";
+	}else if(previousDamage<1000000000){
+		damageText=((double) ((int) (previousDamage/10000)))/100+"M";
+	}else if(previousDamage<1000000000000L){
+		damageText=((double) ((int) (previousDamage/10000000)))/100+"B";
+	}else if(previousDamage<1000000000000000L){
+		damageText=((double) ((int) (previousDamage/10000000000L)))/100+"T";
+	}else if(previousDamage<1000000000000000000L){
+		damageText=((double) ((int) (previousDamage/10000000000000L)))/100+"Qd";
+	}else {
+		damageText=((double) ((int) (previousDamage/10000000000000000L)))/100+"Qn";
+	}
+	int damageTextLength=g.getFontMetrics().stringWidth("-"+damageText);
+	g.setColor(new Color(0,255,0));
+	if(previousDamage!=0) {
+		g.drawString("-"+damageText, ((int) x)+15-damageTextLength/2, (int) y+20);
+	}
 }
 void up() {
 	if(y>0) {
@@ -109,17 +130,15 @@ void right() {
 	update();
 }
 public void attack(Enemy enemy) {
-	double damage=strengthMultiplier*(rand.nextDouble()*maxDamage+minDamage);
+	double damage=strengthMultiplier*(rand.nextDouble()*(maxDamage-minDamage)+minDamage);
 	enemy.health-=damage;
 	enemy.previousDamage=damage;
-	enemy.damageTimer.start();
+	enemy.damageTimer.restart();
 	if(enemy.health<=0) {
 		enemy.isAngry=false;
 		gainXP((double) (enemy.XPboost*XPMultiplier));
 		gold+=(long) (enemy.goldReward*goldMultiplier);
 	}
-	//canAttack=false; Makes the game much harder
-	attackTimer.start();
 }
 public void gainXP(double XPboost) {
 	XP+=XPboost;
@@ -147,8 +166,8 @@ public void actionPerformed(ActionEvent arg0) {
 			health=maxHealth;
 		}
 	}else {
-		canAttack=true;
-		attackTimer.stop();
+		previousDamage=0;
+		damageTimer.stop();
 	}
 }
 }

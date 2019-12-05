@@ -244,6 +244,8 @@ public void update() {
 			enemyShots.remove(i);
 		}else if(checkEnemyProjectile(enemyShots.get(i))) {
 			player.health-=enemyShots.get(i).damage/player.defenseMultiplier;
+			player.previousDamage=enemyShots.get(i).damage/player.defenseMultiplier;
+			player.damageTimer.restart();
 			enemyShots.remove(i);
 		}else if((enemyShots.get(i).type.equals("split") || enemyShots.get(i).type.equals("double split") || enemyShots.get(i).type.equals("slicer split") || enemyShots.get(i).type.equals("triple split"))  && (enemyShots.get(i).timer>=30 || enemyShots.get(i).isStarting)) {
 			if(enemyShots.get(i).type.equals("split")) {
@@ -301,10 +303,10 @@ public void update() {
 				intersection.isAngry=true;
 			}
 			if(checkProjectile(projectiles.get(i)).immune==false) {
-				double damage=player.strengthMultiplier*(rand.nextDouble()*projectiles.get(i).maxDamage+projectiles.get(i).minDamage);
+				double damage=player.strengthMultiplier*(rand.nextDouble()*(projectiles.get(i).maxDamage-projectiles.get(i).minDamage)+projectiles.get(i).minDamage);
 				intersection.health-=damage;
 				intersection.previousDamage=damage;
-				intersection.damageTimer.start();
+				intersection.damageTimer.restart();
 				if(intersection.health<=0) {
 					if(intersection.boss) {
 						for (int j = 0; j < 200; j++) {
@@ -336,7 +338,7 @@ public void update() {
 						enemies.remove(intersection);
 						intersection.parent.enemiesDefeated++;
 					}
-					if(contains==false && reward!=null) {
+					if(contains==false && reward!=null && player.items.size()<20) {
 						player.items.add(reward);
 					}
 					contains=false;
@@ -347,7 +349,7 @@ public void update() {
 							}
 						}
 					}
-					if(contains==false && intersection.keyReward!=null) {
+					if(contains==false && intersection.keyReward!=null && player.items.size()<50) {
 						player.items.add(intersection.keyReward);
 					}
 					player.gainXP((double) (intersection.XPboost*player.XPMultiplier));

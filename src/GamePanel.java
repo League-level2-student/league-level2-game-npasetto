@@ -227,11 +227,13 @@ JButton save=new JButton();
 JButton load=new JButton();
 JButton resetSave=new JButton();
 JButton potionShop=new JButton("Potion Shop");
+JButton deleteItems=new JButton("Delete Items");
 JFrame inventoryWindow;
 JFrame shopWindow;
 JFrame frame;
 JFrame menuFrame;
 JFrame potionShopWindow;
+JFrame deleteItemWindow;
 ArrayList<Sword> weapons=new ArrayList<Sword>();
 ArrayList<Enemy> glitchEnemies;
 ArrayList<Enemy> glitchEnemies2;
@@ -832,8 +834,10 @@ void setupGui() {
 				minDamageText=((double) ((int) (swordItem.minDamage/10000000)))/100+"B";
 			}else if(swordItem.minDamage<1000000000000000L){
 				minDamageText=((double) ((int) (swordItem.minDamage/10000000000L)))/100+"T";
-			}else {
+			}else if(swordItem.minDamage<1000000000000000000L){
 				minDamageText=((double) ((int) (swordItem.minDamage/10000000000000L)))/100+"Qd";
+			}else {
+				minDamageText=((double) ((int) (swordItem.minDamage/10000000000000000L)))/100+"Qn";
 			}
 			if(swordItem.maxDamage<1000) {
 				maxDamageText=((int) swordItem.maxDamage)+"";
@@ -845,8 +849,10 @@ void setupGui() {
 				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000)))/100+"B";
 			}else if(swordItem.maxDamage<1000000000000000L){
 				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000000L)))/100+"T";
-			}else {
+			}else if(swordItem.maxDamage<1000000000000000000L){
 				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000000000L)))/100+"Qd";
+			}else {
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000000000000L)))/100+"Qn";
 			}
 			itemButton.setText(swordItem.name+"  "+minDamageText+"-"+maxDamageText);
 			if (swordItem.isActive) {
@@ -1151,6 +1157,18 @@ public void actionPerformed(ActionEvent arg0) {
 		}
 		potionShopWindow.removeAll();
 		potionShopWindow.dispose();
+	}else if(frame.equals(deleteItemWindow)) {
+		JButton source=(JButton) arg0.getSource();
+		String[] damages=source.getText().split("  ");
+		String name=damages[0];
+		for (int i = player.items.size()-1; i >=0; i--) {
+			if(name.equals(player.items.get(i).name)) {
+				player.items.remove(i);
+				break;
+			}
+		}
+		deleteItemWindow.removeAll();
+		deleteItemWindow.dispose();
 	}else if(arg0.getSource().equals(prestige)){
 		if(player.level>=player.levelRequired && player.prestiges<11) {
 			player.level=1;
@@ -1223,6 +1241,8 @@ public void actionPerformed(ActionEvent arg0) {
 		resetSave();
 	}else if(arg0.getSource().equals(potionShop)){
 		setupPotionShop();
+	}else if(arg0.getSource().equals(deleteItems)){
+		setupItems();
 	}else {
 		JButton source=(JButton) arg0.getSource();
 		String[] damages=source.getText().split("  ");
@@ -1297,6 +1317,90 @@ public void actionPerformed(ActionEvent arg0) {
 	}
 	repaint();
 }
+public void setupItems() {
+	deleteItemWindow=new JFrame();
+	deleteItemWindow.setVisible(true);
+	JPanel deleteItemPanel=new JPanel();
+	deleteItemPanel.setLayout(new GridLayout(20,10));
+	deleteItemWindow.setSize(new Dimension(150+player.items.size()*15,1000));
+	for (Item item : player.items) {
+		JButton itemButton=new JButton();
+		itemButton.setBackground(new Color(0,0,0));
+		itemButton.setPreferredSize(new Dimension(150,50));
+		itemButton.setForeground(new Color(255,255,255));
+		itemButton.addActionListener(this);
+		if(item instanceof Sword) {
+			Sword swordItem=(Sword) item;
+			String minDamageText;
+			String maxDamageText;
+			if(swordItem.minDamage<1000) {
+				minDamageText=((int) swordItem.minDamage)+"";
+			}else if(swordItem.minDamage<1000000){
+				minDamageText=((double) ((int) (swordItem.minDamage/10)))/100+"K";
+			}else if(swordItem.minDamage<1000000000){
+				minDamageText=((double) ((int) (swordItem.minDamage/10000)))/100+"M";
+			}else if(swordItem.minDamage<1000000000000L){
+				minDamageText=((double) ((int) (swordItem.minDamage/10000000)))/100+"B";
+			}else if(swordItem.minDamage<1000000000000000L){
+				minDamageText=((double) ((int) (swordItem.minDamage/10000000000L)))/100+"T";
+			}else if(swordItem.minDamage<1000000000000000000L){
+				minDamageText=((double) ((int) (swordItem.minDamage/10000000000000L)))/100+"Qd";
+			}else {
+				minDamageText=((double) ((int) (swordItem.minDamage/10000000000000000L)))/100+"Qn";
+			}
+			if(swordItem.maxDamage<1000) {
+				maxDamageText=((int) swordItem.maxDamage)+"";
+			}else if(swordItem.maxDamage<1000000){
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10)))/100+"K";
+			}else if(swordItem.maxDamage<1000000000){
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10000)))/100+"M";
+			}else if(swordItem.maxDamage<1000000000000L){
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000)))/100+"B";
+			}else if(swordItem.maxDamage<1000000000000000L){
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000000L)))/100+"T";
+			}else if(swordItem.maxDamage<100000000000000000L){
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000000000L)))/100+"Qd";
+			}else {
+				maxDamageText=((double) ((int) (swordItem.maxDamage/10000000000000000L)))/100+"Qn";
+			}
+			itemButton.setText(swordItem.name+"  "+minDamageText+"-"+maxDamageText);
+			if (swordItem.isActive) {
+				itemButton.setBackground(new Color(0,255,0));
+			}
+		}else if(item instanceof Armor) {
+			Armor armorItem=(Armor) item;
+			String bonusHealthText;
+			if(armorItem.bonusHealth<1000) {
+				bonusHealthText=((int) armorItem.bonusHealth)+"";
+			}else if(armorItem.bonusHealth<1000000){
+				bonusHealthText=((double) ((int) (armorItem.bonusHealth/10)))/100+"K";
+			}else if(armorItem.bonusHealth<1000000000){
+				bonusHealthText=((double) ((int) (armorItem.bonusHealth/10000)))/100+"M";
+			}else {
+				bonusHealthText=((double) ((int) (armorItem.bonusHealth/10000000)))/100+"B";
+			}
+			itemButton.setText(armorItem.name+"  "+bonusHealthText);
+			if(armorItem.isActive) {
+				itemButton.setBackground(new Color(0,255,0));
+			}
+		}else if(item instanceof Key) {
+			Key keyItem=(Key) item;
+			itemButton.setText(keyItem.name);
+			if(keyItem.isActive) {
+				itemButton.setBackground(new Color(0,255,0));
+			}
+		}else if(item instanceof Potion) {
+			Potion potionItem=(Potion) item;
+			itemButton.setText(potionItem.name+"  potion");
+		}
+		deleteItemPanel.add(itemButton);
+	}
+	deleteItemWindow.add(deleteItemPanel);
+	upPressed=false;
+	downPressed=false;
+	rightPressed=false;
+	leftPressed=false;
+}
 public void setupPotionShop() {
 	potionShopWindow=new JFrame();
 	potionShopWindow.setVisible(true);
@@ -1351,6 +1455,7 @@ public void setupMenu() {
 	menuPanel.add(load);
 	menuPanel.add(resetSave);
 	menuPanel.add(potionShop);
+	menuPanel.add(deleteItems);
 	menuFrame.add(menuPanel);
 	menuFrame.pack();
 }
@@ -1484,6 +1589,9 @@ public void loadSave() {
 					player.items.add(new Sword(thirdSplit[0],Long.parseLong(thirdSplit[1]),Long.parseLong(thirdSplit[2]),false,false,0,thirdSplit[3]));
 				}
 			}
+			while(player.items.size()>50) {
+				player.items.remove(0);
+			}
 		}
 	}catch(Exception e) {
 		e.printStackTrace();
@@ -1536,6 +1644,9 @@ public void keyPressed(KeyEvent arg0) {
 		potionShop.addActionListener(this);
 		potionShop.addKeyListener(this);
 		potionShop.addMouseListener(this);
+		deleteItems.addActionListener(this);
+		deleteItems.addKeyListener(this);
+		deleteItems.addMouseListener(this);
 		this.add(menu);
 	}
 	if(arg0.getKeyCode()==KeyEvent.VK_UP) {
@@ -1775,7 +1886,7 @@ public void mouseClicked(MouseEvent arg0) {
 						}
 					}
 				}
-				if(contains==false && reward!=null) {
+				if(contains==false && reward!=null && player.items.size()<50) {
 					player.items.add(reward);
 				}
 				if(intersection.parent!=null) {
@@ -1790,7 +1901,7 @@ public void mouseClicked(MouseEvent arg0) {
 						}
 					}
 				}
-				if(contains==false && intersection.keyReward!=null) {
+				if(contains==false && intersection.keyReward!=null && player.items.size()<50) {
 					player.items.add(intersection.keyReward);
 				}
 			}
