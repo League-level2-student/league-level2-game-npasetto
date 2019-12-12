@@ -102,7 +102,7 @@ void draw(Graphics g) {
 	int damageTextLength=g.getFontMetrics().stringWidth("-"+damageText);
 	g.setColor(new Color(0,255,0));
 	if(previousDamage!=0) {
-		g.drawString("-"+damageText, ((int) x)+15-damageTextLength/2, (int) y+20);
+		g.drawString("-"+damageText, ((int) x)+25-damageTextLength/2, (int) y+30);
 	}
 }
 void up() {

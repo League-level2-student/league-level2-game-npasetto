@@ -22,6 +22,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -516,13 +517,13 @@ public GamePanel() {
 	corruptionBoss=new World(generateEnemies(1,1000000,5000000000L,5000000000D,true,new Sword("corrupted gun",30000000,50000000,false,false,0,"gun"),new Sword("corrupted exploder",20000000,40000000,false,false,0,"exploder"),corruptedKey,12000000000L,false,"",4,"corruption king",random),new Color(255,0,255),player,false);
 	skyRealmBoss=new World(generateEnemies(1,30000,15000000,7500000,true,new Sword("sky blade",0,1000000,false,false,0,"sword"),new Sword("sky gun",600000,800000,false,false,0,"gun"),skyKey,50000000,false,"",6,"sky overlord",random),new Color(255,0,255),player,false);
 	void1=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
-	void2=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
-	void3=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
-	void4=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
-	void5=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void destroyer",0,3500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
-	void6=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
-	void7=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
-	void8=new World(generateEnemies(1,70000,25000000,25000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
+	void2=new World(generateEnemies(1,70000,25000000,26000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
+	void3=new World(generateEnemies(1,70000,25000000,27000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
+	void4=new World(generateEnemies(1,70000,25000000,28000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
+	void5=new World(generateEnemies(1,70000,25000000,29000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void destroyer",0,3500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
+	void6=new World(generateEnemies(1,70000,25000000,30000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
+	void7=new World(generateEnemies(1,70000,25000000,31000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
+	void8=new World(generateEnemies(1,70000,25000000,32000000,true,new Sword("void blade",1000000,2000000,false,false,0,"sword"),new Sword("void gun",1000000,1500000,false,false,0,"gun"),null,100000000,false,"",6,"void king",random),new Color(255,0,255),player,false);
 	void9=new World(generateEnemies(1,120000,100000000,100000000,true,new Sword("guardian sword",2000000,3000000,false,false,0,"sword"),new Sword("ultimate void gun",0,6000000,false,false,0,"gun"),null,500000000,false,"",6,"void guardian",random),new Color(255,0,255),player,false);
 	voidBoss=new World(generateEnemies(1,150000,250000000,250000000,true,new Sword("black hole blade",5000000,10000000,false,false,0,"sword"),new Sword("black hole gun",8000000,8000000,false,false,0,"gun"),voidKey,800000000,false,"",6,"black hole overlord",random),new Color(255,0,255),player,false);
 	bossWorld2=new World(generateEnemies(1,100,250,100,true,new Sword("water blade",5,6,false,false,0,"sword"),new Sword("ocean sword",7,10,false,false,0,"sword"),key2,250,false,"",10,"water giant",random),new Color(255,0,255),player,false);
@@ -1230,6 +1231,7 @@ public void actionPerformed(ActionEvent arg0) {
 			player.maxDamage=2;
 			player.health=100;
 			player.maxHealth=100;
+			menuFrame.dispose();
 		}
 	}else if(arg0.getSource().equals(menu)){
 		setupMenu();
@@ -1237,6 +1239,7 @@ public void actionPerformed(ActionEvent arg0) {
 		createSave();
 	}else if(arg0.getSource().equals(load)){
 		loadSave();
+		menuFrame.dispose();
 	}else if(arg0.getSource().equals(resetSave)) {
 		resetSave();
 	}else if(arg0.getSource().equals(potionShop)){
@@ -1538,7 +1541,7 @@ public void createSave() {
 		}
 	}
 	try {
-		FileOutputStream out=new FileOutputStream("./src/SaveData.txt");
+		FileOutputStream out=new FileOutputStream("./src/SaveData2.txt");
 		out.write(data.getBytes());
 		out.close();
 	}catch(Exception e) {
@@ -1546,7 +1549,7 @@ public void createSave() {
 	}
 }
 public void loadSave() {
-	File file=new File("./src/SaveData.txt");
+	File file=new File("./src/SaveData2.txt");
 	try {
 		BufferedReader br=new BufferedReader(new FileReader(file));
 		String data=br.readLine();
@@ -1647,6 +1650,7 @@ public void keyPressed(KeyEvent arg0) {
 		deleteItems.addActionListener(this);
 		deleteItems.addKeyListener(this);
 		deleteItems.addMouseListener(this);
+		JOptionPane.showMessageDialog(null, "Instructions:\nClick to attack\nIf you have a gun then click the enemy you want to shoot.\nUse arrow keys to move.\nLevel up and unlock new weapons, armors, and bosses!");
 		this.add(menu);
 	}
 	if(arg0.getKeyCode()==KeyEvent.VK_UP) {
