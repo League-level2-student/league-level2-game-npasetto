@@ -805,7 +805,7 @@ void drawMenu(Graphics g) {
 	g.fillRect(0, 0, RPGgame.WIDTH, RPGgame.HEIGHT);
 	g.setFont(titleFont);
 	g.setColor(new Color(255,255,255));
-	g.drawString("RPGgame", 130, 120);
+	g.drawString("Eternal RPG", 115, 120);
 	g.setFont(textFont);
 	g.drawString("Press ENTER to start", 190, 200);
 }
